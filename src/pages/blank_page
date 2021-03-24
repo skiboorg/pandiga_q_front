@@ -1,0 +1,27 @@
+<template>
+ <q-page>
+
+ </q-page>
+</template>
+
+<script>
+// import Header from "components/Header";
+// import Footer from "components/Footer";
+
+export default {
+  name: 'catalog',
+  // components:{
+  //   Header,
+  //   Footer
+  // },
+
+  data () {
+    return {
+
+    }
+  }
+}
+</script>
+<style lang="sass" scoped>
+
+</style>
