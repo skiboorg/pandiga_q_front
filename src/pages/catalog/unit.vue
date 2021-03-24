@@ -11,7 +11,7 @@
     <!--     unit top start-->
     <div class="row q-mb-lg">
       <!--     unit left start-->
-      <div class="col-6">
+      <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12 q-mb-sm">
         <q-carousel
           swipeable
           animated
@@ -43,7 +43,7 @@
       </div>
       <!--     unit left end-->
       <!--     unit right start-->
-      <div class="col-5 offset-1">
+      <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 offset-lg-1 offset-md-1 offset-sm-1">
         <q-badge class="q-px-lg q-py-sm" color="positive"  label="Cвободен"/>
         <div class="row items-center">
           <h1 class="col-10 text-h4 text-bold">{{unit.name}}, {{unit.year}}</h1>
@@ -70,8 +70,8 @@
     <!--     unit map start-->
     <!--     unit map end-->
     <!--     unit bottom start-->
-    <div class="row">
-      <div class="col-4">
+    <div class="row q-mb-lg">
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 q-mb-sm">
         <q-card  flat class="bg-grey-2 q-pa-md">
           <p class="text-h6 text-bold no-margin">О владельце:</p>
           <q-card-section horizontal>
@@ -100,7 +100,7 @@
           </q-card-section>
         </q-card>
       </div>
-      <div class="col-7 offset-1">
+      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 offset-lg-1 offset-md-1 offset-sm-1">
         <q-tabs
           v-model="tab"
           dense

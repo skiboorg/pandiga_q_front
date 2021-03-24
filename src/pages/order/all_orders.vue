@@ -25,7 +25,7 @@
     </div>
 
     <div class="row">
-      <div  class="col-8 q-pr-lg">
+     <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12">
         <OrderCard
           :order="order"
           :fullInfo="false"
@@ -40,7 +40,7 @@
           :max="total_pages"
         />
       </div>
-      <div class="col-4">
+      <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
         <q-card class="order-categories">
           <q-list >
             <div v-for="category in categories"

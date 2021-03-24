@@ -10,7 +10,7 @@
 
     <div class="row">
 
-      <div class="col-3 q-pr-lg"><q-toolbar class="bg-primary text-white shadow-2">
+      <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 "><q-toolbar class="bg-primary text-white shadow-2">
         <q-toolbar-title>Контакты</q-toolbar-title>
       </q-toolbar>
 
@@ -49,7 +49,7 @@
 
 
         </q-list></div>
-      <div v-if="current_chat_id>0" class="col-6 relative-position" style="height: 85vh">
+      <div v-if="current_chat_id>0" class="col-lg-6 col-md-6 col-sm-8 col-xs-12 relative-position" style="height: 85vh">
         <q-scroll-area
           :thumb-style="thumbStyle"
 
@@ -94,7 +94,7 @@
         </div>
       </div>
       <div v-else class="col-6 flex column items-center justify-center" style="height: 80vh">Выберите чат</div>
-      <div class="col-2 offset-1">
+      <div class="col-2 offset-1 gt-md">
         <ProfileMenu/>
       </div>
     </div>

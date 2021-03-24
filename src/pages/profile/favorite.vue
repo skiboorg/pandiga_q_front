@@ -9,8 +9,9 @@
     </div>
     <h1 class="text-bold text-h4">Избранное</h1>
     <div class="row">
-      <div class="col-8 q-pr-lg">1</div>
-      <div class="col-3 offset-1">
+      <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+        1</div>
+      <div class="col-3 offset-1 gt-md">
         <ProfileMenu/>
       </div>
     </div>

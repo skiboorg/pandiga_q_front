@@ -1,21 +1,22 @@
 <template>
-  <q-header class="bg-white q-py-lg" elevated>
+  <div >
+    <q-header class="bg-white q-py-lg" elevated>
     <div class="container">
       <div class="flex items-center justify-between">
         <div class="logo">
           <router-link to="/">
             <img  src="~assets/logo.svg"/>
-
-            <p v-if="$auth.loggedIn && $auth.user.is_customer" class="logo-text text-caption ">Заказчик</p>
-            <p v-if="$auth.loggedIn && !$auth.user.is_customer" class="logo-text text-caption">Исполнитель</p>
           </router-link>
+          <div v-if="$auth.loggedIn && $auth.user.is_customer" class="logo-text text-caption ">Заказчик</div>
+          <div v-if="$auth.loggedIn && !$auth.user.is_customer" class="logo-text text-caption">Исполнитель</div>
         </div>
-        <div v-if="!$auth.loggedIn" class="flex items-center justify-between">
+
+        <div v-if="!$auth.loggedIn" class="flex items-center justify-between gt-sm">
           <q-btn color="primary" to="/catalog" class="q-mr-sm" icon="local_shipping" label="Каталог техники"/>
           <q-btn  color="primary" to="/login" class="q-mr-sm" outline label="Войти"/>
           <q-btn  color="primary" to="/register" outline label="Зарегистрироваться"/>
         </div>
-        <div v-else class="flex items-center justify-between">
+        <div v-else class="flex items-center justify-between gt-sm">
           <q-btn color="primary" to="/catalog" class="q-mr-sm" icon="local_shipping" label="Каталог техники"/>
           <q-btn v-if="$auth.loggedIn && !$auth.user.is_customer" color="primary" :to="{name:'all_orders'}" class="q-mr-sm" outline label="Заявки на технику"/>
           <q-btn v-if="$auth.loggedIn && !$auth.user.is_customer" color="primary" :to="{name:'add_unit'}" class="q-mr-sm" outline label="Добавить технику"/>
@@ -41,7 +42,6 @@
               <div class="row no-wrap q-pa-md">
                 <div class="column">
                   <q-list   class="rounded-borders text-primary">
-
                     <q-item clickable dense v-ripple :active="link === 'inbox'" :to="{name:'profile_index'}"  @click="link = 'inbox'" active-class="my-menu-link">
                       <q-item-section avatar><q-icon name="manage_accounts" /></q-item-section>
                       <q-item-section>Профиль</q-item-section>
@@ -109,16 +109,94 @@
           </q-btn>
 
         </div>
-
-
-
-
-
-
+         <q-btn class="lt-md" @click="drawer=!drawer" color="primary" icon="menu"/>
       </div>
-
     </div>
+
   </q-header>
+     <q-drawer v-model="drawer" side="right" overlay  elevated :breakpoint="300"
+        >
+       <div v-if="!$auth.loggedIn" class="flex column q-pa-sm ">
+         <q-btn  color="primary" to="/catalog" class="q-mb-md" icon="local_shipping" label="Каталог техники"/>
+          <q-btn  color="primary" to="/login" class="q-mb-md" outline label="Войти"/>
+          <q-btn  color="primary" to="/register" class="q-mb-xl" outline label="Зарегистрироваться"/>
+       </div>
+       <div v-else>
+         <q-img class="absolute-top" src="https://cdn.quasar.dev/img/material.png" style="height: 150px">
+          <div class="absolute-bottom bg-transparent">
+            <q-avatar size="56px" class="q-mb-sm">
+              <img :src="$auth.user.avatar">
+            </q-avatar>
+            <div class="text-weight-bold">{{$auth.user.fullname}}</div>
+            <div><q-icon class="q-mr-sm" color="primary" name="account_balance_wallet"/>  {{$auth.user.balance}} &#8381;</div>
+          </div>
+        </q-img>
+         <div style="margin-top: 150px">
+            <q-list   class="rounded-borders text-primary">
+                <q-item clickable  v-ripple :active="link === 'inbox'" to="/catalog"  @click="link = 'inbox'" active-class="my-menu-link">
+                      <q-item-section avatar><q-icon name="local_shipping" /></q-item-section>
+                      <q-item-section>Каталог техники</q-item-section>
+                    </q-item>
+                    <q-item clickable v-if="$auth.loggedIn && !$auth.user.is_customer" v-ripple :active="link === 'inbox'" :to="{name:'all_orders'}"  @click="link = 'inbox'" active-class="my-menu-link">
+                      <q-item-section avatar><q-icon name="list" /></q-item-section>
+                      <q-item-section>Заявки на технику</q-item-section>
+                    </q-item>
+              <q-item clickable v-if="$auth.loggedIn && !$auth.user.is_customer" v-ripple :active="link === 'inbox'" :to="{name:'add_unit'}"  @click="link = 'inbox'" active-class="my-menu-link">
+                      <q-item-section avatar><q-icon name="add" /></q-item-section>
+                      <q-item-section>Добавить технику</q-item-section>
+                    </q-item>
+              <q-item clickable v-if="$auth.loggedIn && $auth.user.is_customer"  v-ripple :active="link === 'inbox'" :to="{name:'new_order'}"  @click="link = 'inbox'" active-class="my-menu-link">
+                      <q-item-section avatar><q-icon name="add" /></q-item-section>
+                      <q-item-section>Заявка на технику</q-item-section>
+                    </q-item>
+              <q-separator/>
+                    <q-item clickable dense v-ripple :active="link === 'inbox'" :to="{name:'profile_index'}"  @click="link = 'inbox'" active-class="my-menu-link">
+                      <q-item-section avatar><q-icon name="manage_accounts" /></q-item-section>
+                      <q-item-section>Профиль</q-item-section>
+                    </q-item>
+                    <q-item clickable dense v-ripple :active="link === 'inbox'"  :to="{name:'profile_notifications'}" @click="link = 'inbox'" active-class="my-menu-link">
+                      <q-item-section avatar><q-icon name="notifications_active" /></q-item-section>
+                      <q-item-section>Оповещения</q-item-section>
+                    </q-item>
+                    <q-item clickable dense v-ripple :active="link === 'inbox'" :to="{name:'profile_chats'}"  @click="link = 'inbox'" active-class="my-menu-link">
+                      <q-item-section avatar><q-icon name="chat" /></q-item-section>
+                      <q-item-section>Сообщения</q-item-section>
+                    </q-item>
+                    <q-item v-if="$auth.user.is_customer" clickable dense v-ripple :active="link === 'inbox'" :to="{name:'profile_favorite'}" @click="link = 'inbox'" active-class="my-menu-link">
+                      <q-item-section avatar><q-icon name="favorite" /></q-item-section>
+                      <q-item-section>Избранное</q-item-section>
+                    </q-item>
+                    <q-item v-if="$auth.user.is_customer" clickable dense v-ripple :active="link === 'inbox'" :to="{name:'profile_orders'}"  @click="link = 'inbox'" active-class="my-menu-link">
+                      <q-item-section avatar><q-icon name="list" /></q-item-section>
+                      <q-item-section>Заявки</q-item-section>
+                    </q-item>
+                    <q-item v-else clickable dense v-ripple :active="link === 'inbox'" :to="{name:'profile_applies'}" @click="link = 'inbox'" active-class="my-menu-link">
+                      <q-item-section avatar><q-icon name="view_list" /></q-item-section>
+                      <q-item-section>Мои предложения</q-item-section>
+                    </q-item>
+                    <q-item clickable dense v-ripple :active="link === 'inbox'" :to="{name:'profile_refferal'}"  @click="link = 'inbox'" active-class="my-menu-link">
+                      <q-item-section avatar><q-icon name="people_alt" /></q-item-section>
+                      <q-item-section>Партнеры</q-item-section>
+                    </q-item>
+                    <q-item clickable dense v-ripple :active="link === 'inbox'" :to="{name:'profile_balance'}" @click="link = 'inbox'" active-class="my-menu-link">
+                      <q-item-section avatar><q-icon name="local_atm" /></q-item-section>
+                      <q-item-section>Баланс</q-item-section>
+                    </q-item>
+              <q-separator/>
+              <q-item clickable dense v-ripple :active="link === 'inbox'"  @click="logoutUser" active-class="my-menu-link">
+                      <q-item-section avatar><q-icon name="logout" /></q-item-section>
+                      <q-item-section>Выход</q-item-section>
+                    </q-item>
+
+
+                  </q-list>
+         </div>
+
+       </div>
+
+    </q-drawer>
+  </div>
+
 </template>
 
 <script>
@@ -129,6 +207,7 @@ export default {
   data () {
     return {
       is_menu_show:false,
+      drawer: false,
       link:'',
       socket:null,
       ws_connect:false,

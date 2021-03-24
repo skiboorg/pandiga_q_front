@@ -7,8 +7,8 @@
       </q-breadcrumbs>
     </div>
     <q-card class="q-pa-lg ">
-      <q-card-section horizontal>
-        <q-card-section class="col-8 items-center flex justify-evenly">
+      <q-card-section style="flex-wrap: wrap" horizontal class="row items-center flex justify-evenly">
+        <q-card-section class="col-lg-8 col-md-8 col-sm-6 col-xs-12 items-center flex justify-evenly">
           <q-avatar size="200px">
             <img :src="$auth.user.avatar">
           </q-avatar>
@@ -29,7 +29,7 @@
           </div>
 
         </q-card-section>
-        <q-card-section class="col-4">
+        <q-card-section class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
           <p class="q-mb-sm">Баланс: <q-badge class="q-mx-sm" outline color="primary" :label="`${$auth.user.balance} руб`"/> </p>
           <div class="flex items-center q-mb-none">
             <p class="q-mb-none">Партнерский баланс: <q-badge class="q-mx-sm" outline color="primary" :label="`${$auth.user.partner_balance} руб`"/> </p>

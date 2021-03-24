@@ -83,7 +83,7 @@
                   :key="item.id">
             <q-card-section
               horizontal>
-              <q-card-section class="col-5 q-pr-none">
+              <q-card-section class="col-lg-5 col-md-5 col-sm-6 col-xs-6 q-pr-none">
                 <p class="text-h5 text-bold">{{item.name}}</p>
                 <ul class="catalog-list">
                   <li v-for="(subcat,index) in item.types">
@@ -99,8 +99,9 @@
                 </ul>
               </q-card-section>
               <q-img
-                class="col-7 catalog-image"
+                class="col-lg-7 col-md-7 col-sm-6 col-xs-8 catalog-image"
                 :ratio="16/9"
+
                 :src="item.image"/>
             </q-card-section>
           </q-card>
@@ -220,11 +221,10 @@ export default {
 .catalog
   &-card
     height: 210px
+    overflow: hidden
   &-image
+
     & .q-img__image
       background-size: unset !important
       background-position: 100% 10% !important
 </style>
-
-{ "is_filter_value": true, "type_id": 53, "type_name_slug": "katok", "type_name": "Каток", "filter_id": 54, "filter_value_id": 525, "filter_value_label": "ЛЕГКИЙ (ДО 6Т)", "filter_value": "6t", "filter_name_slug": "ves-katka" }
-{ "is_filter_value": false, "type_id": 1, "type_name_slug": "legkovyie-avto", "type_name": "Легковые авто", "filter_id": "", "filter_value_id": "", "filter_value_label": "", "filter_value": "", "filter_name_slug": "" }

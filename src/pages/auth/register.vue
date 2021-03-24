@@ -395,6 +395,9 @@ export default {
   }
 }
 </script>
-<style lang="sass" scoped>
+<style lang="sass">
+@media (max-width: 630px)
+  .q-stepper__header
+    display: none
 
 </style>

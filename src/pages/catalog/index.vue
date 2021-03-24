@@ -5,17 +5,17 @@
       <div
         v-for="(item,index) in categories"
         :key="item.id">
-        <q-card class="rounded-borders bg-grey-2 "
+        <q-card style="overflow: hidden" class="rounded-borders bg-grey-2 "
                 flat >
           <q-card-section
             horizontal>
-            <q-card-section class="col-4 q-pr-none catalog-card"  >
+            <q-card-section class="col-lg-4 col-md-4 col-sm-6 col-xs-7 q-pr-none catalog-card"  >
               <p class="text-h5 text-bold">{{item.name}}</p>
             </q-card-section>
             <q-img
-              class="col-8 q-img__bg-xr"
+              class="col-lg-8 col-md-8 col-sm-6 col-xs-6 q-img__bg-xr"
               contain
-              ratio="16/9"
+              :ratio="16/9"
               :src="item.image"
             />
           </q-card-section>
@@ -67,6 +67,7 @@ export default {
 </script>
 <style lang="sass" scoped>
 .catalog-card
+  overflow: hidden
   height: 200px
 .list-sliced
   height: 120px

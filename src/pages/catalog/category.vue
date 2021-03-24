@@ -12,9 +12,9 @@
     </div>
     <h1 ref="top" class="text-h3 text-bold q-mt-sm">{{technique_type.name}}</h1>
     <!--   catalog wrapper start-->
-    <div class="row">
+    <div class="row q-mb-xl">
       <!--   catalog units start-->
-      <div class="col-8">
+      <div class="col-lg-8 col-md-8 col-sm-12">
 
         <UnitCard v-for="unit in technique_units"
                   :key="unit.id"
@@ -31,7 +31,7 @@
       </div>
       <!--   catalog units end-->
       <!--   catalog filters start-->
-      <div v-if="technique_type.name" class="col-4   ">
+      <div v-if="technique_type.name" class="col-lg-4 col-md-4 col-sm-12 ">
         <div class=" filters-block q-px-md ">
           <div class="filter-group" v-for="(filter,index) in all_filters.filter">
             <q-select

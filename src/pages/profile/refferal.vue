@@ -9,7 +9,7 @@
     </div>
      <h3 class="text-bold text-h4">Ваш партнерский баланс: {{$auth.user.partner_balance}}</h3>
     <div class="row">
-      <div class="col-8 q-pr-lg">
+      <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
 
         <div v-if="this.$auth.user.partner_balance>0" class="mb-50">
           <p class="section-sub-header mb-20">Перечислить на основной баланс</p>
@@ -35,7 +35,7 @@
 
 
       </div>
-      <div class="col-3 offset-1">
+      <div class="col-3 offset-1 gt-md">
         <ProfileMenu/>
       </div>
     </div>

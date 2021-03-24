@@ -9,7 +9,7 @@
     </div>
     <h3 class="text-bold text-h5">Общая информация</h3>
     <div class="row">
-      <div class="col-8 q-pr-lg">
+      <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
 
         <q-form
           ref="filterForm"
@@ -152,7 +152,7 @@
           <q-btn color="primary" @click="editUnit" label="Сохранить"/>
         </q-form>
       </div>
-      <div class="col-3 offset-1">
+      <div class="col-3 offset-1 gt-md">
         <ProfileMenu/>
       </div>
     </div>

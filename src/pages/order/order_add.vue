@@ -3,15 +3,18 @@
     <h1 class="text-h4 text-bold">Создание заявки на технику</h1>
     <p class="q-mb-xxl">Вы можете создать заявку на поиск техники и владельцы техники сами откликнуться на нее</p>
     <div class="row">
-      <div class="col-8 full-height">
+
+      <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 full-height">
         <q-splitter
-          disable
+
           v-model="splitterModel"
+          style="flex-wrap: wrap"
+          :horizontal="!$q.screen.gt.sm"
           class="full-height">
           <template v-slot:before>
             <q-tabs
               v-model="tab"
-              vertical
+              :vertical="$q.screen.gt.sm"
               inline-label
               align="left"
               class="text-primary order-tabs">
@@ -26,6 +29,7 @@
               animated
               swipeable
               vertical
+              class="q-mt-md"
               transition-prev="jump-up"
               transition-next="jump-up">
               <q-tab-panel name="info" class="q-py-none">
@@ -37,7 +41,7 @@
                     filled
                     v-model="selectedCategory"
                     :options="categories"
-
+                    :dense="!$q.screen.gt.sm"
                     :option-label="(item) =>  item.name"
                     lazy-rules
                     :rules="[val => val || 'Выберите категорию']"
@@ -45,6 +49,7 @@
                   <q-select
                     filled
                     v-model="order.selectedType"
+                    :dense="!$q.screen.gt.sm"
 
                     :options="selectedCategory ? categories.find(x=>x.id===selectedCategory.id).types : null"
                     :option-label="(item) =>  item.name"
@@ -53,8 +58,8 @@
                     :rules="[val => val || 'Выберите тип техники']"
                     :label="selectedCategory ? 'Выберите тип техники *' : 'Сначала выберите категорию'" />
                   <div  class="q-gutter-sm row items-center q-mb-sm">
-                    <p class="col-2  q-mb-none ">Вид аренды</p>
-                    <q-btn-toggle v-model="order.rent_type" toggle-color="primary"
+                    <p class="col-lg-2 col-md-3 col-sm-3 col-xs-4  q-mb-none ">Вид аренды</p>
+                    <q-btn-toggle :dense="!$q.screen.gt.sm" v-model="order.rent_type" toggle-color="primary"
                                   :options="[
                                       {label: 'Почасовая', value: true},
                                       {label: 'Посуточная', value: false},
@@ -62,8 +67,8 @@
                   </div>
 
                   <div  class="q-gutter-sm row items-center q-mb-sm">
-                    <p class="col-2 q-mb-none ">Выберите дату</p>
-                    <q-input filled v-model="rentData.date" class="no-padding" >
+                    <p class="col-lg-2 col-md-3 col-sm-3 col-xs-4 q-mb-none ">Выберите дату</p>
+                    <q-input :dense="!$q.screen.gt.sm" filled v-model="rentData.date" class="no-padding" >
                       <template v-slot:append>
                         <q-icon name="event" class="cursor-pointer ">
                           <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
@@ -79,8 +84,8 @@
                   </div>
                   <div v-if="order.rent_type">
                     <div  class="q-gutter-sm row items-center">
-                      <p class="col-2 q-mb-sm ">Выберите время начала</p>
-                      <q-input class="q-mb-sm " filled v-model="rentData.time" >
+                      <p class="col-lg-2 col-md-3 col-sm-3 col-xs-4 q-mb-sm ">Выберите время начала</p>
+                      <q-input :dense="!$q.screen.gt.sm" class="q-mb-sm " filled v-model="rentData.time" >
                         <template v-slot:append>
                           <q-icon name="access_time" class="cursor-pointer">
                             <q-popup-proxy transition-show="scale" transition-hide="scale">
@@ -95,8 +100,9 @@
                       </q-input>
                     </div>
                     <div  class="q-gutter-sm row items-center">
-                      <p class="col-2 q-mb-sm ">Количество часов</p>
+                      <p class="col-lg-2 col-md-3 col-sm-3 col-xs-4 q-mb-sm ">Количество часов</p>
                       <q-input
+                        :dense="!$q.screen.gt.sm"
                         v-model.number="rentData.hours"
                         type="number"
                         filled
@@ -106,14 +112,16 @@
                   </div>
                   <div v-else>
                     <div  class="q-gutter-sm row items-center">
-                      <p class="col-2 q-mb-sm ">Количество суток</p>
+                      <p class="col-lg-2 col-md-3 col-sm-3 col-xs-4 q-mb-sm ">Количество суток</p>
                       <q-input
+
                         v-model.number="rentData.days"
                         type="number"
                         filled
                         style="display: none"
                       /> <q-input
                       v-model.number="rentData.days"
+                      :dense="!$q.screen.gt.sm"
                       type="number"
                       filled
                       style="max-width: 100px"
@@ -172,6 +180,7 @@
                   <q-input
                     ref="input"
                     filled
+                    :dense="!$q.screen.gt.sm"
                     v-model="order.name"
                     label="Кратко опишите заявку *"
                     counter
@@ -184,6 +193,7 @@
                   <!--                   @input="citySelected"-->
                   <q-select
                     outlined
+                    :dense="!$q.screen.gt.sm"
                     v-model="order.city"
                     use-input
                     hide-selected
@@ -224,7 +234,7 @@
 
         </q-splitter>
       </div>
-      <div class="col-4">
+      <div class="col-lg-4 col-md-4 gt-sm">
         <q-card class="q-pa-md">
           <h3 class="text-h6 text-bold q-mt-none q-mb-md">{{side_question}}</h3>
           <q-separator class="q-mb-md"/>

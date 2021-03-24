@@ -9,7 +9,7 @@
     </div>
     <h1 class="text-h4 text-bold">Мои заявки на технику</h1>
     <div class="row">
-      <div class="col-8 q-pr-lg">
+      <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
          <OrderCard
           :order="order"
           :fullInfo="false"
@@ -19,7 +19,7 @@
           v-for="order in orders"
           :key="order.id"/>
       </div>
-     <div class="col-3 offset-1">
+     <div class="col-3 offset-1 gt-md">
         <ProfileMenu/>
       </div>
     </div>

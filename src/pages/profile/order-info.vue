@@ -10,7 +10,7 @@
     </div>
     <p class="text-h4 text-bold">Заявка №: {{order.id}} | {{order.name}}</p>
     <div class="row">
-      <div class="col-8 q-pr-lg">
+     <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
         <p class="">Дата размещения {{new Date(order.created_at) | formatDate}}</p>
         <p class="q-mb-sm ">Заявка на  {{order.type.name}}</p>
         <p class="">Тип заявки    {{order.rent_type ? 'Почасовая':'Посуточная'}}</p>
@@ -117,7 +117,7 @@
         </div>
       </div>
 
-     <div class="col-3 offset-1">
+     <div class="col-3 offset-1 gt-md">
         <ProfileMenu/>
       </div>
     </div>

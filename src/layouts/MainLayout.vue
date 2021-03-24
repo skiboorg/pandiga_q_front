@@ -1,6 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <Header/>
+
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -22,6 +23,7 @@ export default {
   },
   data () {
     return {
+
     }
   },
   async mounted() {

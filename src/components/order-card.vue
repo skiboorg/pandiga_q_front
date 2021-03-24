@@ -26,9 +26,8 @@
           </q-item>
             <q-separator />
 
-          <q-card-section  horizontal >
-
-            <q-card-section class="col-8">
+          <q-card-section style="flex-wrap: wrap" horizontal class="row">
+            <q-card-section class="col-lg-8 col-md-8 col-sm-6 col-xs-12">
               <q-card-section class="no-padding">
                 <h3 v-if="!fullInfo" class="text-h6 q-mt-none q-mb-sm text-bold">№{{order.id}} {{order.name}}</h3>
                 <div v-if="fullInfo" class="">
@@ -46,7 +45,7 @@
               </q-card-section>
 
             </q-card-section>
-            <q-card-section class="col-4">
+            <q-card-section class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
               <p class="text-caption">Дата размещения {{new Date(order.created_at) | formatDate}}</p>
               <p class="q-mb-sm text-caption">Заявка на  <q-badge  align="middle">{{order.type.name}}</q-badge></p>
               <p class="text-caption">Тип заявки    <q-badge  align="middle">{{order.rent_type ? 'Почасовая':'Посуточная'}}</q-badge></p>
