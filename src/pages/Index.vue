@@ -78,7 +78,6 @@
           <q-card v-if="item.is_show_at_index"
                   class="rounded-borders bg-grey-2 catalog-card"
                   flat
-
                   v-for="item in categories"
                   :key="item.id">
             <q-card-section
@@ -113,7 +112,7 @@
     </section>
     <section class="bg-grey-2 q-mb-xxl">
       <div class="container">
-        <div class="row flex q-pt-xl q-pb-sm-xl justify-between">
+        <div class="row flex q-pt-xl q-pb-sm-xs justify-between">
           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 q-mb-md text-center">
             <h3 class="text-h4 text-bold q-mb-md">Загрузите мобильное приложение</h3>
             <p class="text-h6 text-weight-thin">Получите ссылку для скачивания приложения</p>
@@ -139,11 +138,11 @@
 
             </div>
           </div>
-          <q-img class="col-4 col-md-4 gt-sm" style="width: 285px"  contain src="../assets/mobile.png"/>
+          <q-img class="col-4 col-md-4 gt-sm " style="width: 285px"  contain src="../assets/mobile.png"/>
         </div>
       </div>
     </section>
-    <section >
+    <section class="q-mb-xl">
       <div class="container">
         <h3 class="text-h3 text-bold text-center">Как это работает</h3>
         <div class="row flex justify-between items-start">
@@ -171,6 +170,14 @@ export default {
   name: 'index',
   preFetch ({ store, currentRoute, previousRoute, redirect, ssrContext, urlPath, publicPath }) {
     return store.dispatch('categories/fetchCategories')
+  },
+  meta :{
+    title: 'PANDIGA - Клубная аренда техники',
+    meta: {
+      description: { name: 'description', content: 'PANDIGA — это рекомендательный сервис по аренде ' +
+          'абсолютно любой технике и строительному инструменту, а так же подбору специалистов для' +
+          ' выполнения абсолютно любой работы.' },
+    },
   },
   data () {
     return {

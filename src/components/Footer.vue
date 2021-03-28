@@ -7,7 +7,9 @@
         </div>
         <div class="col-md-2 col-sm-4 col-xs-12 q-mb-lg">
           <ul class="catalog-list text-grey-1">
-            <li><a href="">О сервисе</a></li>
+            <li>
+              <router-link :to="{name:'about'}">О сервисе</router-link>
+            </li>
             <li><a href="">Партнерская программа</a></li>
           </ul>
         </div>

@@ -165,20 +165,18 @@
             @filter="filterCity"
             lazy-rules
             :rules="[val => val !== null || 'Выберите город из списка']">
-
-            <!--            <template v-slot:no-option>-->
-            <!--              <q-item>-->
-            <!--                <q-item-section class="text-grey">-->
-            <!--                  Город не найден-->
-            <!--                </q-item-section>-->
-            <!--              </q-item>-->
-            <!--            </template>-->
+                        <template v-slot:no-option>
+                          <q-item>
+                            <q-item-section class="text-grey">
+                              Город не найден
+                            </q-item-section>
+                          </q-item>
+                        </template>
             <template v-slot:option="scope">
               <q-item
                 v-bind="scope.itemProps"
                 v-on="scope.itemEvents"
               >
-
                 <q-item-section>
                   <q-item-label v-html="scope.opt.city" />
                   <q-item-label caption>{{ scope.opt.region }}</q-item-label>
@@ -189,7 +187,6 @@
           <q-input
             v-model="registerForm.password1"
             outlined
-
             :type="isPwd ? 'password' : 'text'"
             label="Введите пароль *"
             lazy-rules
@@ -217,10 +214,7 @@
               />
             </template>
           </q-input><!--    pass2      -->
-
         </q-form>
-
-
         <q-stepper-navigation>
           <q-btn
             v-if="!register_done"
@@ -229,7 +223,6 @@
             label="Регистрация"
             :loading="is_loading"
           />
-
         </q-stepper-navigation>
       </q-step>
     </q-stepper>
@@ -237,16 +230,16 @@
 </template>
 
 <script>
-// import Header from "components/Header";
-// import Footer from "components/Footer";
-
 export default {
-  name: 'catalog',
-  // components:{
-  //   Header,
-  //   Footer
-  // },
-
+  name: 'register',
+  meta :{
+    title: 'Регистрация | PANDIGA - Клубная аренда техники',
+    meta: {
+      description: { name: 'description', content: 'PANDIGA — это рекомендательный сервис по аренде ' +
+          'абсолютно любой технике и строительному инструменту, а так же подбору специалистов для' +
+          ' выполнения абсолютно любой работы.' },
+    },
+  },
   data () {
     return {
       step: 1,
@@ -271,20 +264,16 @@ export default {
         password2:'',
         email:''
       },
-
     }
   },
   methods:{
     step1FormSubmit(){
-      console.log('submit1')
       this.checkUserPhone()
     },
     step2FormSubmit(){
-      console.log('submit2')
       this.step = this.step +1
     },
     step3FormSubmit(){
-      console.log('submit3')
       this.is_loading = true
       this.registerUser()
     },
@@ -314,8 +303,6 @@ export default {
         }
       })
         .catch(error => {
-          console.log('response2')
-          console.log(error.response.data)
           if(error.response.data['password']){
             for(let i of error.response.data['password']){
               this.$q.notify({
@@ -339,7 +326,6 @@ export default {
       this.is_loading = true
       this.phone_error = null
       this.$api.post('/api/v1/user/getUserEmailbyPhone/',{phone:this.registerForm.phone}).then(responce =>{
-        console.log(responce)
         if (responce.data['result']){
           this.$q.notify({
             message: 'Похоже, у нас уже зарегистрирован аккаунт с этим телефоном.',
@@ -356,29 +342,26 @@ export default {
       })
     },
     sendSMS(){
+      this.$api.post('/api/v1/user/sendSMS/',{phone:this.registerForm.phone})
+        .then((response) => {
+          if (response.data['result']){
+            this.sms_code=response.data['code']
+            this.step = this.step +1
+          }
+          else {
+            this.$q.notify({
+              message: 'Похоже, вы ввели некорректный номер телефона',
+              position:'top-right',
+              color: 'red'
+            })
+          }
+        })
+        .catch(function (error) {
 
-      // this.$api.post('/api/v1/user/sendSMS/',{phone:this.registerForm.phone})
-      //   .then((response) => {
-      //     console.log(response.data);
-      //     if (response.data['result']){
-      //       this.sms_code=response.data['code']
-      //
-      //     }
-      //     else {
-      //       this.phone_error = 'Похоже, вы ввели некорректный номер телефона'
-      // this.$q.notify({
-      //           message: 'Похоже, вы ввели некорректный номер телефона',
-      //           color: 'red'
-      //         })
-      //     }
-      //   })
-      //   .catch(function (error) {
-      //     console.log('error sms sending',error);
-      //   })
+        })
       this.is_loading = false
-      this.sms_code='0000'
-      this.step = this.step +1
-
+      //this.sms_code='0000'
+      //this.step = this.step +1
     },
     filterCity (val, update, abort) {
       // call abort() at any time if you can't retrieve data somehow
@@ -389,9 +372,7 @@ export default {
           this.cities = result.data
         }
       })
-
     },
-
   }
 }
 </script>

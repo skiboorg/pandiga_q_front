@@ -11,6 +11,8 @@ const state = () => ({
   favorite:[],
   feedbacks:[],
   notifications:[],
+  messages_count:[],
+  notifications_count:[],
   loggedIn:false,
   socket:null
 
@@ -35,6 +37,12 @@ const mutations = {
   updateUserNotifications(state,data){
       state.notifications = data
     },
+  updateUserNotificationsCount(state,data){
+      state.notifications_count = data
+    },
+  updateUserMessagesCount(state,data){
+      state.messages_count = data
+    },
   updateSocket(state,data){
       state.socket = data
     },
@@ -55,10 +63,14 @@ const actions = {
     commit('updateUserFeedbacks',response.data)
   },
   async fetchUserNotifications({commit},user_id){
-    const response = await api.get(`/api/v1/notification/get/`)
-    commit('updateUserNotifications',response.data)
+    const response_all = await api.get(`/api/v1/notification/get/`)
+    const response_other = await api.get(`/api/v1/notification/get_other_count/`)
+    const response_messages = await api.get(`/api/v1/notification/get_messages_count/`)
+    commit('updateUserNotifications',response_all.data)
+    commit('updateUserNotificationsCount',response_other.data['new_messages'])
+    commit('updateUserMessagesCount',response_messages.data['new_messages'])
   },
-  connectWS({commit},id) {
+  connectWS({commit,dispatch},id) {
     console.log('connecting WS')
      const socket = new WebSocket(process.env.WS+'/ws/user/online/')
      commit('updateSocket',socket)
@@ -66,6 +78,7 @@ const actions = {
         console.log('ws connected')
         socket.send(JSON.stringify({'user_id':id,'message':'user online'}))
         socket.onmessage = (res) =>{
+          dispatch('fetchUserNotifications',id)
           console.log('message',JSON.parse(res.data))
           let data = JSON.parse(res.data)
           console.log('cur path',this.$router.currentRoute.path)
@@ -126,7 +139,7 @@ const actions = {
     commit('updateUserStatus', true)
     dispatch('fetchUserUnits',response.data.id)
     dispatch('fetchUserFeedbacks',response.data.id)
-    //dispatch('fetchUserFavorite',response.data.id)
+    dispatch('fetchUserFavorite',response.data.id)
     dispatch('fetchUserNotifications',response.data.id)
     if (redirect){
       dispatch('connectWS',response.data.id)
@@ -155,6 +168,8 @@ export const getters = {
   favorite: (state) => state.favorite,
   feedbacks: (state) => state.feedbacks,
   notifications: (state) => state.notifications,
+  notifications_count: (state) => state.notifications_count,
+  messages_count: (state) => state.messages_count,
 }
 
 export default {

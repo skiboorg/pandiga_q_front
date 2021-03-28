@@ -10,25 +10,32 @@
 
     <div class="row">
 
-      <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 "><q-toolbar class="bg-primary text-white shadow-2">
+      <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 q-mr-lg-xl"><q-toolbar class="bg-primary text-white shadow-2">
         <q-toolbar-title>Контакты</q-toolbar-title>
       </q-toolbar>
 
         <q-list bordered>
           <div v-for="chat in chats" :key="chat.id">
-            <q-item @click="openChat(chat.id)" v-if="chat.starter.id === $auth.user.id" class="q-my-sm" clickable v-ripple>
+            <q-item  @click="openChat(chat.id)"
+                     v-if="chat.starter.id === $auth.user.id"
+                     class="q-my-sm"
+                     :class="[current_chat_id===chat.id?'bg-grey-4':'']"
+                     clickable
+                     v-ripple>
               <q-item-section avatar>
                 <q-avatar>
                   <img :src="chat.opponent.avatar">
+                   <q-badge v-if="chat.opponent.is_online" floating color="positive" style="height: 10px;border-radius: 50%; width: 5px" icon="lens">
+                   </q-badge>
                 </q-avatar>
               </q-item-section>
               <q-item-section>
                 <q-item-label>{{ chat.opponent.fullname }}</q-item-label>
                 <q-item-label caption lines="1">{{chat.last_message}}</q-item-label>
               </q-item-section>
-              <q-item-section side>
-                <q-icon name="chat_bubble" :color="chat.opponent.is_online? 'positive':'grey-1'" />
-              </q-item-section>
+<!--              <q-item-section side>-->
+<!--                <q-icon name="chat_bubble" :color="chat.opponent.is_online? 'positive':'grey-1'" />-->
+<!--              </q-item-section>-->
             </q-item>
             <q-item @click="openChat(chat.id,)" v-else class="q-my-sm" clickable v-ripple>
               <q-item-section avatar>
@@ -49,7 +56,7 @@
 
 
         </q-list></div>
-      <div v-if="current_chat_id>0" class="col-lg-6 col-md-6 col-sm-8 col-xs-12 relative-position" style="height: 85vh">
+      <div v-if="current_chat_id>0" class="col-lg-6 col-md-6 col-sm-8 col-xs-12 relative-position q-mr-lg-xl" style="height: 85vh">
         <q-scroll-area
           :thumb-style="thumbStyle"
 
@@ -83,7 +90,7 @@
             </template>
             <template v-slot:after>
               <q-btn :disabled="!new_msg" :loading="loading" @click="sendMgs" color="primary" round dense flat icon="send" >
-                 <template v-slot:loading>
+                <template v-slot:loading>
                   <q-spinner-comment class="on-left" />
                 </template>
               </q-btn>
@@ -94,7 +101,7 @@
         </div>
       </div>
       <div v-else class="col-6 flex column items-center justify-center" style="height: 80vh">Выберите чат</div>
-      <div class="col-2 offset-1 gt-md">
+      <div class="col-2 gt-md">
         <ProfileMenu/>
       </div>
     </div>
@@ -133,21 +140,25 @@ export default {
 
     }
   },
-  async beforeMount() {
+  async created() {
     await this.page_init()
   },
   beforeDestroy() {
     console.log('destroy')
     try{
-        this.socket.close()
-      }catch (e) {
-        console.log('not connected')
-      }
+      this.socket.close()
+    }catch (e) {
+      console.log('not connected')
+    }
   },
   methods:{
+    ...mapActions('auth',['fetchUserNotifications']),
     async page_init(){
       const  response = await this.$api.get(`/api/v1/chat/all/`)
       this.chats = response.data
+      //this.chats.length>0 ? this.openChat(this.chats[0].id) : null
+
+
     },
     async openChat(chat_id){
       try{
@@ -160,12 +171,13 @@ export default {
       const opened_chat = await this.$api.get(`/api/v1/chat/get_chat?chat_id=${chat_id}`)
       if (this.$auth.user.id === opened_chat.data.opponent.id ){
         await this.$api.post(`/api/v1/chat/set_chat_read/${chat_id}`)
+        await this.fetchUserNotifications(this.$auth.user.id)
       }
       const response = await this.$api.get(`/api/v1/chat/get_chat_messages?chat_id=${chat_id}`)
       if (response.status === 200){
         this.chat_messages = response.data
         this.current_chat_id = chat_id
-        await this.$api.post(`/api/v1/chat/set_chat_read/${chat_id}`)
+        //await this.$api.post(`/api/v1/chat/set_chat_read/${chat_id}`)
         await  this.page_init()
         this.$refs.messages.setScrollPosition(this.position, 3000)
       }else{
@@ -192,7 +204,7 @@ export default {
             }
           })
           try {
-             this.$refs.messages.setScrollPosition(this.position, 30000)
+            this.$refs.messages.setScrollPosition(this.position, 30000)
           }catch (e){
           }
 
@@ -201,7 +213,7 @@ export default {
       }
     },
 
-   async sendMgs(){
+    async sendMgs(){
       this.loading = true
       await  this.$api.post(`/api/v1/chat/add/${this.current_chat_id}`,{message:this.new_msg})
 

@@ -64,8 +64,8 @@
 
       </q-form>
       <div class="flex justify-between" style="width: 300px">
-        <q-btn color="primary" @click="$refs.recoveryForm.submit()" class="q-py-sm "  label="Восстановить"/>
-        <q-btn color="primary" class="q-py-sm " outline @click="recovery_panel=false"  label="Назад"/>
+        <q-btn color="primary" :loading="is_loading" @click="$refs.recoveryForm.submit()" class="q-py-sm "  label="Восстановить"/>
+        <q-btn color="primary" :loading="is_loading" class="q-py-sm " outline @click="recovery_panel=false"  label="Назад"/>
       </div>
 
 
@@ -100,7 +100,7 @@ export default {
 
     },
     recoveryFormSubmit(){
-
+      this.recoverPassword()
     },
     async getUserEmail(){
       this.is_loading = true
@@ -111,17 +111,40 @@ export default {
         this.loginUser(this.loginData)
       }else {
         this.$q.notify({
-            message: 'Похоже, у нас нет аккаунта с этим телефоном',
-            color: 'red',
+          message: 'Похоже, у нас нет аккаунта с этим телефоном',
+          color: 'red',
           position:'top-right',
-            actions: [
-              { label: 'Создать аккаунт', color: 'white', handler: () => {this.$router.push('/register')} }
-            ]
-          })
+          actions: [
+            { label: 'Создать аккаунт', color: 'white', handler: () => {this.$router.push('/register')} }
+          ]
+        })
         this.is_loading = false
 
       }
     },
+    async recoverPassword(){
+      this.is_loading=true
+      const response = await this.$api.post('/api/v1/user/recover_password',{phone:this.recovery_phone})
+      if (response.data['result']){
+        this.$q.notify({
+          message: 'Новый пароль отправлен в SMS сообщении',
+          color: 'positive',
+          position:'top-right',
+        })
+        this.phone=this.recovery_phone
+        this.recovery_panel=false
+      }else {
+        this.$q.notify({
+          message: 'Похоже, у нас нет аккаунта с этим телефоном',
+          color: 'red',
+          position:'top-right',
+          actions: [
+            { label: 'Создать аккаунт', color: 'white', handler: () => {this.$router.push('/register')} }
+          ]
+        })
+      }
+      this.is_loading=false
+    }
   }
 }
 </script>

@@ -51,13 +51,20 @@ export default {
     }
   },
   mounted() {
-    this.fetchUserNotifications(this.$auth.user.id)
+    //this.fetchUserNotifications(this.$auth.user.id)
+    this.setRead()
   },
   methods:{
     ...mapActions('auth',['fetchUserNotifications']),
     async deleteNotify(id){
       await this.$api.post('/api/v1/notification/delete/',{id:id})
       await this.fetchUserNotifications(this.$auth.user.id)
+    },
+    async setRead(){
+       const set_read = await this.$api.post('/api/v1/notification/set_read/')
+       if (set_read.status === 200){
+          await this.fetchUserNotifications(this.$auth.user.id)
+       }
     }
   },
   filters:{

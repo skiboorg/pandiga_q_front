@@ -25,16 +25,19 @@
             <q-tooltip>
               Избранное
             </q-tooltip>
+             <q-badge v-if="$auth.favorite.length>0" rounded color="dark" floating>{{$auth.favorite.length}}</q-badge>
           </q-btn>
           <q-btn :to="{name:'profile_chats'}" color="primary" flat round icon="chat">
             <q-tooltip>
               Чат
             </q-tooltip>
+            <q-badge v-if="$auth.messages_count>0" rounded color="dark" floating>{{$auth.messages_count}}</q-badge>
           </q-btn>
           <q-btn color="primary" :to="{name:'profile_notifications'}" flat round icon="notifications">
             <q-tooltip>
               Оповещения
             </q-tooltip>
+             <q-badge v-if="$auth.notifications_count>0" rounded color="dark" floating>{{$auth.notifications_count}}</q-badge>
           </q-btn>
 
           <q-btn color="primary" icon="person" flat round @mouseenter="is_menu_show=!is_menu_show">

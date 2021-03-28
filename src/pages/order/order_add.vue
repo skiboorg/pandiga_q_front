@@ -58,7 +58,7 @@
                     :rules="[val => val || 'Выберите тип техники']"
                     :label="selectedCategory ? 'Выберите тип техники *' : 'Сначала выберите категорию'" />
                   <div  class="q-gutter-sm row items-center q-mb-sm">
-                    <p class="col-lg-2 col-md-3 col-sm-3 col-xs-4  q-mb-none ">Вид аренды</p>
+                    <p class="col-lg-2 col-md-3 col-sm-3 col-xs-12  q-mb-none ">Вид аренды</p>
                     <q-btn-toggle :dense="!$q.screen.gt.sm" v-model="order.rent_type" toggle-color="primary"
                                   :options="[
                                       {label: 'Почасовая', value: true},
@@ -67,7 +67,7 @@
                   </div>
 
                   <div  class="q-gutter-sm row items-center q-mb-sm">
-                    <p class="col-lg-2 col-md-3 col-sm-3 col-xs-4 q-mb-none ">Выберите дату</p>
+                    <p class="col-lg-2 col-md-3 col-sm-3 col-xs-12 q-mb-none ">Выберите дату</p>
                     <q-input :dense="!$q.screen.gt.sm" filled v-model="rentData.date" class="no-padding" >
                       <template v-slot:append>
                         <q-icon name="event" class="cursor-pointer ">
@@ -84,7 +84,7 @@
                   </div>
                   <div v-if="order.rent_type">
                     <div  class="q-gutter-sm row items-center">
-                      <p class="col-lg-2 col-md-3 col-sm-3 col-xs-4 q-mb-sm ">Выберите время начала</p>
+                      <p class="col-lg-2 col-md-3 col-sm-3 col-xs-12 q-mb-sm ">Выберите время начала</p>
                       <q-input :dense="!$q.screen.gt.sm" class="q-mb-sm " filled v-model="rentData.time" >
                         <template v-slot:append>
                           <q-icon name="access_time" class="cursor-pointer">
