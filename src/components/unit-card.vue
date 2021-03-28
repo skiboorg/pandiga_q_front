@@ -1,4 +1,5 @@
 <template>
+
   <q-card
     class="q-mb-md"
     flat :class="[unit.is_vip ? 'bg-deep-orange-2' : 'bg-grey-2']">
@@ -35,6 +36,7 @@
 
     </q-card-section>
   </q-card>
+
 </template>
 
 <script>

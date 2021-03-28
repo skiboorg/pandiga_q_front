@@ -1,5 +1,5 @@
 <template>
-
+<q-no-ssr>
   <q-btn
     color="primary"
     label="Взять в аренду"
@@ -88,7 +88,7 @@
       </q-list>
     </q-menu>
   </q-btn>
-
+</q-no-ssr>
 </template>
 
 <script>

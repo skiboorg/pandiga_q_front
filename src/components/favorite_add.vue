@@ -1,4 +1,5 @@
 <template>
+  <q-no-ssr>
   <q-btn
     v-if="!is_in_favorites"
     flat
@@ -25,7 +26,7 @@
       :offset="[10, 10]">Удалить из избранного
     </q-tooltip>
   </q-btn>
-
+</q-no-ssr>
 </template>
 
 <script>

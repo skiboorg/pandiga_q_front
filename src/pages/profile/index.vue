@@ -1,5 +1,6 @@
 <template>
   <q-page style="margin-bottom: 50px" class="container">
+    <q-no-ssr>
     <div  class="q-gutter-sm q-my-md">
       <q-breadcrumbs>
         <q-breadcrumbs-el label="Главная" icon="home" to="/" />
@@ -13,8 +14,8 @@
             <img :src="$auth.user.avatar">
           </q-avatar>
           <div>
-            <p v-if="$auth.user.is_person" class="text-h4 text-bold">{{$auth.user.first_name}} {{$auth.user.last_name}}</p>
-            <p v-if="!$auth.user.is_person" class="text-h4 text-bold">{{$auth.user.organization_name}}<br>ИНН: {{$auth.user.inn}}<br>ОГРН: {{$auth.user.ogrn}}</p>
+            <p v-if="$auth.user.is_person" class="text-h5 text-bold">{{$auth.user.first_name}} {{$auth.user.last_name}}</p>
+            <p v-if="!$auth.user.is_person" class="text-h5 text-bold">{{$auth.user.organization_name}}<br>ИНН: {{$auth.user.inn}}<br>ОГРН: {{$auth.user.ogrn}}</p>
             <div v-if="$auth.user.rate_times > 0">
               <div class="flex"><p class="no-margin text-caption">Рейтинг :</p>
                 <q-rating
@@ -105,6 +106,7 @@
       </q-card-section>
     </q-card>
 
+
     <div v-if="!$auth.user.is_customer" class="q-mb-lg">
       <h3 class="text-h4 text-bold">Ваша техника</h3>
       <div class="grid grid-3 gap-md">
@@ -114,7 +116,8 @@
           <q-card-section>
             <!--        <div class="text-overline text-primary q-mb-sm">{{unit.type.name}}</div>-->
             <div class="text-h5 q-mt-sm q-mb-xs flex items-center justify-between">
-              <p class="q-mb-none"> {{unit.name}}</p>
+              <p class="q-mb-none">{{unit.name}}</p>
+
               <div v-if="unit.is_active" class="flex items-center ">
                 <q-badge class="q-mx-sm" outline color="positive " label="Участвует в поиске"/>
                 <q-btn @click="unitPromote(unit.id,false)" class="q-mr-sm" size="sm"  round color="positive" icon="arrow_upward" >
@@ -171,6 +174,7 @@
         </q-card-section>
       </q-card>
     </div>
+    </q-no-ssr>
   </q-page>
 </template>
 

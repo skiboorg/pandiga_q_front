@@ -1,5 +1,6 @@
 <template>
   <div >
+    <q-no-ssr>
     <q-header class="bg-white q-py-lg" elevated>
     <div class="container">
       <div class="flex items-center justify-between">
@@ -11,17 +12,17 @@
           <div v-if="$auth.loggedIn && !$auth.user.is_customer" class="logo-text text-caption">Исполнитель</div>
         </div>
 
-        <div v-if="!$auth.loggedIn" class="flex items-center justify-between gt-sm">
+        <div v-if="!this.$auth.loggedIn" class="flex items-center justify-between gt-sm">
           <q-btn color="primary" to="/catalog" class="q-mr-sm" icon="local_shipping" label="Каталог техники"/>
           <q-btn  color="primary" to="/login" class="q-mr-sm" outline label="Войти"/>
           <q-btn  color="primary" to="/register" outline label="Зарегистрироваться"/>
         </div>
         <div v-else class="flex items-center justify-between gt-sm">
           <q-btn color="primary" to="/catalog" class="q-mr-sm" icon="local_shipping" label="Каталог техники"/>
-          <q-btn v-if="$auth.loggedIn && !$auth.user.is_customer" color="primary" :to="{name:'all_orders'}" class="q-mr-sm" outline label="Заявки на технику"/>
-          <q-btn v-if="$auth.loggedIn && !$auth.user.is_customer" color="primary" :to="{name:'add_unit'}" class="q-mr-sm" outline label="Добавить технику"/>
-          <q-btn v-if="$auth.loggedIn && $auth.user.is_customer" color="primary" icon="add" :to="{name:'new_order'}" class="q-mr-sm" outline label="Заявка на технику"/>
-          <q-btn :to="{name:'profile_favorite'}" v-if="$auth.user.is_customer" color="primary" flat round icon="favorite">
+          <q-btn v-if="this.$auth.loggedIn && !this.$auth.user.is_customer" color="primary" :to="{name:'all_orders'}" class="q-mr-sm" outline label="Заявки на технику"/>
+          <q-btn v-if="this.$auth.loggedIn && !this.$auth.user.is_customer" color="primary" :to="{name:'add_unit'}" class="q-mr-sm" outline label="Добавить технику"/>
+          <q-btn v-if="this.$auth.loggedIn && this.$auth.user.is_customer" color="primary" icon="add" :to="{name:'new_order'}" class="q-mr-sm" outline label="Заявка на технику"/>
+          <q-btn :to="{name:'profile_favorite'}" v-if="this.$auth.user.is_customer" color="primary" flat round icon="favorite">
             <q-tooltip>
               Избранное
             </q-tooltip>
@@ -39,7 +40,6 @@
             </q-tooltip>
              <q-badge v-if="$auth.notifications_count>0" rounded color="dark" floating>{{$auth.notifications_count}}</q-badge>
           </q-btn>
-
           <q-btn color="primary" icon="person" flat round @mouseenter="is_menu_show=!is_menu_show">
             <q-menu @mouseleave="is_menu_show=!is_menu_show" auto-close v-model="is_menu_show">
               <div class="row no-wrap q-pa-md">
@@ -117,6 +117,7 @@
     </div>
 
   </q-header>
+
      <q-drawer v-model="drawer" side="right" overlay  elevated :breakpoint="300"
         >
        <div v-if="!$auth.loggedIn" class="flex column q-pa-sm ">
@@ -198,6 +199,7 @@
        </div>
 
     </q-drawer>
+      </q-no-ssr>
   </div>
 
 </template>

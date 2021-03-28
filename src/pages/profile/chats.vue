@@ -1,5 +1,6 @@
 <template>
   <q-page style="margin-bottom: 50px" class="container">
+    <q-no-ssr>
     <div  class="q-gutter-sm q-my-md">
       <q-breadcrumbs>
         <q-breadcrumbs-el label="Главная" icon="home" to="/" />
@@ -55,7 +56,10 @@
 
 
 
-        </q-list></div>
+        </q-list>
+
+      </div>
+
       <div v-if="current_chat_id>0" class="col-lg-6 col-md-6 col-sm-8 col-xs-12 relative-position q-mr-lg-xl" style="height: 85vh">
         <q-scroll-area
           :thumb-style="thumbStyle"
@@ -100,11 +104,15 @@
           </q-input>
         </div>
       </div>
+
       <div v-else class="col-6 flex column items-center justify-center" style="height: 80vh">Выберите чат</div>
+
       <div class="col-2 gt-md">
         <ProfileMenu/>
       </div>
+
     </div>
+ </q-no-ssr>
   </q-page>
 </template>
 

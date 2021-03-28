@@ -1,5 +1,6 @@
 <template>
   <q-page style="margin-bottom: 50px" class="container">
+      <q-no-ssr>
     <div  class="q-gutter-sm q-my-md">
       <q-breadcrumbs>
         <q-breadcrumbs-el label="Главная" icon="home" to="/" />
@@ -30,7 +31,7 @@
         <ProfileMenu/>
       </div>
     </div>
-
+      </q-no-ssr>
   </q-page>
 </template>
 

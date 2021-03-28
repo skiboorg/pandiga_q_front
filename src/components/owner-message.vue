@@ -1,4 +1,5 @@
 <template>
+  <q-no-ssr>
   <q-btn
     v-if="$auth.loggedIn && $auth.user.is_customer"
     :flat="is_icon"
@@ -31,7 +32,7 @@
       </q-list>
     </q-menu>
   </q-btn>
-
+</q-no-ssr>
 </template>
 
 <script>

@@ -1,5 +1,6 @@
 <template>
   <q-page  class="container">
+
     <div  class="q-gutter-sm q-my-md">
       <q-breadcrumbs>
         <q-breadcrumbs-el label="Главная" icon="home" to="/" />
@@ -47,7 +48,10 @@
         <q-badge class="q-px-lg q-py-sm" color="positive"  label="Cвободен"/>
         <div class="row items-center">
           <h1 class="col-10 text-h4 text-bold">{{unit.name}}, {{unit.year}}</h1>
-          <FavoriteAdd v-if="$auth.loggedIn" :unit_id="unit.id" :is_in_favorites="$auth.user.favorites.includes(unit.id)"/>
+
+             <FavoriteAdd v-if="$auth.loggedIn" :unit_id="unit.id" :is_in_favorites="$auth.user.favorites.includes(unit.id)"/>
+
+
         </div>
         <div class="flex items-center justify-between q-mb-lg">
           <p class="text-h6 text-primary text-bold q-mb-none">{{unit.rent_price}} &#8381;/ {{unit.rent_type? 'час' : 'день'}}</p>
@@ -171,6 +175,7 @@
       </div>
     </div>
     <!--     unit bottom end-->
+
   </q-page>
 
 </template>
