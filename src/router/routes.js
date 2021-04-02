@@ -7,7 +7,10 @@ const routes = [
       { path: '', component: () => import('pages/Index.vue') },
       { path: '/login', component: () => import('pages/auth/login') },
       { path: '/register', component: () => import('pages/auth/register') },
-      { path: '/about',name:'about', component: () => import('pages/about') }
+      { path: '/about',name:'about', component: () => import('pages/about') },
+      { path: '/partner',name:'partner', component: () => import('pages/partner') },
+      { path: '/policy',name:'policy', component: () => import('pages/policy') },
+      { path: '/rules',name:'rules', component: () => import('pages/rules') }
     ]
   },
   {

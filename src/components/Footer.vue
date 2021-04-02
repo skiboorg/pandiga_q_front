@@ -10,13 +10,14 @@
             <li>
               <router-link :to="{name:'about'}">О сервисе</router-link>
             </li>
-            <li><a href="">Партнерская программа</a></li>
+            <li><router-link :to="{name:'partner'}">Партнерская программа</router-link></li>
+
           </ul>
         </div>
         <div class="col-md-3 col-sm-4  col-xs-12">
           <ul class="catalog-list text-grey-1">
-            <li><a href="">Условия использования</a></li>
-            <li><a href="">Политика конфиденциальности</a></li>
+            <li><router-link :to="{name:'rules'}">Условия использования</router-link></li>
+            <li><router-link :to="{name:'policy'}">Политика конфиденциальности</router-link></li>
           </ul>
         </div>
 

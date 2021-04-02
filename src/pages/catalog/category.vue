@@ -1,8 +1,8 @@
 <template>
   <q-page class="container">
     <q-inner-loading :showing="!technique_type.name">
-        <q-spinner-gears size="50px" color="primary" />
-      </q-inner-loading>
+      <q-spinner-gears size="50px" color="primary" />
+    </q-inner-loading>
     <div v-if="technique_type.name" class="q-gutter-sm q-my-md">
       <q-breadcrumbs>
         <q-breadcrumbs-el label="Главная" icon="home" to="/" />
@@ -124,12 +124,13 @@ export default {
       private_message: '',
       loading: false,
       rentModal: false,
+      is_queryFilter_ok: false,
       rent_time_to:'',
       rent_time_from:'',
       rent_price_from:'',
       rent_price_to:'',
       rent_type:'1',
-      city_id:'',
+      city_id:false,
       cities:[],
       rentMsg_send:false,
       rentData:{
@@ -141,25 +142,25 @@ export default {
         time:'',
       },
       order_by: [
-          {
+        {
           value: '-created_at',
           label: 'По дате (сначала новые)'
         },
-           {
+        {
           value: 'created_at',
           label: 'По дате (сначала старые)'
         },
-           {
+        {
           value: 'rent_price',
           label: 'По стоимости (цена вниз)'
         },
-           {
+        {
           value: '-rent_price',
           label: 'По стоимости (цена вверх)'
         },
 
-        ],
-        order_by_value: '',
+      ],
+      order_by_value: '',
     }
 
   },
@@ -168,69 +169,92 @@ export default {
   },
   methods:{
     async page_init(){
-      const  response_units = await this.$api.get(`/api/v1/technique/units?type=${this.$route.params.category_slug}`)
-      const  response_type = await this.$api.get(`/api/v1/technique/type/${this.$route.params.category_slug}`)
       const  response_filters = await this.$api.get(`/api/v1/technique/filters/${this.$route.params.category_slug}/`)
+      const  response_type = await this.$api.get(`/api/v1/technique/type/${this.$route.params.category_slug}`)
+      this.technique_type = response_type.data
+      this.all_filters.filter = response_filters.data
+
+      console.log(this.$route.query.city)
+      if (this.$route.query.city !=='undefined'){
+        console.log('cittyy')
+        //has city
+        this.city_id = this.$route.query.city
+      }
+      if (this.$route.query.filter){
+        //has filter
+        try{
+          let currentFilter = this.all_filters.filter.filter(x => x.id === parseInt(this.$route.query.filter))
+          let filterValue = currentFilter[0].values.filter(x=>x.id===parseInt(this.$route.query.value))
+          currentFilter[0].value = filterValue[0]
+          this.is_queryFilter_ok = true
+          await this.submitForm(1)
+        }catch (e){
+          console.log('filter error',e)
+        }
+      }
+      const  response_units = await this.$api.get(`/api/v1/technique/units?type=${this.$route.params.category_slug}`)
+
+
       this.technique_units = response_units.data.results
       this.page_count = response_units.data.page_count
       this.links = response_units.data.links
       this.items_count = this.technique_units.length
-      this.technique_type = response_type.data
-      this.all_filters.filter = response_filters.data
+
+
 
     },
-     async paginatorChange(){
+    async paginatorChange(){
       this.$q.loading.show()
-        if (!this.is_filtered){
-         const response = await this.$api.get(`/api/v1/technique/units?page=${this.current_page}&type=${this.$route.params.category_slug}`)
-         this.technique_units = response.data.results
-         this.scrollToElement(this.$refs.top)
-          this.$q.loading.hide()
-       }
-       else {
-            this.submitForm(this.current_page)
-       }
-      },
+      if (!this.is_filtered){
+        const response = await this.$api.get(`/api/v1/technique/units?page=${this.current_page}&type=${this.$route.params.category_slug}`)
+        this.technique_units = response.data.results
+        this.scrollToElement(this.$refs.top)
+        this.$q.loading.hide()
+      }
+      else {
+        this.submitForm(this.current_page)
+      }
+    },
     async submitForm(page){
-       this.$q.loading.show()
-        await this.$api({
-          method: 'post',
-          headers:{
-            'Content-Type':'application/json'
-          },
-          url: `/api/v1/technique/filter/?page=${page}`,
-          data: JSON.stringify({
-              technique_type:this.technique_type.name_slug,
-              rent_time_to:(this.rent_time_to ? this.rent_time_to : 1000),
-              rent_time_from:(this.rent_time_from ? this.rent_time_from : 0),
-              rent_price_from:(this.rent_price_from ? this.rent_price_from : 0),
-              rent_price_to:(this.rent_price_to ? this.rent_price_to : 1000000),
-              rent_type:  this.rent_type  ,
-              city_id:  this.city_id  ,
-              order_by:  this.order_by_value  ,
-              'primary_filter': this.all_filters.filter
-            }
-          )
-        }).then((response) => {
-          // handle success
-          console.log('success');
-          this.technique_units =response.data.results
-          this.is_filtered = true
-          this.page_count = response.data.page_count
-          this.scrollToElement(this.$refs.top)
+      this.$q.loading.show()
+      await this.$api({
+        method: 'post',
+        headers:{
+          'Content-Type':'application/json'
+        },
+        url: `/api/v1/technique/filter/?page=${page}`,
+        data: JSON.stringify({
+            technique_type:this.technique_type.name_slug,
+            rent_time_to:(this.rent_time_to ? this.rent_time_to : 1000),
+            rent_time_from:(this.rent_time_from ? this.rent_time_from : 0),
+            rent_price_from:(this.rent_price_from ? this.rent_price_from : 0),
+            rent_price_to:(this.rent_price_to ? this.rent_price_to : 1000000),
+            rent_type:  this.rent_type  ,
+            city_id:  this.city_id  ,
+            order_by:  this.order_by_value  ,
+            'primary_filter': this.all_filters.filter
+          }
+        )
+      }).then((response) => {
+        // handle success
+        console.log('success');
+        this.technique_units =response.data.results
+        this.is_filtered = true
+        this.page_count = response.data.page_count
+        this.scrollToElement(this.$refs.top)
+        this.$q.loading.hide()
+
+
+      })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
           this.$q.loading.hide()
-
-
         })
-          .catch(function (error) {
-            // handle error
-            console.log(error);
-            this.$q.loading.hide()
-          })
-          .then(function () {
-            // always executed
-          });
-      },
+        .then(function () {
+          // always executed
+        });
+    },
     scrollToElement (el) {
       const target = getScrollTarget(el)
       const offset = el.offsetTop

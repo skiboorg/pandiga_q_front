@@ -4,7 +4,7 @@
       <div class="container ">
         <div class="q-py-xl flex column items-center justify-between">
           <h3 class="text-white text-h3 text-bold q-mb-xl">Поиск техники</h3>
-          <q-form class="full-width grid grid-3 gap-sm ">
+          <q-form ref="searchForm" class="full-width grid grid-3 gap-sm " @submit="searchFormSubmit">
 
             <q-select
               filled
@@ -19,54 +19,58 @@
               :option-label="(item) => item.is_filter_value ? `${item.filter_value_label} - ${item.type_name}` : `${item.type_name} - Категория`"
 
               @filter="filterResult"
-            >
+                lazy-rules
+                    :rules="[val => val  || 'Выберите из списка']">
               <template v-slot:option="scope">
-                      <q-item
-                        v-bind="scope.itemProps"
-                        v-on="scope.itemEvents">
-<!--{{ `${scope.opt.type_name_slug},${scope.opt.filter_name_slug},${scope.opt.filter_value},${scope.opt.is_filter_value}` }}-->
-                        <q-item-section>
-<!--                          <q-item-label v-html="scope.opt.is_filter_value ? `${scope.opt.filter_value_label} - ${scope.opt.type_name}` : `${scope.opt.type_name}`" />-->
-                          <q-item-label >
-                            <div v-if="scope.opt.is_filter_value">
-                    <span style="font-weight: bold; float: left; margin-right: 10px">{{ scope.opt.filter_value_label }}</span>
-                  <span style="float: right; color: #8492a6; font-size: 13px">{{ scope.opt.type_name }}</span>
-                  </div>
-                  <div v-else>
-                     <span style="font-weight: bold; float: left; margin-right: 10px">{{ scope.opt.type_name }}</span>
-                  <span style="float: right; color: #8492a6; font-size: 13px">Категория</span>
-                  </div>
-                          </q-item-label>
-                        </q-item-section>
-                      </q-item>
-                    </template>
+                <q-item
+                  v-bind="scope.itemProps"
+                  v-on="scope.itemEvents">
+                  <!--{{ `${scope.opt.type_name_slug},${scope.opt.filter_name_slug},${scope.opt.filter_value},${scope.opt.is_filter_value}` }}-->
+                  <q-item-section>
+                    <!--                          <q-item-label v-html="scope.opt.is_filter_value ? `${scope.opt.filter_value_label} - ${scope.opt.type_name}` : `${scope.opt.type_name}`" />-->
+                    <q-item-label >
+                      <div v-if="scope.opt.is_filter_value">
+                        <span style="font-weight: bold; float: left; margin-right: 10px">{{ scope.opt.filter_value_label }}</span>
+                        <span style="float: right; color: #8492a6; font-size: 13px">{{ scope.opt.type_name }}</span>
+                      </div>
+                      <div v-else>
+                        <span style="font-weight: bold; float: left; margin-right: 10px">{{ scope.opt.type_name }}</span>
+                        <span style="float: right; color: #8492a6; font-size: 13px">Категория</span>
+                      </div>
+                    </q-item-label>
+                  </q-item-section>
+                </q-item>
+              </template>
             </q-select>
             <q-select
-                      filled
-                    v-model="city"
-                    use-input
-                    hide-selected
-                    fill-input
-                    class="bg-grey-1 rounded-borders "
-                    input-debounce="0"
-                    label="Начните вводить"
-                    :options="cities"
-                    :option-label="(item) =>  item.city"
-                    @filter="filterCity">
+              filled
+              v-model="city"
+              use-input
+              hide-selected
+              fill-input
+              class="bg-grey-1 rounded-borders "
+              input-debounce="0"
+              label="Город (начните вводить)"
+              :options="cities"
+              :option-label="(item) =>  item.city"
+              @filter="filterCity"
+              lazy-rules
+                    :rules="[val => val  || 'Выберите город из списка']"
+            >
 
-                    <template v-slot:option="scope">
-                      <q-item
-                        v-bind="scope.itemProps"
-                        v-on="scope.itemEvents">
+              <template v-slot:option="scope">
+                <q-item
+                  v-bind="scope.itemProps"
+                  v-on="scope.itemEvents">
 
-                        <q-item-section>
-                          <q-item-label v-html="scope.opt.city" />
-                          <q-item-label caption>{{ scope.opt.region }}</q-item-label>
-                        </q-item-section>
-                      </q-item>
-                    </template>
-                  </q-select><!--   city_id       -->
-            <q-btn class="col-3 offset-1 search-button full-width" @click="searchIt" size="lg" label="Найти" color="primary"/>
+                  <q-item-section>
+                    <q-item-label v-html="scope.opt.city" />
+                    <q-item-label caption>{{ scope.opt.region }}</q-item-label>
+                  </q-item-section>
+                </q-item>
+              </template>
+            </q-select><!--   city_id       -->
+            <q-btn class="col-3 offset-1 search-button full-width" @click="$refs.searchForm.submit()" size="lg" label="Найти" color="primary"/>
           </q-form>
         </div>
       </div>
@@ -87,12 +91,12 @@
                 <ul class="catalog-list">
                   <li v-for="(subcat,index) in item.types">
                     <router-link v-if="index<3"
-                       :to="`catalog/${subcat.name_slug}`">
+                                 :to="`catalog/${subcat.name_slug}`">
                       {{subcat.name}}
                     </router-link>
                     <router-link v-if="index===3"
-                       to="/catalog"
-                       @click.prevent="$router.push('/catalog')">еще...
+                                 to="/catalog"
+                                 @click.prevent="$router.push('/catalog')">еще...
                     </router-link>
                   </li>
                 </ul>
@@ -192,11 +196,12 @@ export default {
     ...mapGetters('categories',['categories'])
   },
   methods:{
+    searchFormSubmit(){
+      this.searchIt()
+    },
     searchIt(){
-
-      this.$router.push(`/catalog/${this.searchQuery.type_name_slug}?filter=${this.searchQuery.filter_id}&value=${this.searchQuery.filter_value}&city=${this.city.id}`)
-
-      },
+      this.$router.push(`/catalog/${this.searchQuery.type_name_slug}?filter=${this.searchQuery.filter_id}&value=${this.searchQuery.filter_value_id}&city=${this.city.id}`)
+    },
     filterCity (val, update, abort) {
       update(async() => {
         if (val && val.length >2 ) {
@@ -206,7 +211,7 @@ export default {
         }
       })
     },
-     filterResult (val, update, abort) {
+    filterResult (val, update, abort) {
       update(async() => {
         if (val && val.length >2 ) {
           const needle = val.toLowerCase()
