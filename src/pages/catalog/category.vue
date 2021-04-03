@@ -130,7 +130,7 @@ export default {
       rent_price_from:'',
       rent_price_to:'',
       rent_type:'1',
-      city_id:false,
+      city:{id:0},
       cities:[],
       rentMsg_send:false,
       rentData:{
@@ -175,10 +175,10 @@ export default {
       this.all_filters.filter = response_filters.data
 
       console.log(this.$route.query.city)
-      if (this.$route.query.city !=='undefined'){
+      if (this.$route.query.city && this.$route.query.city !=='undefined'){
         console.log('cittyy')
         //has city
-        this.city_id = this.$route.query.city
+        this.city.id = parseInt(this.$route.query.city)
       }
       if (this.$route.query.filter){
         //has filter
@@ -192,13 +192,22 @@ export default {
           console.log('filter error',e)
         }
       }
-      const  response_units = await this.$api.get(`/api/v1/technique/units?type=${this.$route.params.category_slug}`)
 
-
+      if (this.city.id>0){
+        await this.submitForm(1)
+      }else {
+              const  response_units = await this.$api.get(`/api/v1/technique/units?type=${this.$route.params.category_slug}`)
       this.technique_units = response_units.data.results
       this.page_count = response_units.data.page_count
       this.links = response_units.data.links
       this.items_count = this.technique_units.length
+
+      }
+
+
+
+
+
 
 
 
@@ -212,7 +221,7 @@ export default {
         this.$q.loading.hide()
       }
       else {
-        this.submitForm(this.current_page)
+        await this.submitForm(this.current_page)
       }
     },
     async submitForm(page){
@@ -229,8 +238,8 @@ export default {
             rent_time_from:(this.rent_time_from ? this.rent_time_from : 0),
             rent_price_from:(this.rent_price_from ? this.rent_price_from : 0),
             rent_price_to:(this.rent_price_to ? this.rent_price_to : 1000000),
-            rent_type:  this.rent_type  ,
-            city_id:  this.city_id  ,
+            rent_type:  this.rent_type ,
+            city:  this.city,
             order_by:  this.order_by_value  ,
             'primary_filter': this.all_filters.filter
           }
@@ -238,6 +247,7 @@ export default {
       }).then((response) => {
         // handle success
         console.log('success');
+        console.log(response.data.results);
         this.technique_units =response.data.results
         this.is_filtered = true
         this.page_count = response.data.page_count

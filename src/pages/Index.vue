@@ -18,9 +18,8 @@
               :options="searchResult"
               :option-label="(item) => item.is_filter_value ? `${item.filter_value_label} - ${item.type_name}` : `${item.type_name} - Категория`"
 
-              @filter="filterResult"
-                lazy-rules
-                    :rules="[val => val  || 'Выберите из списка']">
+              @filter="filterResult">
+
               <template v-slot:option="scope">
                 <q-item
                   v-bind="scope.itemProps"
@@ -54,8 +53,6 @@
               :options="cities"
               :option-label="(item) =>  item.city"
               @filter="filterCity"
-              lazy-rules
-                    :rules="[val => val  || 'Выберите город из списка']"
             >
 
               <template v-slot:option="scope">
@@ -70,7 +67,7 @@
                 </q-item>
               </template>
             </q-select><!--   city_id       -->
-            <q-btn class="col-3 offset-1 search-button full-width" @click="$refs.searchForm.submit()" size="lg" label="Найти" color="primary"/>
+            <q-btn class="col-3 offset-1 search-button full-width" :disable="!searchQuery" @click="$refs.searchForm.submit()" size="lg" label="Найти" color="primary"/>
           </q-form>
         </div>
       </div>
@@ -197,6 +194,7 @@ export default {
   },
   methods:{
     searchFormSubmit(){
+
       this.searchIt()
     },
     searchIt(){
