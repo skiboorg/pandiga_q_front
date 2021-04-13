@@ -130,11 +130,17 @@
               <q-btn color="primary" class="col-sm-2 col-xs-5"  label="Отправить"/>
             </div>
             <div class="flex justify-center">
-              <q-card flat class="col-1 q-pa-sm q-mr-md bg-deep-orange-2">
-                <q-img contain style="width: 110px" src="../assets/aas.png"/>
+              <q-card flat class="col-1  q-mr-md bg-grey-2">
+                <q-img contain style="width: 150px" src="../assets/ios.png"/>
+                 <q-tooltip>
+          Приложение находиться на доработке и скоро будет опубликовано
+        </q-tooltip>
               </q-card>
-              <q-card flat class="col-1 q-pa-sm bg-deep-orange-2">
-                <q-img contain style="width: 110px"  src="../assets/ggp.png"/>
+              <q-card flat class="col-1  bg-grey-2">
+                <q-img contain style="width: 150px"  src="../assets/play.png"/>
+                 <q-tooltip>
+          Приложение находиться на доработке и скоро будет опубликовано
+        </q-tooltip>
               </q-card>
 
             </div>

@@ -10,9 +10,15 @@
     <q-card class="q-pa-lg ">
       <q-card-section style="flex-wrap: wrap" horizontal class="row items-center flex justify-evenly">
         <q-card-section class="col-lg-8 col-md-8 col-sm-6 col-xs-12 items-center flex justify-evenly">
-          <q-avatar size="200px">
+          <q-avatar  class="relative-position" size="200px">
             <img :src="$auth.user.avatar">
+            <label class="absolute-bottom-right cursor-pointer" for="avatar_img">
+          <q-icon size="md" color="primary" name="photo_camera"></q-icon>
+            <input id="avatar_img" ref="avatar_img" @change="avatarChange($event)" style="display: none" type="file">
+          </label>
           </q-avatar>
+
+
           <div>
             <p v-if="$auth.user.is_person" class="text-h5 text-bold">{{$auth.user.first_name}} {{$auth.user.last_name}}</p>
             <p v-if="!$auth.user.is_person" class="text-h5 text-bold">{{$auth.user.organization_name}}<br>ИНН: {{$auth.user.inn}}<br>ОГРН: {{$auth.user.ogrn}}</p>
@@ -196,6 +202,7 @@ export default {
       partner_caption:'Ввести код партнера',
       partnerCode:null,
       vip_price:100,
+      avatar:null,
       userData: {
         email: this.$auth.user.email,
         organization_name: this.$auth.user.organization_name,
@@ -278,13 +285,17 @@ export default {
       }
       this.partnerCode = null
     },
+    async avatarChange(evt){
+      this.avatar = evt.target.files[0]
+      await this.updateUser()
+    },
     async updateUser(){
       this.$refs.profileEdit.hide()
       let formData = new FormData()
       formData.set('userData', JSON.stringify(this.userData))
-
-      //formData.set('avatar',this.avatar)
-
+      if (this.avatar){
+        formData.set('avatar',this.avatar)
+      }
       const response = await this.$api({
         method: 'post',
         headers:{

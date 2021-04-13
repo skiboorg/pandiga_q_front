@@ -83,6 +83,32 @@
             <q-input dense style="flex-basis: 20%" type="number" filled v-model.number="rent_price_from" label="от" />
             <q-input dense style="flex-basis: 20%"  filled v-model="rent_price_to" label="до" />
           </div>
+           <q-select
+              filled
+              dense
+              v-model="city"
+              use-input
+              hide-selected
+              fill-input
+              class="bg-grey-1 rounded-borders q-mb-md"
+              input-debounce="0"
+              label="Город (начните вводить)"
+              :options="cities"
+              :option-label="(item) =>  item.city"
+              @filter="filterCity"
+            >
+              <template v-slot:option="scope">
+                <q-item
+                  v-bind="scope.itemProps"
+                  v-on="scope.itemEvents">
+
+                  <q-item-section>
+                    <q-item-label v-html="scope.opt.city" />
+                    <q-item-label caption>{{ scope.opt.region }}</q-item-label>
+                  </q-item-section>
+                </q-item>
+              </template>
+            </q-select>
           <div class="text-center">
             <q-btn @click="submitForm(1)"  color="primary" style="width: 200px" label="Поиск"/>
           </div>
@@ -158,7 +184,6 @@ export default {
           value: '-rent_price',
           label: 'По стоимости (цена вверх)'
         },
-
       ],
       order_by_value: '',
     }
@@ -168,12 +193,20 @@ export default {
     await this.page_init()
   },
   methods:{
+    filterCity (val, update, abort) {
+      update(async() => {
+        if (val && val.length >2 ) {
+          const needle = val.toLowerCase()
+          const result = await this.$api.get(`/api/v1/city/search?city=${val}`)
+          this.cities = result.data
+        }
+      })
+    },
     async page_init(){
       const  response_filters = await this.$api.get(`/api/v1/technique/filters/${this.$route.params.category_slug}/`)
       const  response_type = await this.$api.get(`/api/v1/technique/type/${this.$route.params.category_slug}`)
       this.technique_type = response_type.data
       this.all_filters.filter = response_filters.data
-
       console.log(this.$route.query.city)
       if (this.$route.query.city && this.$route.query.city !=='undefined'){
         console.log('cittyy')
@@ -192,25 +225,15 @@ export default {
           console.log('filter error',e)
         }
       }
-
       if (this.city.id>0){
         await this.submitForm(1)
       }else {
-              const  response_units = await this.$api.get(`/api/v1/technique/units?type=${this.$route.params.category_slug}`)
-      this.technique_units = response_units.data.results
-      this.page_count = response_units.data.page_count
-      this.links = response_units.data.links
-      this.items_count = this.technique_units.length
-
+        const  response_units = await this.$api.get(`/api/v1/technique/units?type=${this.$route.params.category_slug}`)
+        this.technique_units = response_units.data.results
+        this.page_count = response_units.data.page_count
+        this.links = response_units.data.links
+        this.items_count = this.technique_units.length
       }
-
-
-
-
-
-
-
-
     },
     async paginatorChange(){
       this.$q.loading.show()

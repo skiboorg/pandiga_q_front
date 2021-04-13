@@ -5,7 +5,8 @@ module.exports = function (/* ctx */) {
     boot: [
       'axios',
       'init',
-      { path: 'ya_map', server: false }
+      { path: 'ya_map', server: false },
+      { path: 'ya_metrika', server: false },
     ],
     css: [
       'app.sass'
