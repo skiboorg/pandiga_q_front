@@ -9,11 +9,11 @@
                 flat >
           <q-card-section
             horizontal>
-            <q-card-section class="col-lg-4 col-md-4 col-sm-6 col-xs-7 q-pr-none catalog-card"  >
-              <p class="text-h5 text-bold">{{item.name}}</p>
+            <q-card-section class="col-lg-7 col-md-6 col-sm-6 col-xs-7 q-pr-none catalog-card"  >
+              <p class="text-h6 text-bold">{{item.name}}</p>
             </q-card-section>
             <q-img
-              class="col-lg-8 col-md-8 col-sm-6 col-xs-6 q-img__bg-xr"
+              class="col-lg-5 col-md-6 col-sm-6 col-xs-6 q-img__bg-xr"
               contain
               :ratio="16/9"
               :src="item.image"
