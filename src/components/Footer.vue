@@ -4,10 +4,6 @@
       <div class="row q-py-lg">
         <div class="col-md-3 col-sm-4 q-mb-lg">
           <img src="~assets/logo_f.png"/>
-          <p class="text-white q-mb-none q-mt-lg flex items-center">
-            Разработка сайта
-            <img class="q-ml-lg q-mr-xs" style="width: 30px;height: 30px;object-fit: contain" src="https://www.astrapromo.ru/images/logo.png" alt="">
-            <a style="color: white;text-decoration: none;font-weight: bold" target="_blank" href="https://www.astrapromo.ru/">ASTRAPROMO</a></p>
 
         </div>
         <div class="col-md-2 col-sm-4 col-xs-12 q-mb-lg">
