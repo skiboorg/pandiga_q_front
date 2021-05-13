@@ -179,11 +179,10 @@ export default {
     return store.dispatch('categories/fetchCategories')
   },
   meta :{
-    title: 'PANDIGA - Клубная аренда техники',
+    title: 'PANDIGA - Аренда техники',
     meta: {
       description: { name: 'description', content: 'PANDIGA — это рекомендательный сервис по аренде ' +
-          'абсолютно любой технике и строительному инструменту, а так же подбору специалистов для' +
-          ' выполнения абсолютно любой работы.' },
+          'абсолютно любой технике и строительному инструменту' },
     },
   },
   data () {

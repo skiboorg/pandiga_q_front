@@ -11,6 +11,7 @@
       </q-breadcrumbs>
     </div>
     <h1 ref="top" class="text-h3 text-bold q-mt-sm">{{technique_type.name}}</h1>
+
     <!--   catalog wrapper start-->
     <div class="row q-mb-xl">
       <!--   catalog units start-->
