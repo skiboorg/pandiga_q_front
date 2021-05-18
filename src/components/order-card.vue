@@ -1,5 +1,6 @@
 <template>
    <q-card class="q-mb-md" >
+
           <q-item v-if="!is_own">
             <q-item-section avatar>
               <q-avatar>

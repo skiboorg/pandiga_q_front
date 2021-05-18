@@ -63,7 +63,7 @@
         </div>
         <div class="flex items-center justify-start q-mb-lg">
           <p class="text-bold text-caption q-mr-md">Размещение: {{unit.city}}</p>
-          <p  class="text-underline inline-block text-caption" >Показать на карте</p>
+<!--          <p  class="text-underline inline-block text-caption" >Показать на карте</p>-->
         </div>
 
 
@@ -222,6 +222,9 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-
+.q-carousel__slide
+  background-size: contain
+  background-repeat: no-repeat
+  background-position: center
 
 </style>

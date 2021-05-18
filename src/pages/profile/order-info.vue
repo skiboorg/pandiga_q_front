@@ -138,7 +138,9 @@ export default {
   },
 
 
-
+  // preFetch ({ store, currentRoute, previousRoute, redirect, ssrContext, urlPath, publicPath }) {
+  //   return store.dispatch('order/fetchOrder', currentRoute.params.order_slug)
+  // },
   data () {
     return {
       order:{
@@ -148,7 +150,7 @@ export default {
         }
       },
       feedbackData:{
-        rate_value:null,
+        rate_value:0,
         rate_text:'',
       },
     }
@@ -156,7 +158,11 @@ export default {
   async created() {
     await this.page_init()
   },
+  // computed:{
+  //   ...mapGetters('order',['order'])
+  // },
   methods:{
+    // ...mapActions('order',['fetchOrder']),
     async sendFeedback(){
         const respond = await this.$api.post('/api/v1/technique/add_feedback/',{data:this.feedbackData,to:this.order.worker_unit.id,order:this.order.id})
         this.$router.push({name:'profile_orders'})
@@ -187,7 +193,9 @@ export default {
       const respond = await this.$api.post('/api/v1/order/close/',{
         order_id:id
       })
-      this.$router.push({name:'profile_orders'})
+      await this.page_init()
+      //this.$router.push({name:'profile_orders'})
+      //await this.fetchOrder(this.$route.params.order_slug)
     },
 
 

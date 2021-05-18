@@ -5,6 +5,7 @@ import componentState from './component-state-store'
 import auth from './auth'
 import categories from './categories-store'
 import unit from './unit-store'
+import order from './orders-store'
 Vue.use(Vuex)
 
 let store = null
@@ -14,7 +15,8 @@ export default function ({store}/* { ssrContext } */) {
       componentState,
       auth,
       categories,
-      unit
+      unit,
+      order
     },
     strict: process.env.DEBUGGING
   })

@@ -110,7 +110,7 @@ export default {
         }
       },
       feedbackData:{
-        rate_value:null,
+        rate_value:0,
         rate_text:'',
       },
     }

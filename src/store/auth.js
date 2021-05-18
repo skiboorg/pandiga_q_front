@@ -104,7 +104,7 @@ const actions = {
                position:'top-right',
                classes: 'glossy',
                actions: [
-                { label: 'Открыть', color: 'primary', handler: () => { this.$router.push('/profile/chats') } }
+                { label: 'Открыть', color: 'white', handler: () => { this.$router.push('/profile/notifications') } }
               ]
             })
           }

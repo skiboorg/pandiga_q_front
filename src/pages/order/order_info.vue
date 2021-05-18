@@ -48,6 +48,7 @@
 <script>
 
 import OrderCard from "components/order-card";
+import {mapGetters} from "vuex";
 
 
 export default {
@@ -56,10 +57,12 @@ export default {
     OrderCard
 
   },
-
+  preFetch ({ store, currentRoute, previousRoute, redirect, ssrContext, urlPath, publicPath }) {
+    return store.dispatch('order/fetchOrder', currentRoute.params.order_slug)
+  },
   data () {
     return {
-      order:[],
+      //order:{ "id": 29, "owner": {}, "name": "", "name_slug": "", "comment": "", "rent_type": true, "rentDate": "", "rentDays": 1, "rentTime": "", "rentHours": 1, "created_at": "2021-05-18T11:57:32.019814+03:00", "filter": [], "filter_value": [], "type": { "id": 9, "name": "Автовышка", "name_lower": "автовышка", "name_slug": "ekskavatoryi", "orders_count": 4 }, "worker": null, "worker_unit": null, "apply_units": [], "views": 0, "update_at": "2021-05-18T11:57:32.019891+03:00", "is_finished": false, "coords": "[55, 55]", "city": { "id": 1, "city": "Москва", "cityAlias": null, "region": "Москва и Московская обл.", "coefficient": "1.00", "sub_domain": null, "is_default": false }, "decline_units": [] } ,
       user_units:[],
       offer_units:0,
       coords:[],
@@ -70,12 +73,15 @@ export default {
   mounted() {
      this.page_init()
   },
+  computed:{
+    ...mapGetters('order',['order'])
+  },
   methods:{
     async page_init(){
-      const  response_order= await this.$api.get(`/api/v1/order/get_order/${this.$route.params.order_slug}`)
+      //const  response_order= await this.$api.get(`/api/v1/order/get_order/${this.$route.params.order_slug}`)
       const  user_units_temp = await this.$api.get(`/api/v1/technique/user/units?user_id=${this.$auth.user.id}`)
       this.user_units = user_units_temp.data
-      this.order = response_order.data
+      //this.order = response_order.data
       if (this.order.coords.length >0) {
         this.coords = this.order.coords.replace('[', '').replace(']', '').split(',')
       }
