@@ -10,29 +10,31 @@
         <q-breadcrumbs-el :label="technique_type.name" icon="star" />
       </q-breadcrumbs>
     </div>
-    <h1 ref="top" class="text-h3 text-bold q-mt-sm">{{technique_type.name}}</h1>
+    <div class="flex items-center justify-between wrap">
+       <h1 ref="top" class="text-h3 text-bold q-mt-sm">{{technique_type.name}}</h1>
+      <q-btn class="lt-md" @click="filtersModal=true" icon="filter_list" round color="primary"/>
+    </div>
 
     <!--   catalog wrapper start-->
     <div class="row q-mb-xl">
       <!--   catalog units start-->
       <div class="col-lg-8 col-md-8 col-sm-12">
-
         <UnitCard v-for="unit in technique_units"
                   :key="unit.id"
                   :unit="unit"
                   :category_slug="technique_type.name_slug"
         />
         <q-pagination
+          v-if="page_count>1"
           class="q-py-lg"
           v-model="current_page"
           @click="paginatorChange"
-
           :max="page_count"
         />
       </div>
       <!--   catalog units end-->
       <!--   catalog filters start-->
-      <div v-if="technique_type.name" class="col-lg-4 col-md-4 col-sm-12 ">
+      <div v-if="technique_type.name" class="col-lg-4 col-md-4 col-sm-12 gt-sm">
         <div class=" filters-block q-px-md ">
           <div class="filter-group" v-for="(filter,index) in all_filters.filter">
             <q-select
@@ -110,18 +112,115 @@
                 </q-item>
               </template>
             </q-select>
-          <div class="text-center">
-            <q-btn @click="submitForm(1)"  color="primary" style="width: 200px" label="Поиск"/>
+          <div class="flex justify-between">
+            <q-btn @click="submitForm(1)"  color="primary"  label="Поиск"/>
+            <q-btn @click="get_filters" label="Сбросить фильтры"/>
           </div>
-
         </div>
-
-
       </div>
       <!--   catalog filters end-->
     </div>
     <!--   catalog wrapper end-->
+   <q-dialog full-height
+    v-model="filtersModal"
+    full-width
+    :maximized="true"
+    transition-show="slide-left"
+    transition-hide="slide-right">
 
+    <q-card class="full-height" style="width: 300px">
+      <q-toolbar class="toolbar bg-white">
+        <p class="text-h6 no-margin">Фильтры</p>
+        <q-space/>
+        <q-icon v-close-popup size="md" name="close"/>
+      </q-toolbar>
+      <q-separator class="q-my-sm"/>
+      <q-card-section>
+         <div class="filter-group" v-for="(filter,index) in all_filters.filter">
+            <q-select
+              v-if="filter.type==='select'"
+              filled
+              v-model="filter.value"
+
+              dense
+              fill-input
+              input-debounce="0"
+              class="q-mb-sm"
+              :options="filter.values"
+              :option-label="(item) =>  item.label"
+              :option-value="(item) => item === null ? null : item.value"
+              :label="filter.placeholder"
+            >
+              <template v-slot:no-option>
+                <q-item>
+                  <q-item-section class="text-grey">
+                    No results
+                  </q-item-section>
+                </q-item>
+              </template>
+            </q-select>
+            <div v-if="filter.type==='radio'" class="flex items-center justify-start q-mb-sm">
+              <p v-if="filter.title" class="q-mr-sm q-mb-none  text-bold">{{filter.title}}</p>
+              <q-btn-toggle     v-model="filter.value" toggle-color="primary"
+                                :options="filter.values" />
+            </div>
+
+          </div>
+          <div  class="flex items-center justify-start q-mb-sm">
+            <p class="q-mr-sm q-mb-none  text-bold">Аренда по</p>
+            <q-btn-toggle v-model="rent_type" toggle-color="primary"
+                          :options="[
+              {label: 'часам', value: '1'},
+              {label: 'дням', value: '0'},
+          ]" />
+          </div>
+          <div  class="flex items-center justify-between q-mb-sm">
+            <p class="q-mr-sm q-mb-none text-bold" style="flex-basis: 50%">Время аренды {{rent_type==='1' ? '(часы)' : '(дни)'}}</p>
+
+            <q-input dense style="flex-basis: 20%" filled v-model="rent_time_from" label="от" />
+            <q-input dense style="flex-basis: 20%"  filled v-model="rent_time_to" label="до" />
+
+          </div>
+          <div  class="flex items-center justify-between q-mb-lg">
+            <p class="q-mr-sm q-mb-none text-bold" style="flex-basis: 50%">Стоимость {{rent_type==='1' ? '(часы)' : '(дни)'}}</p>
+            <q-input dense style="flex-basis: 20%" type="number" filled v-model.number="rent_price_from" label="от" />
+            <q-input dense style="flex-basis: 20%"  filled v-model="rent_price_to" label="до" />
+          </div>
+           <q-select
+              filled
+              dense
+              v-model="city"
+              use-input
+              hide-selected
+              fill-input
+              class="bg-grey-1 rounded-borders q-mb-md"
+              input-debounce="0"
+              label="Город (начните вводить)"
+              :options="cities"
+              :option-label="(item) =>  item.city"
+              @filter="filterCity"
+            >
+              <template v-slot:option="scope">
+                <q-item
+                  v-bind="scope.itemProps"
+                  v-on="scope.itemEvents">
+
+                  <q-item-section>
+                    <q-item-label v-html="scope.opt.city" />
+                    <q-item-label caption>{{ scope.opt.region }}</q-item-label>
+                  </q-item-section>
+                </q-item>
+              </template>
+            </q-select>
+          <div class="flex justify-between">
+            <q-btn @click="submitForm(1)"  color="primary"  label="Поиск"/>
+            <q-btn @click="get_filters" label="Сбросить фильтры"/>
+          </div>
+
+      </q-card-section>
+    </q-card>
+
+  </q-dialog>
   </q-page>
 </template>
 
@@ -138,6 +237,7 @@ export default {
 
   data () {
     return {
+      filtersModal:false,
       technique_units:[],
       technique_type:[],
       page_count:0,
@@ -203,11 +303,15 @@ export default {
         }
       })
     },
-    async page_init(){
+    async get_filters(){
       const  response_filters = await this.$api.get(`/api/v1/technique/filters/${this.$route.params.category_slug}/`)
+      this.all_filters.filter = response_filters.data
+    },
+    async page_init(){
+      await this.get_filters()
       const  response_type = await this.$api.get(`/api/v1/technique/type/${this.$route.params.category_slug}`)
       this.technique_type = response_type.data
-      this.all_filters.filter = response_filters.data
+
       console.log(this.$route.query.city)
       if (this.$route.query.city && this.$route.query.city !=='undefined'){
         console.log('cittyy')
@@ -277,6 +381,7 @@ export default {
         this.page_count = response.data.page_count
         this.scrollToElement(this.$refs.top)
         this.$q.loading.hide()
+        this.filtersModal = false
 
 
       })
