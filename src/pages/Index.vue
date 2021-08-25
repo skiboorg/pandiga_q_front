@@ -127,25 +127,26 @@
                 label="Телефон"
                 mask="+7 (###) ###-##-##"
               />
-              <q-btn color="primary" class="col-sm-2 col-xs-5"  label="Отправить"/>
+              <q-btn :disable="!phone" @click="sendLink" color="primary" class="col-sm-2 col-xs-5"  label="Отправить"/>
             </div>
             <div class="flex justify-center">
               <q-card flat class="col-1  q-mr-md bg-grey-2">
-                <q-img contain style="width: 150px" src="../assets/ios.png"/>
+                <q-img contain style="width: 180px" src="../assets/ios.png"/>
                  <q-tooltip>
           Приложение находиться на доработке и скоро будет опубликовано
         </q-tooltip>
               </q-card>
               <q-card flat class="col-1  bg-grey-2">
-                <q-img contain style="width: 150px"  src="../assets/play.png"/>
-                 <q-tooltip>
-          Приложение находиться на доработке и скоро будет опубликовано
-        </q-tooltip>
+                <a href="https://play.google.com/store/apps/details?id=ru.pandiga.app" target="_blank">
+                   <q-img contain style="width: 180px"  src="../assets/play.png"/>
+                </a>
+
+
               </q-card>
 
             </div>
           </div>
-          <q-img class="col-4 col-md-4 gt-sm " style="width: 285px"  contain src="../assets/mobile.png"/>
+          <q-img class="col-4 col-md-4 gt-sm " style="width: 285px" contain :ratio="1" src="../assets/mob.jpeg"/>
         </div>
       </div>
     </section>
@@ -155,15 +156,15 @@
         <div class="row flex justify-between items-start">
           <div  class="col-sm-4 col-xs-12 text-center">
             <q-img class="q-mb-md" contain style="width: 110px;height: 130px" src="../assets/hw1.png"/>
-            <p class="text-h6" style="max-width: 190px; margin: 0 auto">Заполните критерии поиска</p>
+            <p class="text-h6" style="max-width: 190px; margin: 0 auto">Создайте заявку на технику</p>
           </div>
           <div  class="col-sm-4 col-xs-12 text-center">
             <q-img class="q-mb-md" contain style="width: 110px;height: 130px" src="../assets/hw2.png"/>
-            <p class="text-h6" style="max-width: 300px; margin: 0 auto">Посмотрите подобранную технику</p>
+            <p class="text-h6" style="max-width: 300px; margin: 0 auto">Владельцы техники сами на нее откликнуться</p>
           </div>
           <div  class="col-sm-4 col-xs-12 text-center">
             <q-img class="q-mb-md" contain style="width: 110px;height: 130px" src="../assets/hw3.png"/>
-            <p class="text-h6" style="max-width: 335px; margin: 0 auto">Сделайте выбор и свяжитесь с владельцем техники</p>
+            <p class="text-h6" style="max-width: 335px; margin: 0 auto">Выберите<br>лучшего</p>
           </div>
         </div>
       </div>
@@ -198,6 +199,10 @@ export default {
     ...mapGetters('categories',['categories'])
   },
   methods:{
+    async sendLink(){
+      console.log(this.$q.platform.is.platform)
+      const result = await this.$api.post(`/api/v1/user/send_link`,{phone:this.phone,device:this.$q.platform.is.platform})
+    },
     searchFormSubmit(){
 
       this.searchIt()
