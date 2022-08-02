@@ -18,6 +18,7 @@
             <q-tabs
               v-model="tab"
               vertical
+              no-caps
               inline-label
               class="text-primary order-tabs">
               <q-tab name="info" icon="info" class="justify-start" label="Основная информация" />
@@ -41,7 +42,7 @@
                   class="q-mb-lg "
                   @submit="infoFormSubmit">
                   <q-select
-                    filled
+                    outlined
                     v-model="selectedCategory"
                     :options="categories"
                     @input="categorySelected"
@@ -51,7 +52,7 @@
                     :rules="[val => val || 'Выберите категорию']"
                     label="Выберите категорию *" />
                   <q-select
-                    filled
+                    outlined
                     v-model="unit.selectedType"
 
                     :options="selectedCategory ? categories.find(x=>x.id===selectedCategory.id).types : null"
@@ -62,7 +63,7 @@
                     :label="selectedCategory ? 'Выберите тип техники *' : 'Сначала выберите категорию'" />
                   <q-input
                     ref="input"
-                    filled
+                    outlined
                     v-model="unit.name"
                     label="Название техники *"
                     :rules="[
@@ -71,7 +72,7 @@
                   />
                   <q-input
                     ref="input"
-                    filled
+                    outlined
                     v-model="unit.year"
                     label="Год выпуска *"
                     mask="####"
@@ -81,7 +82,7 @@
                   />
                   <div  class="q-gutter-sm row items-center q-mb-sm">
                     <p class="col-3  q-mb-none ">Вид аренды</p>
-                    <q-btn-toggle v-model="unit.rent_type" toggle-color="primary"
+                    <q-btn-toggle no-caps unelevated v-model="unit.rent_type" toggle-color="primary"
                                   :options="[
                                       {label: 'Почасовая', value: true},
                                       {label: 'Посуточная', value: false},
@@ -94,7 +95,7 @@
                       v-model.number="unit.min_rent_time"
                       type="number"
                       dense
-                      filled
+                      outlined
                       style="max-width: 100px"/>
                   </div>
                   <div  class="q-gutter-sm row items-center q-mb-sm">
@@ -103,13 +104,13 @@
                       v-model.number="unit.rent_price"
                       type="number"
                       dense
-                      filled
+                      outlined
                       style="max-width: 100px"/>
                   </div>
 
 
                 </q-form>
-                <q-btn color="primary" @click="$refs.infoForm.submit()" label="Продолжить"/>
+                <q-btn color="primary" no-caps unelevated @click="$refs.infoForm.submit()" label="Продолжить"/>
               </q-tab-panel>
               <q-tab-panel name="filters" class="q-py-none">
                 <q-form
@@ -120,7 +121,7 @@
 
                     <q-select
                       v-if="filter.type==='select'"
-                      filled
+                      outlined
                       v-model="filter.value"
 
                       dense
@@ -142,12 +143,12 @@
                     </q-select>
                     <div v-if="filter.type==='radio'" class="flex items-center justify-start q-mb-sm">
                       <p v-if="filter.title" class="q-mr-sm q-mb-none  text-bold">{{filter.title}}</p>
-                      <q-btn-toggle     v-model="filter.value" toggle-color="primary"
+                      <q-btn-toggle   no-caps unelevated  v-model="filter.value" toggle-color="primary"
                                         :options="filter.values" />
                     </div>
 
                   </div>
-                  <q-btn color="primary" @click="$refs.filterForm.submit()" :disable="!filters_filled" :label="filters_filled? 'Продолжить' : 'Заполните все фильтры'"/>
+                  <q-btn color="primary" no-caps unelevated @click="$refs.filterForm.submit()" :disable="!filters_outlined" :label="filters_outlined? 'Продолжить' : 'Заполните все фильтры'"/>
                 </q-form>
               </q-tab-panel>
               <q-tab-panel name="place" class="q-py-none">
@@ -195,9 +196,10 @@
                     </template>
                   </q-select><!--   city_id       -->
 
-                  <q-btn color="primary" @click="$refs.placeForm.submit()"  label="Продолжить"/>
+                  <q-btn color="primary" @click="$refs.placeForm.submit()" no-caps unelevated label="Продолжить"/>
 
                 </q-form>
+                {{unit.coords}}
                 <yandex-map
                   :coords="unit.coords"
                   :class=" {ymapContanerHidden : !is_city_selected}"
@@ -228,6 +230,7 @@
                     ref="images"
                     label="Выбранные фото"
                     multiple
+                    flat
                     hide-upload-btn
                     accept=".jpg, image/*"
                     @added="checkImages"
@@ -273,6 +276,7 @@
                     ref="imagesDocs"
                     label="Документы"
                     multiple
+                    flat
                     hide-upload-btn
                     accept=".jpg, image/*"
                     class="full-width unit-images-uploader q-mb-md">
@@ -311,6 +315,7 @@
                   </q-uploader>
                   <div v-if="$auth.user.balance >= unit.total_price" class="">
                     <q-btn   color="primary"
+                             no-caps unelevated
                              :disable="!is_images_selected"
                              @click="$refs.descriptionForm.submit()"
                              :label="`Разместить технику за ${unit.total_price} руб`"/>
@@ -429,6 +434,12 @@ export default {
         data: formData
       })
       console.log(response.data)
+      this.$q.notify({
+        message: 'Техника добавлена',
+        color: 'positive',
+        position:'top-right',
+      })
+      await this.$router.push('/profile/')
     },
     categorySelected(){
       this.unit.selectedType = null
@@ -473,7 +484,7 @@ export default {
 
   computed:{
     ...mapGetters('categories',['categories']),
-    filters_filled(){
+    filters_outlined(){
       let result = false
       for(let i of this.all_filters.filter){
         if(!i.value){

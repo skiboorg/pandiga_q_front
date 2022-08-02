@@ -1,7 +1,7 @@
 <template>
   <div >
     <q-no-ssr>
-    <q-header class="bg-white q-py-lg" elevated>
+    <q-header class="bg-white q-py-lg" bordered>
     <div class="container">
       <div class="flex items-center justify-between">
         <div class="logo">
@@ -13,68 +13,68 @@
         </div>
 
         <div v-if="!this.$auth.loggedIn" class="flex items-center justify-between gt-sm">
-          <q-btn color="primary" to="/catalog" class="q-mr-sm" icon="local_shipping" label="Каталог техники"/>
-          <q-btn  color="primary" to="/login" class="q-mr-sm" outline label="Войти"/>
-          <q-btn  color="primary" to="/register" outline label="Зарегистрироваться"/>
+<!--          <q-btn color="primary" to="/catalog" class="q-mr-sm" icon="las la-truck" label="Каталог техники"/>-->
+          <q-btn  color="primary" to="/login" no-caps class="q-mr-sm" outline label="Войти"/>
+          <q-btn  color="primary" to="/register" no-caps outline label="Зарегистрироваться"/>
         </div>
         <div v-else class="flex items-center justify-between gt-sm">
-          <q-btn color="primary" to="/catalog" class="q-mr-sm" icon="local_shipping" label="Каталог техники"/>
-          <q-btn v-if="this.$auth.loggedIn && !this.$auth.user.is_customer" color="primary" :to="{name:'all_orders'}" class="q-mr-sm" outline label="Заявки на технику"/>
-          <q-btn v-if="this.$auth.loggedIn && !this.$auth.user.is_customer" color="primary" :to="{name:'add_unit'}" class="q-mr-sm" outline label="Добавить технику"/>
-          <q-btn v-if="this.$auth.loggedIn && this.$auth.user.is_customer" color="primary" icon="add" :to="{name:'new_order'}" class="q-mr-sm" outline label="Заявка на технику"/>
-          <q-btn :to="{name:'profile_favorite'}" v-if="this.$auth.user.is_customer" color="primary" flat round icon="favorite">
+<!--          <q-btn color="primary" to="/catalog" class="q-mr-sm" icon="local_shipping" label="Каталог техники"/>-->
+          <q-btn v-if="this.$auth.loggedIn && !this.$auth.user.is_customer" color="primary" :to="{name:'all_orders'}" class="q-mr-sm" no-caps outline label="Заявки на технику"/>
+          <q-btn v-if="this.$auth.loggedIn && !this.$auth.user.is_customer" color="primary" :to="{name:'add_unit'}" class="q-mr-sm" no-caps outline label="Добавить технику"/>
+          <q-btn v-if="this.$auth.loggedIn && this.$auth.user.is_customer" color="primary" no-caps icon="las la-plus" :to="{name:'new_order'}" class="q-mr-sm" outline label="Заявка на технику"/>
+          <q-btn :to="{name:'profile_favorite'}" v-if="this.$auth.user.is_customer" color="primary" flat round icon="las la-heart">
             <q-tooltip>
               Избранное
             </q-tooltip>
              <q-badge v-if="$auth.favorite.length>0" rounded color="dark" floating>{{$auth.favorite.length}}</q-badge>
           </q-btn>
-          <q-btn :to="{name:'profile_chats'}" color="primary" flat round icon="chat">
+          <q-btn :to="{name:'profile_chats'}" color="primary" flat round icon="lar la-comments">
             <q-tooltip>
               Чат
             </q-tooltip>
             <q-badge v-if="$auth.messages_count>0" rounded color="dark" floating>{{$auth.messages_count}}</q-badge>
           </q-btn>
-          <q-btn color="primary" :to="{name:'profile_notifications'}" flat round icon="notifications">
+          <q-btn color="primary" :to="{name:'profile_notifications'}" flat round icon="las la-bell">
             <q-tooltip>
               Оповещения
             </q-tooltip>
              <q-badge v-if="$auth.notifications_count>0" rounded color="dark" floating>{{$auth.notifications_count}}</q-badge>
           </q-btn>
-          <q-btn color="primary" icon="person" flat round @mouseenter="is_menu_show=!is_menu_show">
+          <q-btn color="primary" icon="lar la-user" flat round @mouseenter="is_menu_show=!is_menu_show">
             <q-menu @mouseleave="is_menu_show=!is_menu_show" auto-close v-model="is_menu_show">
               <div class="row no-wrap q-pa-md">
                 <div class="column">
                   <q-list   class="rounded-borders text-primary">
-                    <q-item clickable dense v-ripple :active="link === 'inbox'" :to="{name:'profile_index'}"  @click="link = 'inbox'" active-class="my-menu-link">
-                      <q-item-section avatar><q-icon name="manage_accounts" /></q-item-section>
+                    <q-item clickable  v-ripple :active="link === 'inbox'" :to="{name:'profile_index'}"  @click="link = 'inbox'" active-class="my-menu-link">
+                      <q-item-section avatar><q-icon name="las la-id-card" /></q-item-section>
                       <q-item-section>Профиль</q-item-section>
                     </q-item>
-                    <q-item clickable dense v-ripple :active="link === 'inbox'"  :to="{name:'profile_notifications'}" @click="link = 'inbox'" active-class="my-menu-link">
-                      <q-item-section avatar><q-icon name="notifications_active" /></q-item-section>
+                    <q-item clickable  v-ripple :active="link === 'inbox'"  :to="{name:'profile_notifications'}" @click="link = 'inbox'" active-class="my-menu-link">
+                      <q-item-section avatar><q-icon name="las la-bell" /></q-item-section>
                       <q-item-section>Оповещения</q-item-section>
                     </q-item>
-                    <q-item clickable dense v-ripple :active="link === 'inbox'" :to="{name:'profile_chats'}"  @click="link = 'inbox'" active-class="my-menu-link">
-                      <q-item-section avatar><q-icon name="chat" /></q-item-section>
+                    <q-item clickable  v-ripple :active="link === 'inbox'" :to="{name:'profile_chats'}"  @click="link = 'inbox'" active-class="my-menu-link">
+                      <q-item-section avatar><q-icon name="lar la-comments" /></q-item-section>
                       <q-item-section>Сообщения</q-item-section>
                     </q-item>
-                    <q-item v-if="$auth.user.is_customer" clickable dense v-ripple :active="link === 'inbox'" :to="{name:'profile_favorite'}" @click="link = 'inbox'" active-class="my-menu-link">
-                      <q-item-section avatar><q-icon name="favorite" /></q-item-section>
+                    <q-item v-if="$auth.user.is_customer" clickable  v-ripple :active="link === 'inbox'" :to="{name:'profile_favorite'}" @click="link = 'inbox'" active-class="my-menu-link">
+                      <q-item-section avatar><q-icon name="las la-heart" /></q-item-section>
                       <q-item-section>Избранное</q-item-section>
                     </q-item>
-                    <q-item v-if="$auth.user.is_customer" clickable dense v-ripple :active="link === 'inbox'" :to="{name:'profile_orders'}"  @click="link = 'inbox'" active-class="my-menu-link">
-                      <q-item-section avatar><q-icon name="list" /></q-item-section>
+                    <q-item v-if="$auth.user.is_customer" clickable  v-ripple :active="link === 'inbox'" :to="{name:'profile_orders'}"  @click="link = 'inbox'" active-class="my-menu-link">
+                      <q-item-section avatar><q-icon name="las la-list" /></q-item-section>
                       <q-item-section>Заявки</q-item-section>
                     </q-item>
                     <q-item v-else clickable dense v-ripple :active="link === 'inbox'" :to="{name:'profile_applies'}" @click="link = 'inbox'" active-class="my-menu-link">
-                      <q-item-section avatar><q-icon name="view_list" /></q-item-section>
+                      <q-item-section avatar><q-icon name="las la-list" /></q-item-section>
                       <q-item-section>Мои предложения</q-item-section>
                     </q-item>
-                    <q-item clickable dense v-ripple :active="link === 'inbox'" :to="{name:'profile_refferal'}"  @click="link = 'inbox'" active-class="my-menu-link">
-                      <q-item-section avatar><q-icon name="people_alt" /></q-item-section>
-                      <q-item-section>Партнеры</q-item-section>
-                    </q-item>
-                    <q-item clickable dense v-ripple :active="link === 'inbox'" :to="{name:'profile_balance'}" @click="link = 'inbox'" active-class="my-menu-link">
-                      <q-item-section avatar><q-icon name="local_atm" /></q-item-section>
+<!--                    <q-item clickable dense v-ripple :active="link === 'inbox'" :to="{name:'profile_refferal'}"  @click="link = 'inbox'" active-class="my-menu-link">-->
+<!--                      <q-item-section avatar><q-icon name="people_alt" /></q-item-section>-->
+<!--                      <q-item-section>Партнеры</q-item-section>-->
+<!--                    </q-item>-->
+                    <q-item clickable  v-ripple :active="link === 'inbox'" :to="{name:'profile_balance'}" @click="link = 'inbox'" active-class="my-menu-link">
+                      <q-item-section avatar><q-icon name="las la-wallet" /></q-item-section>
                       <q-item-section>Баланс</q-item-section>
                     </q-item>
 
@@ -101,7 +101,9 @@
                   <q-btn
                     color="primary"
                     label="Выход"
-                    push
+                    unelevated
+
+                    no-caps
                     @click="logoutUser"
                     size="sm"
                     v-close-popup
@@ -112,7 +114,7 @@
           </q-btn>
 
         </div>
-         <q-btn class="lt-md" @click="drawer=!drawer" color="primary" icon="menu"/>
+         <q-btn class="lt-md" @click="drawer=!drawer" round flat color="primary" icon="menu"/>
       </div>
     </div>
 
@@ -126,69 +128,70 @@
           <q-btn  color="primary" to="/register" class="q-mb-xl" outline label="Зарегистрироваться"/>
        </div>
        <div v-else>
+
          <q-img class="absolute-top" src="https://cdn.quasar.dev/img/material.png" style="height: 150px">
           <div class="absolute-bottom bg-transparent">
             <q-avatar size="56px" class="q-mb-sm">
               <img :src="$auth.user.avatar">
             </q-avatar>
             <div class="text-weight-bold">{{$auth.user.fullname}}</div>
-            <div><q-icon class="q-mr-sm" color="primary" name="account_balance_wallet"/>  {{$auth.user.balance}} &#8381;</div>
+            <div><q-icon class="q-mr-sm" color="white" name="las la-wallet"/>  {{$auth.user.balance}} &#8381;</div>
           </div>
         </q-img>
          <div style="margin-top: 150px">
             <q-list   class="rounded-borders text-primary">
                 <q-item clickable  v-ripple :active="link === 'inbox'" to="/catalog"  @click="link = 'inbox'" active-class="my-menu-link">
-                      <q-item-section avatar><q-icon name="local_shipping" /></q-item-section>
+                      <q-item-section avatar><q-icon name="las la-truck" /></q-item-section>
                       <q-item-section>Каталог техники</q-item-section>
                     </q-item>
                     <q-item clickable v-if="$auth.loggedIn && !$auth.user.is_customer" v-ripple :active="link === 'inbox'" :to="{name:'all_orders'}"  @click="link = 'inbox'" active-class="my-menu-link">
-                      <q-item-section avatar><q-icon name="list" /></q-item-section>
+                      <q-item-section avatar><q-icon name="las la-list" /></q-item-section>
                       <q-item-section>Заявки на технику</q-item-section>
                     </q-item>
               <q-item clickable v-if="$auth.loggedIn && !$auth.user.is_customer" v-ripple :active="link === 'inbox'" :to="{name:'add_unit'}"  @click="link = 'inbox'" active-class="my-menu-link">
-                      <q-item-section avatar><q-icon name="add" /></q-item-section>
+                      <q-item-section avatar><q-icon name="las la-plus" /></q-item-section>
                       <q-item-section>Добавить технику</q-item-section>
                     </q-item>
               <q-item clickable v-if="$auth.loggedIn && $auth.user.is_customer"  v-ripple :active="link === 'inbox'" :to="{name:'new_order'}"  @click="link = 'inbox'" active-class="my-menu-link">
-                      <q-item-section avatar><q-icon name="add" /></q-item-section>
+                      <q-item-section avatar><q-icon name="las la-plus" /></q-item-section>
                       <q-item-section>Заявка на технику</q-item-section>
                     </q-item>
               <q-separator/>
-                    <q-item clickable dense v-ripple :active="link === 'inbox'" :to="{name:'profile_index'}"  @click="link = 'inbox'" active-class="my-menu-link">
-                      <q-item-section avatar><q-icon name="manage_accounts" /></q-item-section>
+                    <q-item clickable  v-ripple :active="link === 'inbox'" :to="{name:'profile_index'}"  @click="link = 'inbox'" active-class="my-menu-link">
+                      <q-item-section avatar><q-icon name="las la-id-card" /></q-item-section>
                       <q-item-section>Профиль</q-item-section>
                     </q-item>
-                    <q-item clickable dense v-ripple :active="link === 'inbox'"  :to="{name:'profile_notifications'}" @click="link = 'inbox'" active-class="my-menu-link">
-                      <q-item-section avatar><q-icon name="notifications_active" /></q-item-section>
+                    <q-item clickable  v-ripple :active="link === 'inbox'"  :to="{name:'profile_notifications'}" @click="link = 'inbox'" active-class="my-menu-link">
+                      <q-item-section avatar><q-icon name="las la-bell" /></q-item-section>
                       <q-item-section>Оповещения</q-item-section>
                     </q-item>
-                    <q-item clickable dense v-ripple :active="link === 'inbox'" :to="{name:'profile_chats'}"  @click="link = 'inbox'" active-class="my-menu-link">
-                      <q-item-section avatar><q-icon name="chat" /></q-item-section>
+                    <q-item clickable  v-ripple :active="link === 'inbox'" :to="{name:'profile_chats'}"  @click="link = 'inbox'" active-class="my-menu-link">
+                      <q-item-section avatar><q-icon name="las la-comments" /></q-item-section>
                       <q-item-section>Сообщения</q-item-section>
                     </q-item>
-                    <q-item v-if="$auth.user.is_customer" clickable dense v-ripple :active="link === 'inbox'" :to="{name:'profile_favorite'}" @click="link = 'inbox'" active-class="my-menu-link">
-                      <q-item-section avatar><q-icon name="favorite" /></q-item-section>
+                    <q-item v-if="$auth.user.is_customer" clickable  v-ripple :active="link === 'inbox'" :to="{name:'profile_favorite'}" @click="link = 'inbox'" active-class="my-menu-link">
+                      <q-item-section avatar><q-icon name="las la-heart" /></q-item-section>
                       <q-item-section>Избранное</q-item-section>
                     </q-item>
-                    <q-item v-if="$auth.user.is_customer" clickable dense v-ripple :active="link === 'inbox'" :to="{name:'profile_orders'}"  @click="link = 'inbox'" active-class="my-menu-link">
-                      <q-item-section avatar><q-icon name="list" /></q-item-section>
+                    <q-item v-if="$auth.user.is_customer" clickable  v-ripple :active="link === 'inbox'" :to="{name:'profile_orders'}"  @click="link = 'inbox'" active-class="my-menu-link">
+                      <q-item-section avatar><q-icon name="las la-list" /></q-item-section>
                       <q-item-section>Заявки</q-item-section>
                     </q-item>
                     <q-item v-else clickable dense v-ripple :active="link === 'inbox'" :to="{name:'profile_applies'}" @click="link = 'inbox'" active-class="my-menu-link">
-                      <q-item-section avatar><q-icon name="view_list" /></q-item-section>
+                      <q-item-section avatar><q-icon name="las la-list" /></q-item-section>
                       <q-item-section>Мои предложения</q-item-section>
                     </q-item>
-                    <q-item clickable dense v-ripple :active="link === 'inbox'" :to="{name:'profile_refferal'}"  @click="link = 'inbox'" active-class="my-menu-link">
-                      <q-item-section avatar><q-icon name="people_alt" /></q-item-section>
-                      <q-item-section>Партнеры</q-item-section>
-                    </q-item>
-                    <q-item clickable dense v-ripple :active="link === 'inbox'" :to="{name:'profile_balance'}" @click="link = 'inbox'" active-class="my-menu-link">
-                      <q-item-section avatar><q-icon name="local_atm" /></q-item-section>
+<!--                    <q-item clickable dense v-ripple :active="link === 'inbox'" :to="{name:'profile_refferal'}"  @click="link = 'inbox'" active-class="my-menu-link">-->
+<!--                      <q-item-section avatar><q-icon name="people_alt" /></q-item-section>-->
+<!--                      <q-item-section>Партнеры</q-item-section>-->
+<!--                    </q-item>-->
+                    <q-item clickable  v-ripple :active="link === 'inbox'" :to="{name:'profile_balance'}" @click="link = 'inbox'" active-class="my-menu-link">
+                      <q-item-section avatar><q-icon name="las la-wallet" /></q-item-section>
                       <q-item-section>Баланс</q-item-section>
                     </q-item>
               <q-separator/>
-              <q-item clickable dense v-ripple :active="link === 'inbox'"  @click="logoutUser" active-class="my-menu-link">
-                      <q-item-section avatar><q-icon name="logout" /></q-item-section>
+              <q-item clickable  v-ripple :active="link === 'inbox'"  @click="logoutUser" active-class="my-menu-link">
+                      <q-item-section avatar><q-icon name="las la-sign-out-alt" /></q-item-section>
                       <q-item-section>Выход</q-item-section>
                     </q-item>
 

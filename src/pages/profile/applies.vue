@@ -10,7 +10,7 @@
     </div>
 
     <div class="row">
-     <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
          <div v-if="orders_accepted.length>0">
                <h3 class="text-bold text-h4">Принятые</h3>
             <OrderCard
@@ -35,9 +35,9 @@
           :key="order.id"/>
          </div>
       </div>
-      <div class="col-3 offset-1 gt-md">
-        <ProfileMenu/>
-      </div>
+<!--      <div class="col-3 offset-1 gt-md">-->
+<!--        <ProfileMenu/>-->
+<!--      </div>-->
     </div>
       </q-no-ssr>
   </q-page>

@@ -7,11 +7,11 @@
         <q-breadcrumbs-el label="Профиль" icon="person"  />
       </q-breadcrumbs>
     </div>
-    <q-card class="q-pa-lg ">
+    <q-card flat bordered class="q-pa-lg ">
       <q-card-section style="flex-wrap: wrap" horizontal class="row items-center flex justify-evenly">
         <q-card-section class="col-lg-8 col-md-8 col-sm-6 col-xs-12 items-center flex justify-evenly">
           <q-avatar  class="relative-position" size="200px">
-            <img :src="$auth.user.avatar">
+            <img style="object-fit: contain" :src="$auth.user.avatar">
             <label class="absolute-bottom-right cursor-pointer" for="avatar_img">
           <q-icon size="md" color="primary" name="photo_camera"></q-icon>
             <input id="avatar_img" ref="avatar_img" @change="avatarChange($event)" style="display: none" type="file">
@@ -33,6 +33,7 @@
               <p class="text-caption">Отзывов: {{$auth.user.rate_times}}</p>
             </div>
             <p>г. {{$auth.user.city.city}}</p>
+            <p>{{$auth.user.phone}}</p>
           </div>
 
         </q-card-section>
@@ -55,22 +56,32 @@
             </q-btn>
           </div>
           <div class="q-mb-sm">
-            <q-btn color="primary" outline :label="profile_caption"/>
+            <q-btn color="primary" class="full-width" outline no-caps :label="profile_caption"/>
             <q-popup-edit ref="profileEdit" v-model="profile_caption">
               <q-input  class="q-mb-sm" color="dark"  v-model="userData.email" dense autofocus>
                 <template v-slot:prepend>
-                  <q-icon name="alternate_email" color="dark" />
+                  <q-icon name="las la-at" color="dark" />
                 </template>
               </q-input>
               <div v-if="this.$auth.user.is_person">
                 <q-input  class="q-mb-sm" color="dark"  v-model="userData.first_name" dense >
                   <template v-slot:prepend>
-                    <q-icon name="person" color="dark" />
+                    <q-icon name="las la-user" color="dark" />
                   </template>
                 </q-input>
                 <q-input  class="q-mb-sm" color="dark"  v-model="userData.last_name" dense >
                   <template v-slot:prepend>
-                    <q-icon name="person" color="dark" />
+                    <q-icon name="las la-user" color="dark" />
+                  </template>
+                </q-input>
+                <q-input label="Новый пароль" type="password" class="q-mb-sm" color="dark"  v-model="userData.password" dense >
+                  <template v-slot:prepend>
+                    <q-icon name="las la-key" color="dark" />
+                  </template>
+                </q-input>
+                <q-input label="Повторите пароль" type="password" class="q-mb-sm" color="dark"  v-model="userData.password1" dense >
+                  <template v-slot:prepend>
+                    <q-icon name="las la-key" color="dark" />
                   </template>
                 </q-input>
 
@@ -98,7 +109,7 @@
             </q-popup-edit>
           </div>
           <div class="">
-            <q-btn class="q-px-md"  color="primary" :label="partner_caption"/>
+            <q-btn class="q-px-md full-width"  color="primary" no-caps unelevated :label="partner_caption"/>
             <q-popup-edit  ref="partnerCode" v-model="partner_caption" :cover="true" :offset="[0, 0]">
               <q-input mask="########" class="q-mb-sm" color="dark" type="number" v-model.number="partnerCode" dense autofocus>
                 <template v-slot:prepend>
@@ -116,22 +127,24 @@
     <div v-if="!$auth.user.is_customer" class="q-mb-lg">
       <h3 class="text-h4 text-bold">Ваша техника</h3>
       <div class="grid grid-3 gap-md">
-        <q-card v-for="unit in $auth.units" :key="unit.id" class="my-card" flat bordered>
-          <q-img :ratio="16/9" :src="unit.images[0].image"/>
+        <q-card v-for="unit in $auth.units" :key="unit.id" class="my-card bg-grey-2" flat bordered >
+
 
           <q-card-section>
+            <q-img :ratio="16/9" :src="unit.images[0].image"/>
             <!--        <div class="text-overline text-primary q-mb-sm">{{unit.type.name}}</div>-->
             <div class="text-h5 q-mt-sm q-mb-xs flex items-center justify-between">
-              <p class="q-mb-none">{{unit.name}}</p>
+              <p class="q-mb-none text-primary">{{unit.name}}</p>
+
 
               <div v-if="unit.is_active" class="flex items-center ">
-                <q-badge class="q-mx-sm" outline color="positive " label="Участвует в поиске"/>
-                <q-btn @click="unitPromote(unit.id,false)" class="q-mr-sm" size="sm"  round color="positive" icon="arrow_upward" >
+                <q-badge class="q-mx-sm"  color="positive " label="Участвует в поиске"/>
+                <q-btn flat  @click="unitPromote(unit.id,false)" class="q-mr-sm" size="sm"  round color="positive" icon="arrow_upward" >
                   <q-tooltip anchor="center right" self="center left" :offset="[10, -10]">
                     Поднять в поиске за {{unit.ad_price}} руб
                   </q-tooltip>
                 </q-btn>
-                <q-btn @click="unitPromote(unit.id,true)" size="sm"  round color="positive" icon="vertical_align_top" >
+                <q-btn flat @click="unitPromote(unit.id,true)" size="sm"  round color="positive" icon="vertical_align_top" >
                   <q-tooltip anchor="center right" self="center left" :offset="[10, -10]">
                     Поднять и закрепить в поиске за {{unit.ad_price + vip_price}} руб
                   </q-tooltip>
@@ -146,13 +159,14 @@
                 </q-btn>
               </div>
             </div>
-            <div class="text-caption text-grey">
-              <p class="q-mb-none">{{unit.rent_price}} руб./ <span v-if="unit.rent_type"> час</span> <span v-if="!unit.rent_type"> день</span> </p>
+            <div class="text-caption ">
+              <p class="q-mb-none ">Тип: {{unit.type.name}}</p>
+              <p class="q-mb-none">Стоимость: {{unit.rent_price}} руб./ <span v-if="unit.rent_type"> час</span> <span v-if="!unit.rent_type"> день</span> </p>
             </div>
           </q-card-section>
-          <q-card-actions class="flex justify-between">
-            <q-btn @click="$router.push({name:'profile_edit_unit',params:{uuid:unit.uuid}})" color="primary" outline icon="edit" label="Редактировать" />
-            <q-btn @click="deleteUnit(unit.id)" color="primary" icon="delete" label="Удалить" />
+          <q-card-actions class="q-gutter-md">
+            <q-btn unelevated no-caps @click="$router.push({name:'profile_edit_unit',params:{uuid:unit.uuid}})" color="primary" outline icon="las la-pen" label="Редактировать" />
+            <q-btn unelevated no-caps @click="deleteUnit(unit.id)" color="primary" icon="las la-trash-alt" label="Удалить" />
           </q-card-actions>
         </q-card>
       </div>
@@ -205,6 +219,8 @@ export default {
       avatar:null,
       userData: {
         email: this.$auth.user.email,
+        password:null,
+        password1:null,
         organization_name: this.$auth.user.organization_name,
         inn: this.$auth.user.inn,
         ogrn: this.$auth.user.ogrn,
@@ -306,11 +322,16 @@ export default {
       })
       console.log(response.data)
       await this.getUser(false)
+      this.$q.notify({
+        message: 'Информация обновлена',
+        color: 'positive',
+        position:'top-right',
+      })
     },
   },
   filters:{
     formatDate(val){
-      return date.formatDate(val, 'DD/MM/YYYY, HH:mm')
+      return date.formatDate(val, 'DD.MM.YYYY, HH:mm')
     }
   }
 }

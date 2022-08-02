@@ -9,12 +9,11 @@
       </q-breadcrumbs>
     </div>
 
-    <div class="row">
-
-      <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 q-mr-lg-xl"><q-toolbar class="bg-primary text-white shadow-2">
-        <q-toolbar-title>Контакты</q-toolbar-title>
+    <div class="row q-col-gutter-lg">
+      <div  class="gt-xs col-sm-3 ">
+        <q-toolbar class="bg-primary text-white ">
+        <q-toolbar-title >Контакты</q-toolbar-title>
       </q-toolbar>
-
         <q-list bordered>
           <div v-for="chat in chats" :key="chat.id">
             <q-item  @click="openChat(chat.id)"
@@ -53,63 +52,128 @@
               </q-item-section>
             </q-item>
           </div>
+        </q-list>
 
-
-
+      </div>
+      <div v-if="current_chat_id===0" class="lt-sm col-12 ">
+        <q-toolbar class="bg-primary text-white ">
+          <q-toolbar-title >Контакты</q-toolbar-title>
+        </q-toolbar>
+        <q-list bordered>
+          <div v-for="chat in chats" :key="chat.id">
+            <q-item  @click="openChat(chat.id)"
+                     v-if="chat.starter.id === $auth.user.id"
+                     class="q-my-sm"
+                     :class="[current_chat_id===chat.id?'bg-grey-4':'']"
+                     clickable
+                     v-ripple>
+              <q-item-section avatar>
+                <q-avatar>
+                  <img :src="chat.opponent.avatar">
+                  <q-badge v-if="chat.opponent.is_online" floating color="positive" style="height: 10px;border-radius: 50%; width: 5px" icon="lens">
+                  </q-badge>
+                </q-avatar>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>{{ chat.opponent.fullname }}</q-item-label>
+                <q-item-label caption lines="1">{{chat.last_message}}</q-item-label>
+              </q-item-section>
+              <!--              <q-item-section side>-->
+              <!--                <q-icon name="chat_bubble" :color="chat.opponent.is_online? 'positive':'grey-1'" />-->
+              <!--              </q-item-section>-->
+            </q-item>
+            <q-item @click="openChat(chat.id,)" v-else class="q-my-sm" clickable v-ripple>
+              <q-item-section avatar>
+                <q-avatar>
+                  <img :src="chat.starter.avatar">
+                </q-avatar>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>{{ chat.starter.fullname }}</q-item-label>
+                <q-item-label caption lines="1">{{chat.last_message}}</q-item-label>
+              </q-item-section>
+              <q-item-section side>
+                <q-icon name="chat_bubble" :color="chat.opponent.is_online? 'positive':'grey-1'" />
+              </q-item-section>
+            </q-item>
+          </div>
         </q-list>
 
       </div>
 
-      <div v-if="current_chat_id>0" class="col-lg-6 col-md-6 col-sm-8 col-xs-12 relative-position q-mr-lg-xl" style="height: 85vh">
-        <q-scroll-area
-          :thumb-style="thumbStyle"
+      <div v-if="current_chat_id>0" class="col-12 col-sm-9 relative-position " style="height: 85vh">
+        <q-card flat bordered class="relative-position">
+          <q-toolbar  class="bg-primary text-white ">
+            <q-toolbar-title >
+              {{chats.find(x=>x.id===current_chat_id).starter.id === $auth.user.id
+              ? chats.find(x=>x.id===current_chat_id).opponent.fullname
+              : chats.find(x=>x.id===current_chat_id).starter.fullname}}
+            </q-toolbar-title>
+            <q-btn class="lt-sm" label="Назад" @click="current_chat_id=0" outline no-caps/>
 
-          ref="messages" style="height: 75vh">
+          </q-toolbar>
+          <q-card-section>
+            <q-scroll-area
+              :thumb-style="thumbStyle"
 
-          <q-chat-message
-            class="message"
-            v-for="message in chat_messages"
-            :key="message.id"
-            :name="message.user.fullname"
-            :avatar="message.user.avatar"
-            :sent="message.user.id !== $auth.user.id"
-            :text="[message.message]"
-            :stamp="message.createdAt | formatDate"
-            :bg-color="message.user.id === $auth.user.id ? 'grey-3' : 'grey-4'"
-          >
-            <q-card class="bg-primary text-white q-pa-sm" v-if="message.isRentMessage">
-              <p v-if="message.rentType">{{message.rentDate}} c {{message.rentTime}} хочу арендовать {{message.rentUnit.name}} на {{message.rentHours}} час.</p>
-              <p v-else>С {{message.rentDate}} на {{message.rentDays}} сут. хочу арендовать {{message.rentUnit.name}} </p>
-            </q-card>
+              ref="messages" style="height: 65vh">
 
-          </q-chat-message>
+              <q-chat-message
+                class="message"
+                v-for="message in chat_messages"
+                :key="message.id"
+                :name="message.user.fullname"
+                :avatar="message.user.avatar"
+                :sent="message.user.id !== $auth.user.id"
+                :text="[message.message]"
+                :stamp="message.createdAt | formatDate"
+                :bg-color="message.user.id === $auth.user.id ? 'grey-3' : 'grey-4'"
+              >
+                <q-card class="bg-primary text-white q-pa-sm" v-if="message.isRentMessage">
+                  <p v-if="message.rentType">{{message.rentDate}} c {{message.rentTime}} хочу арендовать {{message.rentUnit.name}} на {{message.rentHours}} час.</p>
+                  <p v-else>С {{message.rentDate}} на {{message.rentDays}} сут. хочу арендовать {{message.rentUnit.name}} </p>
+                </q-card>
 
-        </q-scroll-area>
-        <div class="absolute-bottom">
-          <q-input  filled bottom-slots v-model="new_msg"    >
-            <template v-slot:before>
-              <q-avatar>
-                <img :src="$auth.user.avatar">
-              </q-avatar>
-            </template>
-            <template v-slot:after>
-              <q-btn :disabled="!new_msg" :loading="loading" @click="sendMgs" color="primary" round dense flat icon="send" >
-                <template v-slot:loading>
-                  <q-spinner-comment class="on-left" />
+              </q-chat-message>
+
+            </q-scroll-area>
+
+          </q-card-section>
+          <q-card-section>
+            <div>
+              <q-input dense  outlined bottom-slots v-model="new_msg"    >
+                <template v-slot:before>
+                  <q-avatar size="40px">
+                    <img :src="$auth.user.avatar">
+                  </q-avatar>
                 </template>
-              </q-btn>
+                <template v-slot:after>
+                  <q-btn :disabled="!new_msg" :loading="loading" @click="sendMgs" color="primary" round  flat icon="lar la-paper-plane" >
+                    <template v-slot:loading>
+                      <q-spinner-comment class="on-left" />
+                    </template>
+                  </q-btn>
 
 
-            </template>
-          </q-input>
-        </div>
+                </template>
+              </q-input>
+            </div>
+          </q-card-section>
+
+        </q-card>
+
       </div>
 
-      <div v-else class="col-6 flex column items-center justify-center" style="height: 80vh">Выберите чат</div>
+      <div v-else class="col-12 col-sm-9 " >
+        <q-card style="height: 80vh" flat bordered class="flex column items-center justify-center">
+          Выберите чат
+        </q-card>
 
-      <div class="col-2 gt-md">
-        <ProfileMenu/>
       </div>
+
+<!--      <div class="col-2 gt-md">-->
+<!--        <ProfileMenu/>-->
+<!--      </div>-->
 
     </div>
  </q-no-ssr>
@@ -231,7 +295,7 @@ export default {
   },
   filters:{
     formatDate(val){
-      return date.formatDate(val, 'DD/MM/YYYY, HH:mm')
+      return date.formatDate(val, 'DD.MM.YYYY, HH:mm')
     },
   }
 }

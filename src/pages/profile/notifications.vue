@@ -11,7 +11,7 @@
      <h3 class="text-h4 text-bold">{{$auth.notifications.length>0 ? 'Оповещения' : 'Оповещений нет'}}</h3>
     <div class="row">
 
-      <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12 q-pr-lg">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 q-pr-lg">
     <div v-if="$auth.notifications.length>0">
        <q-card class="q-mb-md" v-for="notify in $auth.notifications" :key="notify.id">
       <q-card-section horizontal>
@@ -27,9 +27,9 @@
 
 
       </div>
-      <div class="col-3 offset-1 gt-md">
-        <ProfileMenu/>
-      </div>
+<!--      <div class="col-3 offset-1 gt-md">-->
+<!--        <ProfileMenu/>-->
+<!--      </div>-->
     </div>
       </q-no-ssr>
   </q-page>
@@ -70,7 +70,7 @@ export default {
   },
   filters:{
     formatDate(val){
-      return date.formatDate(val, 'DD/MM/YYYY, HH:mm')
+      return date.formatDate(val, 'DD.MM.YYYY, HH:mm')
     }
   },
 }

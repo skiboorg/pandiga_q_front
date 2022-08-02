@@ -60,7 +60,7 @@ export default {
   },
   filters:{
     formatDate(val){
-      return date.formatDate(val, 'DD/MM/YYYY, HH:mm')
+      return date.formatDate(val, 'DD.MM.YYYY, HH:mm')
     }
   },
 

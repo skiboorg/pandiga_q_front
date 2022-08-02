@@ -72,7 +72,7 @@ const actions = {
   },
   connectWS({commit,dispatch},id) {
     console.log('connecting WS')
-     const socket = new WebSocket(process.env.WS+'/ws/user/online/')
+     const socket = new WebSocket(process.env.WS+'/ws/user/online')
      commit('updateSocket',socket)
        socket.onopen = () => {
         console.log('ws connected')

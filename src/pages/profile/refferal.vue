@@ -10,7 +10,7 @@
     </div>
      <h3 class="text-bold text-h4">Ваш партнерский баланс: {{$auth.user.partner_balance}}</h3>
     <div class="row">
-      <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
         <div v-if="this.$auth.user.partner_balance>0" class="mb-50">
           <p class="section-sub-header mb-20">Перечислить на основной баланс</p>
@@ -36,9 +36,9 @@
 
 
       </div>
-      <div class="col-3 offset-1 gt-md">
-        <ProfileMenu/>
-      </div>
+<!--      <div class="col-3 offset-1 gt-md">-->
+<!--        <ProfileMenu/>-->
+<!--      </div>-->
     </div>
 </q-no-ssr>
   </q-page>
@@ -79,10 +79,10 @@ export default {
   },
   filters:{
     formatDate(val){
-      return date.formatDate(val, 'DD/MM/YYYY, HH:mm')
+      return date.formatDate(val, 'DD.MM.YYYY, HH:mm')
     },
     formatOnlyDate(val){
-      return date.formatDate(val, 'DD/MM/YYYY')
+      return date.formatDate(val, 'DD.MM.YYYY')
     },
     formatTime(val){
       return val.split(':').splice(0,2).join(':')

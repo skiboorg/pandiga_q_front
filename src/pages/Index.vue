@@ -7,11 +7,12 @@
           <q-form ref="searchForm" class="full-width grid grid-3 gap-sm " @submit="searchFormSubmit">
 
             <q-select
-              filled
+
               v-model="searchQuery"
               use-input
               hide-selected
               fill-input
+              outlined
               label="Что ищем?"
               class="bg-grey-1 rounded-borders "
               input-debounce="0"
@@ -42,7 +43,7 @@
               </template>
             </q-select>
             <q-select
-              filled
+              outlined
               v-model="city"
               use-input
               hide-selected
@@ -67,7 +68,9 @@
                 </q-item>
               </template>
             </q-select><!--   city_id       -->
-            <q-btn class="col-3 offset-1 search-button full-width" :disable="!searchQuery" @click="$refs.searchForm.submit()" size="lg" label="Найти" color="primary"/>
+            <q-btn class="col-3 offset-1 search-button full-width" :disable="!searchQuery" @click="$refs.searchForm.submit()"
+                   no-caps
+                   size="lg" label="Найти" color="primary"/>
           </q-form>
         </div>
       </div>
@@ -107,63 +110,52 @@
           </q-card>
         </div>
         <div class="text-center q-mb-xxl">
-          <q-btn color="primary" to="/catalog" style="width: 300px"  label="Показать все"/>
+          <q-btn color="primary" to="/catalog" style="width: 300px" unelevated class="q-py-md" no-caps label="Показать все"/>
         </div>
       </div>
     </section>
     <section class="bg-grey-2 q-mb-xxl">
       <div class="container">
-        <div class="row flex q-pt-xl q-pb-sm-xs justify-between">
+        <div class="row flex q-py-xl  justify-between">
           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 q-mb-md text-center">
-            <h3 class="text-h4 text-bold q-mb-md">Загрузите мобильное приложение</h3>
-            <p class="text-h6 text-weight-thin">Получите ссылку для скачивания приложения</p>
-            <div class="row flex  justify-center q-mb-md">
-              <q-input
-                outlined
-                color="primary"
-                dense
-                v-model="phone"
-                class="col-sm-4 col-xs-6 q-mr-md"
-                label="Телефон"
-                mask="+7 (###) ###-##-##"
-              />
-              <q-btn :disable="!phone" @click="sendLink" color="primary" class="col-sm-2 col-xs-5"  label="Отправить"/>
-            </div>
-            <div class="flex justify-center">
-              <q-card flat class="col-1  q-mr-md bg-grey-2">
-                <q-img contain style="width: 180px" src="../assets/ios.png"/>
+            <h3 class="text-h4 text-bold q-mb-xl">Загрузите мобильное приложение</h3>
+
+
+            <div class="q-gutter-md justify-center">
+
+                <img   src="../assets/apple-ru.svg">
                  <q-tooltip>
           Приложение находиться на доработке и скоро будет опубликовано
         </q-tooltip>
-              </q-card>
-              <q-card flat class="col-1  bg-grey-2">
+
+
                 <a href="https://play.google.com/store/apps/details?id=ru.pandiga.app" target="_blank">
-                   <q-img contain style="width: 180px"  src="../assets/play.png"/>
+                   <img  src="../assets/google-ru.svg">
                 </a>
 
 
-              </q-card>
+
 
             </div>
           </div>
-          <q-img class="col-4 col-md-4 gt-sm " style="width: 285px" contain :ratio="1" src="../assets/mob.jpeg"/>
+          <q-img class="col-4 col-md-4 gt-sm " style="width: 285px" contain :ratio="1" src="../assets/qr.jpeg"/>
         </div>
       </div>
     </section>
     <section class="q-mb-xl">
       <div class="container">
-        <h3 class="text-h3 text-bold text-center">Как это работает</h3>
+        <h3 class="text-h3 text-bold text-center">Преимущества сервиса</h3>
         <div class="row flex justify-between items-start">
           <div  class="col-sm-4 col-xs-12 text-center">
-            <q-img class="q-mb-md" contain style="width: 110px;height: 130px" src="../assets/hw1.png"/>
+            <q-img class="q-mb-md" contain style="width: 110px;height: 130px" src="../assets/hw11.png"/>
             <p class="text-h6" style="max-width: 190px; margin: 0 auto">Создайте заявку на технику</p>
           </div>
           <div  class="col-sm-4 col-xs-12 text-center">
-            <q-img class="q-mb-md" contain style="width: 110px;height: 130px" src="../assets/hw2.png"/>
+            <q-img class="q-mb-md" contain style="width: 110px;height: 130px" src="../assets/hw22.png"/>
             <p class="text-h6" style="max-width: 300px; margin: 0 auto">Владельцы техники сами на нее откликнуться</p>
           </div>
           <div  class="col-sm-4 col-xs-12 text-center">
-            <q-img class="q-mb-md" contain style="width: 110px;height: 130px" src="../assets/hw3.png"/>
+            <q-img class="q-mb-md" contain style="width: 110px;height: 130px" src="../assets/hw33.png"/>
             <p class="text-h6" style="max-width: 335px; margin: 0 auto">Выберите<br>лучшего</p>
           </div>
         </div>

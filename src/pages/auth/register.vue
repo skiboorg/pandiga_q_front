@@ -16,6 +16,8 @@
         <div class="flex items-center justify-start q-mb-md">
           <p class="q-mb-none q-mr-sm">Я хочу </p>
           <q-btn-toggle
+            unelevated
+            no-caps
             v-model="registerForm.is_customer"
             toggle-color="primary"
             :options="[
@@ -26,11 +28,13 @@
         <div class="flex items-center justify-start q-mb-md">
           <p class="q-mb-none q-mr-sm">Я регистрируюсь как </p>
           <q-btn-toggle
+            unelevated
+            no-caps
             v-model="registerForm.is_person"
             toggle-color="primary"
             :options="[
-            {label: 'Физическое лицо', value: true},
-            {label: 'Юридическое лицо', value: false},
+            {label: 'физическое лицо', value: true},
+            {label: 'юридическое лицо', value: false},
           ]"/>
         </div>
         <p >Введите Ваш номер телефона:</p>
@@ -60,6 +64,8 @@
           <q-btn
             @click="$refs.step1Form.submit()"
             color="primary"
+            unelevated
+            no-caps
             label="Продолжить"
             :loading="is_loading"
           >
@@ -67,7 +73,7 @@
               <q-spinner />
             </template>
           </q-btn>
-          <p class="login-box__no-acc">Уже есть аккаунт? <router-link class="text-underline no-underline text-caption" to="/login">Войти</router-link></p>
+          <p class="login-box__no-acc no-margin">Уже есть аккаунт? <router-link class="text-underline no-underline text-caption" to="/login">Войти</router-link></p>
         </q-stepper-navigation>
       </q-step>
       <q-step

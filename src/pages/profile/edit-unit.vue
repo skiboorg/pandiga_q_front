@@ -10,7 +10,7 @@
     </div>
     <h3 class="text-bold text-h5">Общая информация</h3>
     <div class="row">
-      <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
         <q-form
           ref="filterForm"
@@ -18,7 +18,7 @@
           <!--           @submit="filterFormSubmit"-->
           <q-input
             ref="input"
-            filled
+            outlined
             v-model="unit.name"
             label="Название техники *"
             :rules="[
@@ -27,7 +27,7 @@
           />
           <q-input
             ref="input"
-            filled
+            outlined
             v-model="unit.year"
             label="Год выпуска *"
             mask="####"
@@ -37,7 +37,7 @@
           />
           <div  class="q-gutter-sm row items-center q-mb-sm">
             <p class="col-3  q-mb-none ">Вид аренды</p>
-            <q-btn-toggle v-model="unit.rent_type" toggle-color="primary"
+            <q-btn-toggle no-caps unelevated v-model="unit.rent_type" toggle-color="primary"
                           :options="[
                                       {label: 'Почасовая', value: true},
                                       {label: 'Посуточная', value: false},
@@ -49,7 +49,7 @@
               v-model.number="unit.min_rent_time"
               type="number"
               dense
-              filled
+              outlined
               style="max-width: 100px"/>
           </div>
           <div  class="q-gutter-sm row items-center q-mb-sm">
@@ -58,16 +58,16 @@
               v-model.number="unit.rent_price"
               type="number"
               dense
-              filled
+              outlined
               style="max-width: 100px"/>
           </div>
           <h3 class="text-bold text-h5">Фильтры</h3>
           <div class="filter-group" v-for="(filter,index) in unit.filter">
             <q-select
               v-if="filter.type==='select'"
-              filled
+              outlined
               v-model="filter.value"
-              dense
+
               fill-input
               input-debounce="0"
               class="q-mb-sm"
@@ -84,7 +84,7 @@
             </q-select>
             <div v-if="filter.type==='radio'" class="flex items-center justify-start q-mb-sm">
               <p v-if="filter.title" class="q-mr-sm q-mb-none  text-bold">{{filter.title}}</p>
-              <q-btn-toggle     v-model="filter.value" toggle-color="primary"
+              <q-btn-toggle   no-caps unelevated  v-model="filter.value" toggle-color="primary"
                                 :options="filter.values" />
             </div>
 
@@ -149,13 +149,13 @@
 
            <q-editor class="q-mb-xl" v-model="unit.description" min-height="10rem" />
 
-          <!--           @click="$refs.filterForm.submit()" :disable="!filters_filled" :label="filters_filled? 'Продолжить' : 'Заполните все фильтры'"-->
-          <q-btn color="primary" @click="editUnit" label="Сохранить"/>
+          <!--           @click="$refs.filterForm.submit()" :disable="!filters_outlined" :label="filters_outlined? 'Продолжить' : 'Заполните все фильтры'"-->
+          <q-btn color="primary" @click="editUnit" no-caps outline label="Сохранить"/>
         </q-form>
       </div>
-      <div class="col-3 offset-1 gt-md">
-        <ProfileMenu/>
-      </div>
+<!--      <div class="col-3 offset-1 gt-md">-->
+<!--        <ProfileMenu/>-->
+<!--      </div>-->
     </div>
       </q-no-ssr>
   </q-page>
@@ -224,6 +224,12 @@ export default {
         data: formData
       })
       console.log(response.data)
+      this.$q.notify({
+        message: 'Информация обновлена',
+        color: 'positive',
+        position:'top-right',
+      })
+      await this.$router.push('/profile/')
     },
     citySelected(){
 

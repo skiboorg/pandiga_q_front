@@ -4,9 +4,11 @@
     v-if="$auth.loggedIn && $auth.user.is_customer"
     :flat="is_icon"
     :round="is_icon"
+    unelevated
+    no-caps
     color="primary"
     :label="is_icon ? null:'Написать владельцу'  "
-    icon="chat" >
+    icon="las la-comments" >
     <q-tooltip v-if="is_icon"
       anchor="center right"
       self="center left"
@@ -18,11 +20,13 @@
           <q-input
             v-model="message"
             dense
-            class="q-mb-sm"
-            filled
+            class="q-mb-sm "
+            outlined
             autogrow
+            cols="38"
+           type="textarea"
           />
-          <q-btn  @click="sendMsg" :loading="loading" color="primary" label="отправить">
+          <q-btn no-caps unelevated @click="sendMsg" :loading="loading" color="primary" label="Отправить">
              <template v-slot:loading>
                   <q-spinner-hourglass class="on-left" />
                 </template>

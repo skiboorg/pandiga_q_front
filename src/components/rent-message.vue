@@ -2,15 +2,17 @@
 <q-no-ssr>
   <q-btn
     color="primary"
+    no-caps
+    unelevated
     label="Взять в аренду"
     v-if="$auth.loggedIn && $auth.user.is_customer"
-    icon="chat" >
+    icon="las la-calendar" >
     <q-menu ref="messageMenu" fit>
       <q-list>
         <q-item class="flex column">
            <div  class="q-gutter-sm row items-center q-mb-sm">
                     <p class="col-3  q-mb-none ">Вид аренды</p>
-                    <q-btn-toggle v-model="rentData.type" toggle-color="primary"
+                    <q-btn-toggle unelevated no-caps v-model="rentData.type" toggle-color="primary"
                                   :options="[
                                       {label: 'Почасовая', value: true},
                                       {label: 'Посуточная', value: false},
@@ -19,13 +21,13 @@
 
                   <div  class="q-gutter-sm row items-center q-mb-sm">
                     <p class="col-3 q-mb-none ">Выберите дату</p>
-                    <q-input dense filled v-model="rentData.date" class="no-padding" >
+                    <q-input dense outlined v-model="rentData.date" class="no-padding" >
                       <template v-slot:append>
                         <q-icon name="event" class="cursor-pointer ">
                           <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
                             <q-date v-model="rentData.date" mask="YYYY-MM-DD" :options="dateFn">
                               <div class="row items-center justify-end">
-                                <q-btn v-close-popup label="Выбрать" color="primary" flat />
+                                <q-btn no-caps v-close-popup label="Выбрать" color="primary" flat />
                               </div>
                             </q-date>
                           </q-popup-proxy>
@@ -36,13 +38,13 @@
                   <div v-if="rentData.type">
                     <div  class="q-gutter-sm row items-center">
                       <p class="col-3 q-mb-sm ">Выберите время начала</p>
-                      <q-input class="q-mb-sm " filled dense v-model="rentData.time" >
+                      <q-input class="q-mb-sm " outlined dense v-model="rentData.time" >
                         <template v-slot:append>
                           <q-icon name="access_time" class="cursor-pointer">
                             <q-popup-proxy transition-show="scale" transition-hide="scale">
                               <q-time v-model="rentData.time" format24h>
                                 <div class="row items-center justify-end">
-                                  <q-btn v-close-popup label="Выбрать" color="primary" flat />
+                                  <q-btn no-caps v-close-popup label="Выбрать" color="primary" flat />
                                 </div>
                               </q-time>
                             </q-popup-proxy>
@@ -56,7 +58,7 @@
                         dense
                         v-model.number="rentData.hours"
                         type="number"
-                        filled
+                        outlined
                         style="max-width: 100px"
                       />
                     </div>
@@ -68,17 +70,18 @@
                         dense
                         v-model.number="rentData.days"
                         type="number"
-                        filled
+                        outlined
                         style="display: none"
                       /> <q-input
                       v-model.number="rentData.days"
+                      dense
                       type="number"
-                      filled
+                      outlined
                       style="max-width: 100px"
                     />
                     </div>
                   </div>
-          <q-btn  @click="sendMsg" :loading="loading" color="primary" label="отправить">
+          <q-btn no-caps  @click="sendMsg" :loading="loading" color="primary" label="Отправить">
              <template v-slot:loading>
                   <q-spinner-hourglass class="on-left" />
                 </template>

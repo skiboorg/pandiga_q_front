@@ -5,7 +5,7 @@
     flat
     round
     @click="addFav"
-    color="red"
+    color="primary"
     icon="favorite_border" >
     <q-tooltip
       anchor="center right"
@@ -18,7 +18,7 @@
     flat
     @click="delFav"
     round
-    color="red"
+    color="primary"
     icon="favorite" >
     <q-tooltip
       anchor="center right"

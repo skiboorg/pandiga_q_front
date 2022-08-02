@@ -5,9 +5,9 @@
     </q-inner-loading>
     <div v-if="technique_type.name" class="q-gutter-sm q-my-md">
       <q-breadcrumbs>
-        <q-breadcrumbs-el label="Главная" icon="home" to="/" />
-        <q-breadcrumbs-el label="Каталог" icon="local_shipping" to="/catalog" />
-        <q-breadcrumbs-el :label="technique_type.name" icon="star" />
+        <q-breadcrumbs-el label="Главная" icon="las la-home" to="/" />
+        <q-breadcrumbs-el label="Каталог" icon="las la-truck" to="/catalog" />
+        <q-breadcrumbs-el :label="technique_type.name" icon="las la-list" />
       </q-breadcrumbs>
     </div>
     <div class="flex items-center justify-between wrap">
@@ -16,7 +16,7 @@
     </div>
 
     <!--   catalog wrapper start-->
-    <div class="row q-mb-xl">
+    <div class="row q-mb-xl q-col-gutter-md">
       <!--   catalog units start-->
       <div class="col-lg-8 col-md-8 col-sm-12">
         <UnitCard v-for="unit in technique_units"
@@ -25,6 +25,8 @@
                   :category_slug="technique_type.name_slug"
         />
         <q-pagination
+          unelevated
+          outline
           v-if="page_count>1"
           class="q-py-lg"
           v-model="current_page"
@@ -34,18 +36,19 @@
       </div>
       <!--   catalog units end-->
       <!--   catalog filters start-->
-      <div v-if="technique_type.name" class="col-lg-4 col-md-4 col-sm-12 gt-sm">
-        <div class=" filters-block q-px-md ">
-          <div class="filter-group" v-for="(filter,index) in all_filters.filter">
+      <div v-if="technique_type.name" class="col-lg-4 col-md-4 col-sm-12 gt-sm ">
+        <div class=" filters-block q-pa-md bg-grey-2">
+          <div class="filter-group " v-for="(filter,index) in all_filters.filter">
             <q-select
               v-if="filter.type==='select'"
-              filled
+              outlined
+
               v-model="filter.value"
 
               dense
               fill-input
               input-debounce="0"
-              class="q-mb-sm"
+              class="q-mb-sm bg-white"
               :options="filter.values"
               :option-label="(item) =>  item.label"
               :option-value="(item) => item === null ? null : item.value"
@@ -61,14 +64,14 @@
             </q-select>
             <div v-if="filter.type==='radio'" class="flex items-center justify-start q-mb-sm">
               <p v-if="filter.title" class="q-mr-sm q-mb-none  text-bold">{{filter.title}}</p>
-              <q-btn-toggle     v-model="filter.value" toggle-color="primary"
+              <q-btn-toggle  unelevated no-caps   v-model="filter.value" toggle-color="primary"
                                 :options="filter.values" />
             </div>
 
           </div>
           <div  class="flex items-center justify-start q-mb-sm">
             <p class="q-mr-sm q-mb-none  text-bold">Аренда по</p>
-            <q-btn-toggle v-model="rent_type" toggle-color="primary"
+            <q-btn-toggle unelevated no-caps v-model="rent_type" toggle-color="primary"
                           :options="[
               {label: 'часам', value: '1'},
               {label: 'дням', value: '0'},
@@ -77,17 +80,17 @@
           <div  class="flex items-center justify-between q-mb-sm">
             <p class="q-mr-sm q-mb-none text-bold" style="flex-basis: 50%">Время аренды {{rent_type==='1' ? '(часы)' : '(дни)'}}</p>
 
-            <q-input dense style="flex-basis: 20%" filled v-model="rent_time_from" label="от" />
-            <q-input dense style="flex-basis: 20%"  filled v-model="rent_time_to" label="до" />
+            <q-input outlined dense style="flex-basis: 20%"  v-model="rent_time_from" label="от" />
+            <q-input outlined dense style="flex-basis: 20%"   v-model="rent_time_to" label="до" />
 
           </div>
           <div  class="flex items-center justify-between q-mb-lg">
             <p class="q-mr-sm q-mb-none text-bold" style="flex-basis: 50%">Стоимость {{rent_type==='1' ? '(часы)' : '(дни)'}}</p>
-            <q-input dense style="flex-basis: 20%" type="number" filled v-model.number="rent_price_from" label="от" />
-            <q-input dense style="flex-basis: 20%"  filled v-model="rent_price_to" label="до" />
+            <q-input dense outlined style="flex-basis: 20%" type="number"  v-model.number="rent_price_from" label="от" />
+            <q-input dense outlined style="flex-basis: 20%"   v-model="rent_price_to" label="до" />
           </div>
            <q-select
-              filled
+              outlined
               dense
               v-model="city"
               use-input
@@ -113,8 +116,8 @@
               </template>
             </q-select>
           <div class="flex justify-between">
-            <q-btn @click="submitForm(1)"  color="primary"  label="Поиск"/>
-            <q-btn @click="get_filters" label="Сбросить фильтры"/>
+            <q-btn unelevated no-caps @click="submitForm(1)"  color="primary"  label="Поиск"/>
+            <q-btn unelevated no-caps outline @click="get_filters" label="Сбросить фильтры"/>
           </div>
         </div>
       </div>
@@ -161,7 +164,7 @@
             </q-select>
             <div v-if="filter.type==='radio'" class="flex items-center justify-start q-mb-sm">
               <p v-if="filter.title" class="q-mr-sm q-mb-none  text-bold">{{filter.title}}</p>
-              <q-btn-toggle     v-model="filter.value" toggle-color="primary"
+              <q-btn-toggle  unelevated   v-model="filter.value" toggle-color="primary"
                                 :options="filter.values" />
             </div>
 

@@ -5,8 +5,8 @@
       </q-inner-loading>
     <div  class="q-gutter-sm q-my-md">
       <q-breadcrumbs>
-        <q-breadcrumbs-el label="Главная" icon="home" to="/" />
-        <q-breadcrumbs-el label="Заявки на технику" icon="list"  />
+        <q-breadcrumbs-el label="Главная" icon="las la-home" to="/" />
+        <q-breadcrumbs-el label="Заявки на технику" icon="las la-list"  />
       </q-breadcrumbs>
     </div>
     <div class="flex items-center justify-between">
@@ -25,7 +25,7 @@
     </div>
 
     <div class="row">
-     <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12">
+     <div class="col-12">
         <OrderCard
           :order="order"
           :fullInfo="false"
@@ -34,42 +34,46 @@
           v-for="order in orders"
           :key="order.id"/>
         <q-pagination
+          v-if="total_pages>1"
+          unelevated
+          outline
           class="q-py-lg"
+
           v-model="current_page"
           v-on:refresh="changePage"
           :max="total_pages"
         />
       </div>
-      <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 q-pl-md">
-        <q-card class="order-categories">
-          <q-list >
-            <div v-for="category in categories"
-                 :key="category.id" >
-              <q-expansion-item
-                group="somegroup"
-                icon="explore"
-                :label="`${category.name} (${getNum(category.id)})`"
-                header-class="text-primary">
-                <q-card>
-                  <q-card-section class="q-pt-none">
-                    <q-list dense>
-                      <q-item clickable
-                              v-ripple
-                              v-for="type in category.types"
-                              :key="type.id">
-                        <q-item-section @click="getOrders(type.name_slug,type.id,type.name_lower,1)">
-                          <p class="flex items-center justify-between q-mb-none" >{{type.name}} <q-badge outline color="primary" :label="type.orders_count" /> </p>
-                        </q-item-section>
-                      </q-item>
-                    </q-list>
-                  </q-card-section>
-                </q-card>
-              </q-expansion-item>
-              <q-separator />
-            </div>
-          </q-list>
-        </q-card>
-      </div>
+<!--      <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 q-pl-md">-->
+<!--        <q-card class="order-categories">-->
+<!--          <q-list >-->
+<!--            <div v-for="category in categories"-->
+<!--                 :key="category.id" >-->
+<!--              <q-expansion-item-->
+<!--                group="somegroup"-->
+<!--                icon="explore"-->
+<!--                :label="`${category.name} (${getNum(category.id)})`"-->
+<!--                header-class="text-primary">-->
+<!--                <q-card>-->
+<!--                  <q-card-section class="q-pt-none">-->
+<!--                    <q-list dense>-->
+<!--                      <q-item clickable-->
+<!--                              v-ripple-->
+<!--                              v-for="type in category.types"-->
+<!--                              :key="type.id">-->
+<!--                        <q-item-section @click="getOrders(type.name_slug,type.id,type.name_lower,1)">-->
+<!--                          <p class="flex items-center justify-between q-mb-none" >{{type.name}} <q-badge outline color="primary" :label="type.orders_count" /> </p>-->
+<!--                        </q-item-section>-->
+<!--                      </q-item>-->
+<!--                    </q-list>-->
+<!--                  </q-card-section>-->
+<!--                </q-card>-->
+<!--              </q-expansion-item>-->
+<!--              <q-separator />-->
+<!--            </div>-->
+<!--          </q-list>-->
+<!--        </q-card>-->
+<!--      </div>-->
     </div>
   </q-page>
 </template>

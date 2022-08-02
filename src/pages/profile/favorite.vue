@@ -10,7 +10,7 @@
     </div>
     <h1 class="text-bold text-h4">Избранное</h1>
     <div class="row">
-      <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
         <UnitCard v-for="unit in $auth.favorite"
                   :key="unit.id"
@@ -18,9 +18,9 @@
                   :category_slug="unit.type.name_slug"
         />
       </div>
-      <div class="col-3 offset-1 gt-md">
-        <ProfileMenu/>
-      </div>
+<!--      <div class="col-3 offset-1 gt-md">-->
+<!--        <ProfileMenu/>-->
+<!--      </div>-->
     </div>
      </q-no-ssr>
   </q-page>

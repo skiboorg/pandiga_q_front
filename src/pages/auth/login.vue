@@ -35,7 +35,7 @@
         </q-input><!--    pass1      -->
 
       </q-form>
-      <q-btn color="primary" @click="$refs.loginForm.submit()" class="q-py-sm q-mb-lg" style="width: 300px" label="Продолжить"/>
+      <q-btn color="primary" @click="$refs.loginForm.submit()" unelevated no-caps class="q-py-sm q-mb-lg" style="width: 300px" label="Продолжить"/>
       <div class="text-center">
         <p class="text-bold q-mb-none">Нет аккаунта? <router-link class="text-caption no-underline text-underline" to="/register/">Регистрация</router-link> </p>
         <p class="text-bold">Забыли пароль? <a href="#" class="text-caption no-underline text-underline" @click.prevent="login_panel = false, recovery_panel=true">Восстановить</a> </p>
@@ -46,7 +46,7 @@
     </q-card>
     <q-card v-else class="flex flex-center column q-pa-lg">
       <h3 class="text-h5 text-bold q-mb-sm">Восстановление пароля</h3>
-      <p class="login-text">Новый пароль будет выслан Вам на указанный номер телефона</p>
+      <p class="login-text">На указанный номер телефона поступит звонок, Ваш временный пароль будет озвучен голосом, Вы сможете сменить его в настройках профиля.</p>
       <q-form
         ref="recoveryForm"
         class="q-mb-sm q-mt-lg "
@@ -64,8 +64,8 @@
 
       </q-form>
       <div class="flex justify-between" style="width: 300px">
-        <q-btn color="primary" :loading="is_loading" @click="$refs.recoveryForm.submit()" class="q-py-sm "  label="Восстановить"/>
-        <q-btn color="primary" :loading="is_loading" class="q-py-sm " outline @click="recovery_panel=false"  label="Назад"/>
+        <q-btn color="primary" :loading="is_loading" @click="$refs.recoveryForm.submit()" class="q-py-sm "  unelevated no-caps label="Восстановить"/>
+        <q-btn color="primary" :loading="is_loading" class="q-py-sm " outline @click="recovery_panel=false"  unelevated no-caps label="Назад"/>
       </div>
 
 
@@ -118,20 +118,22 @@ export default {
             { label: 'Создать аккаунт', color: 'white', handler: () => {this.$router.push('/register')} }
           ]
         })
-        this.is_loading = false
+
 
       }
+      this.is_loading = false
     },
     async recoverPassword(){
       this.is_loading=true
       const response = await this.$api.post('/api/v1/user/recover_password',{phone:this.recovery_phone})
       if (response.data['result']){
         this.$q.notify({
-          message: 'Новый пароль отправлен в SMS сообщении',
+          message: 'Ожидайте звонка',
           color: 'positive',
           position:'top-right',
         })
         this.phone=this.recovery_phone
+        this.is_loading=false
         this.recovery_panel=false
       }else {
         this.$q.notify({

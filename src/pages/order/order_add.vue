@@ -14,6 +14,7 @@
           <template v-slot:before>
             <q-tabs
               v-model="tab"
+              no-caps
               :vertical="$q.screen.gt.sm"
               inline-label
               align="left"
@@ -38,7 +39,7 @@
                   class="q-mb-sm "
                   @submit="infoFormSubmit">
                   <q-select
-                    filled
+                    outlined
                     v-model="selectedCategory"
                     :options="categories"
                     :dense="!$q.screen.gt.sm"
@@ -47,7 +48,7 @@
                     :rules="[val => val || 'Выберите категорию']"
                     label="Выберите категорию *" />
                   <q-select
-                    filled
+                    outlined
                     v-model="order.selectedType"
                     :dense="!$q.screen.gt.sm"
 
@@ -59,7 +60,7 @@
                     :label="selectedCategory ? 'Выберите тип техники *' : 'Сначала выберите категорию'" />
                   <div  class="q-gutter-sm row items-center q-mb-sm">
                     <p class="col-lg-2 col-md-3 col-sm-3 col-xs-12  q-mb-none ">Вид аренды</p>
-                    <q-btn-toggle :dense="!$q.screen.gt.sm" v-model="order.rent_type" toggle-color="primary"
+                    <q-btn-toggle unelevated no-caps :dense="!$q.screen.gt.sm" v-model="order.rent_type" toggle-color="primary"
                                   :options="[
                                       {label: 'Почасовая', value: true},
                                       {label: 'Посуточная', value: false},
@@ -68,13 +69,13 @@
 
                   <div  class="q-gutter-sm row items-center q-mb-sm">
                     <p class="col-lg-2 col-md-3 col-sm-3 col-xs-12 q-mb-none ">Выберите дату</p>
-                    <q-input :dense="!$q.screen.gt.sm" filled v-model="rentData.date" class="no-padding" >
+                    <q-input :dense="!$q.screen.gt.sm" outlined v-model="rentData.date" class="no-padding" >
                       <template v-slot:append>
                         <q-icon name="event" class="cursor-pointer ">
                           <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
                             <q-date v-model="rentData.date" mask="YYYY-MM-DD" :options="dateFn">
                               <div class="row items-center justify-end">
-                                <q-btn v-close-popup label="Выбрать" color="primary" flat />
+                                <q-btn no-caps unelevated v-close-popup label="Выбрать" color="primary" flat />
                               </div>
                             </q-date>
                           </q-popup-proxy>
@@ -85,13 +86,13 @@
                   <div v-if="order.rent_type">
                     <div  class="q-gutter-sm row items-center">
                       <p class="col-lg-2 col-md-3 col-sm-3 col-xs-12 q-mb-sm ">Выберите время начала</p>
-                      <q-input :dense="!$q.screen.gt.sm" class="q-mb-sm " filled v-model="rentData.time" >
+                      <q-input :dense="!$q.screen.gt.sm" class="q-mb-sm " outlined v-model="rentData.time" >
                         <template v-slot:append>
                           <q-icon name="access_time" class="cursor-pointer">
                             <q-popup-proxy transition-show="scale" transition-hide="scale">
                               <q-time v-model="rentData.time" format24h>
                                 <div class="row items-center justify-end">
-                                  <q-btn v-close-popup label="Выбрать" color="primary" flat />
+                                  <q-btn no-caps v-close-popup label="Выбрать" color="primary" flat />
                                 </div>
                               </q-time>
                             </q-popup-proxy>
@@ -105,7 +106,7 @@
                         :dense="!$q.screen.gt.sm"
                         v-model.number="rentData.hours"
                         type="number"
-                        filled
+                        outlined
                         style="max-width: 100px"
                       />
                     </div>
@@ -117,19 +118,19 @@
 
                         v-model.number="rentData.days"
                         type="number"
-                        filled
+                        outlined
                         style="display: none"
                       /> <q-input
                       v-model.number="rentData.days"
                       :dense="!$q.screen.gt.sm"
                       type="number"
-                      filled
+                      outlined
                       style="max-width: 100px"
                     />
                     </div>
                   </div>
                 </q-form>
-                <q-btn color="primary" @click="$refs.infoForm.submit()" label="Продолжить"/>
+                <q-btn color="primary" no-caps @click="$refs.infoForm.submit()" label="Продолжить"/>
               </q-tab-panel>
 
               <q-tab-panel  name="filters">
@@ -141,7 +142,7 @@
 
                     <q-select
                       v-if="filter.type==='select'"
-                      filled
+                      outlined
                       v-model="filter.value"
 
                       dense
@@ -163,13 +164,13 @@
                     </q-select>
                     <div v-if="filter.type==='radio'" class="flex items-center justify-start q-mb-sm">
                       <p v-if="filter.title" class="q-mr-sm q-mb-none  text-bold">{{filter.title}}</p>
-                      <q-btn-toggle     v-model="filter.value" toggle-color="primary"
+                      <q-btn-toggle  unelevated no-caps  v-model="filter.value" toggle-color="primary"
                                         :options="filter.values" />
                     </div>
 
                   </div>
                 </q-form>
-                <q-btn color="primary" @click="$refs.filterForm.submit()" label="Продолжить"/>
+                <q-btn color="primary" @click="$refs.filterForm.submit()" no-caps label="Продолжить"/>
               </q-tab-panel>
               <q-tab-panel  name="description">
                 <q-form
@@ -179,7 +180,7 @@
                   <p>Название заявки</p>
                   <q-input
                     ref="input"
-                    filled
+                    outlined
                     :dense="!$q.screen.gt.sm"
                     v-model="order.name"
                     label="Кратко опишите заявку *"
@@ -223,7 +224,7 @@
                   <q-editor class="q-mb-md" v-model="order.description" min-height="5rem" />
 
                 </q-form>
-                <q-btn color="primary" :loading="loading" @click="$refs.descriptionForm.submit()" label="Завершить">
+                <q-btn color="primary" no-caps :loading="loading" @click="$refs.descriptionForm.submit()" label="Завершить">
                          <template v-slot:loading>
                   <q-spinner-hourglass class="on-left" />
                 </template>

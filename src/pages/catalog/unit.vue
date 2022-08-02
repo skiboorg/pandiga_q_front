@@ -3,10 +3,10 @@
 
     <div  class="q-gutter-sm q-my-md">
       <q-breadcrumbs>
-        <q-breadcrumbs-el label="Главная" icon="home" to="/" />
-        <q-breadcrumbs-el label="Каталог" icon="local_shipping" to="/catalog" />
-        <q-breadcrumbs-el :label="unit.type.name" :to="`/catalog/${$route.params.category_slug}`" icon="local_shipping" />
-        <q-breadcrumbs-el :label="unit.name" icon="star" />
+        <q-breadcrumbs-el label="Главная" icon="las la-home" to="/" />
+        <q-breadcrumbs-el label="Каталог" icon="las la-truck" to="/catalog" />
+        <q-breadcrumbs-el :label="unit.type.name" :to="`/catalog/${$route.params.category_slug}`" icon="las la-list" />
+        <q-breadcrumbs-el :label="unit.name"  />
       </q-breadcrumbs>
     </div>
     <!--     unit top start-->
@@ -19,9 +19,11 @@
           v-model="unit_current_image"
           thumbnails
           :fullscreen.sync="fullscreen"
+          ref="carousel"
           infinite
         >
           <q-carousel-slide
+            style="background-size: cover !important;"
             :name="index"
             :img-src="image.image"
             v-for="(image,index) in this.unit.images"
@@ -34,9 +36,23 @@
               :offset="[18, 18]"
             >
               <q-btn
-                push round dense color="white" text-color="primary"
+                 round dense color="white" text-color="primary"
                 :icon="fullscreen ? 'fullscreen_exit' : 'fullscreen'"
                 @click="fullscreen = !fullscreen"
+              />
+            </q-carousel-control>
+            <q-carousel-control
+              position="bottom-right"
+              :offset="[58, 18]"
+              class="q-gutter-xs"
+            >
+              <q-btn
+                 round dense color="white" text-color="primary" icon="arrow_left"
+                @click="$refs.carousel.previous()"
+              />
+              <q-btn
+                 round dense color="white" text-color="primary" icon="arrow_right"
+                @click="$refs.carousel.next()"
               />
             </q-carousel-control>
           </template>
@@ -57,13 +73,17 @@
           <p class="text-h6 text-primary text-bold q-mb-none">{{unit.rent_price}} &#8381;/ {{unit.rent_type? 'час' : 'день'}}</p>
           <p class="q-mb-none">Мин. время заказа: от {{unit.min_rent_time}} {{unit.rent_type? 'ч' : 'д'}}</p>
         </div>
-        <div class="q-mb-lg">
-          <PrivateMsg class="q-mr-md" :is_icon="false" :owner_id="unit.owner.id" :unit_id="unit.id"/>
+        <div class="q-mb-lg q-gutter-md">
+          <PrivateMsg  :is_icon="false" :owner_id="unit.owner.id" :unit_id="unit.id"/>
            <RentMsg :unit_id="unit.id" :owner_id="unit.owner.id"/>
         </div>
         <div class="flex items-center justify-start q-mb-lg">
           <p class="text-bold text-caption q-mr-md">Размещение: {{unit.city}}</p>
-<!--          <p  class="text-underline inline-block text-caption" >Показать на карте</p>-->
+          <p  class="text-underline inline-block text-caption" @click="showMap=!showMap">{{showMap ? 'Скрыть карту' : 'Показать на карте'}}</p>
+<!--          :class=" {ymapContanerHidden : !is_city_selected}"  -->
+
+
+
         </div>
 
 
@@ -72,6 +92,25 @@
     </div>
     <!--     unit top end-->
     <!--     unit map start-->
+    <q-no-ssr>
+      <yandex-map
+        v-if="showMap"
+        :coords="coords"
+
+        zoom="10"
+        style="width: 100%; height: 440px; padding: 0;margin-bottom: 20px"
+        :cluster-options="{ 1: {clusterDisableClickZoom: true} }"
+
+        :controls="['trafficControl']"
+
+        map-type="map">
+        <ymap-marker
+          markerId="1"
+          marker-type="Placemark"
+          :coords="coords">
+        </ymap-marker>
+      </yandex-map>
+    </q-no-ssr>
     <!--     unit map end-->
     <!--     unit bottom start-->
     <div class="row q-mb-lg">
@@ -108,11 +147,12 @@
         <q-tabs
           v-model="tab"
           dense
+          no-caps
           class="text-grey"
           active-color="primary"
           indicator-color="primary"
           align="justify"
-          narrow-indicator
+
         >
           <q-tab name="description" label="Описание" />
           <q-tab name="info" label="Характеристики" />
@@ -202,12 +242,16 @@ export default {
     return {
       unit_current_image:0,
       fullscreen: false,
+      showMap: false,
       tab: 'description'
 
     }
   },
   computed:{
-    ...mapGetters('unit',['unit'])
+    ...mapGetters('unit',['unit']),
+    coords(){
+      return this.unit.coords.replace('[','').replace(']','').split(',')
+    }
   },
   methods: {
     ...mapActions('unit',['fetchItem']),
@@ -215,7 +259,7 @@ export default {
   },
   filters:{
     formatDate(val){
-      return date.formatDate(val, 'DD/MM/YYYY, HH:mm')
+      return date.formatDate(val, 'DD.MM.YYYY, HH:mm')
     }
   }
 

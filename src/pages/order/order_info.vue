@@ -2,8 +2,8 @@
   <q-page class="container">
     <div  class="q-gutter-sm q-my-md">
     <q-breadcrumbs>
-      <q-breadcrumbs-el label="Главная" icon="home" to="/" />
-      <q-breadcrumbs-el label="Заявки на технику" icon="list" :to="{name:'all_orders'}" />
+      <q-breadcrumbs-el label="Главная" icon="las la-home" to="/" />
+      <q-breadcrumbs-el label="Заявки на технику" icon="las la-list" :to="{name:'all_orders'}" />
       <q-breadcrumbs-el :label="`Заявка №${order.id} - ${order.name}`"   />
     </q-breadcrumbs>
     </div>
@@ -12,26 +12,34 @@
       <OrderCard :order="order" :fullInfo="true"/>
     </div>
 
-    <h3  class="text-h4 text-bold">Предложите технику</h3>
+
+
+    <h3  class="text-h5 text-bold">Какую технику предложить</h3>
     <div class="grid grid-3 gap-md">
-      <q-card v-if="unit.type.id === order.type.id" v-for="unit in user_units" :key="unit.id" class="my-card" flat bordered>
-      <q-img
-        :ratio="16/9"
-        :src="unit.images[0].image"
-      />
+      <q-card  v-if="unit.type.id === order.type.id && order.city.id === unit.city_id"
+               v-for="unit in user_units"
+               :key="unit.id"
+               class="my-card bg-grey-2"
+               flat
+      >
+
 
       <q-card-section>
+        <q-img
+          :ratio="16/9"
+          :src="unit.images[0].image"
+        />
 <!--        <div class="text-overline text-primary q-mb-sm">{{unit.type.name}}</div>-->
-        <div class="text-h5 q-mt-sm q-mb-xs">{{unit.name}}</div>
+        <div class="text-h5 q-mt-sm q-mb-xs text-primary">{{unit.name}}</div>
         <div class="text-caption text-grey">
           <p class="q-mb-none">{{unit.rent_price}} руб./ <span v-if="unit.rent_type"> час</span> <span v-if="!unit.rent_type"> день</span> </p>
         </div>
       </q-card-section>
 
       <q-card-actions>
-        <div v-if="!order.decline_units.includes(unit.id)">
-          <q-btn v-if="!order.apply_units.includes(unit.id)" color="primary" @click="applyUnit(unit.id)" label="Предложить" />
-          <q-btn v-else color="dark"  label="Техника уже предложена" />
+        <div v-if="!order.decline_units.includes(unit.id)" class="full-width">
+          <q-btn v-if="!order.apply_units.includes(unit.id)" class="full-width" unelevated no-caps color="primary" @click="applyUnit(unit.id)" label="Предложить" />
+          <q-btn v-else color="primary" no-caps outline class="full-width" disable label="Техника уже предложена" />
         </div>
         <div v-else>
           <p class="q-mb-none text-primary text-center">Заказчик отказал</p>
