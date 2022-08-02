@@ -51,7 +51,7 @@
             mask="+7(###)###-##-##"
             lazy-rules
             :rules="[ val => val && val.length > 15 || 'Нужно ввести корректный номер телефона']"
-            hint="На этот номер будет отправлено смс с кодом подтверждения"
+            hint="На этот номер будет звонок с голосовым кодом подтверждения"
           />
         </q-form>
         <q-banner v-if="phone_error" inline-actions class="text-white bg-red q-mt-lg">
@@ -82,8 +82,8 @@
         icon="sms"
         :done="step > 2"
         :header-nav="step > 2">
-        <p class="login-box__subtitle">На ваш номер телефона <span class="text-bold">{{registerForm.phone}}</span>
-          отправлено SMS с кодом подтверждения</p>
+        <p class="login-box__subtitle">Ожидайте звонок на ваш номер телефона <span class="text-bold">{{registerForm.phone}}</span>
+           с голосовым кодом подтверждения</p>
         <q-form
           ref="step2Form"
           class="q-mt-md"
@@ -93,9 +93,9 @@
             :loading="is_loading"
             v-model="entered_sms_code"
             label="Код подтверждения"
-            mask="####"
+            mask="###"
             lazy-rules
-            :rules="[ val => val && val.length > 3 || 'Код введен не полностью', val => val===sms_code || 'Введенный код не совпадает']"
+            :rules="[ val => val && val.length > 2 || 'Код введен не полностью', val => val===sms_code || 'Введенный код не совпадает']"
 
           />
         </q-form>
