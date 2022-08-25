@@ -13,14 +13,21 @@
 
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 q-pr-lg">
     <div v-if="$auth.notifications.length>0">
-       <q-card class="q-mb-md" v-for="notify in $auth.notifications" :key="notify.id">
-      <q-card-section horizontal>
-        <q-card-section class="col-3 text-caption">{{notify.created_at | formatDate}}</q-card-section>
-        <q-card-section class="col-6">{{notify.text}}</q-card-section>
-        <q-card-section class="col-4">
-          <q-btn color="primary" @click="$router.push(notify.url)" size="sm" class="q-mr-sm"  label="перейти"/>
-          <q-btn color="primary" @click="deleteNotify(notify.id)" size="sm" outline label="удалить"/>
-        </q-card-section>
+       <q-card class="q-mb-md" flat bordered v-for="notify in $auth.notifications" :key="notify.id">
+      <q-card-section >
+        <div class="row q-col-gutter-md">
+          <div class="col-12 col-md-2 text-caption">
+            {{notify.created_at | formatDate}}
+          </div>
+          <div class="col-12 col-md-7">
+            {{notify.text}}
+          </div>
+          <div class="col-12 col-md-3 text-right">
+            <q-btn color="primary" @click="$router.push(notify.url)" size="sm" class="q-mr-sm" no-caps unelevated  label="Открыть заявку"/>
+            <q-btn color="primary" @click="deleteNotify(notify.id)" size="sm" outline no-caps label="Удалить"/>
+          </div>
+        </div>
+
       </q-card-section>
     </q-card>
     </div>

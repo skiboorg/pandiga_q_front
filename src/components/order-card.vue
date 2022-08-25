@@ -70,6 +70,8 @@
           </q-item>
         </q-card-section>
 
+
+
       </q-card-section>
       <q-card-section class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
         <p class="text-caption">Дата размещения {{new Date(order.created_at) | formatDate}}</p>
@@ -82,7 +84,8 @@
           <p class="q-mb-none" v-else>на {{order.rentHours}} сут.</p>
         </div>
         <div v-if="!is_own">
-          <q-badge v-if="has_units" outline class="q-mb-sm" color="primary" label="Есть предложенная Вами техника" />
+          <q-badge v-if="has_units" outline class="q-mb-sm" color="positive" label="Есть предложенная Вами техника" />
+          <p class="q-mb-sm" v-if="has_decine_units"><q-badge   color="primary" label="Заказчик отказал" /></p>
           <q-btn v-if="!fullInfo" color="primary" outline unelevated no-caps :to="{name:'order_info',params: { order_slug:order.name_slug }}" label="Предложить технику"/>
         </div>
         <div v-else>
@@ -97,7 +100,7 @@
 
           <q-btn class="q-mr-sm" unelevated no-caps v-if="!is_apply" @click="$router.push({name:'profile_order_info',params:{order_slug:order.name_slug}})" outline color="primary" label="Открыть"/>
           <q-btn class="q-mr-sm" unelevated no-caps v-else @click="$router.push({name:'profile_apply_info',params:{order_slug:order.name_slug}})" outline color="primary" label="Детали"/>
-          <q-btn v-if="!order.worker" color="primary" unelevated no-caps @click="deleteOrder(order.id)" label="Удалить"/>
+<!--          <q-btn v-if="!order.worker" color="primary" unelevated no-caps @click="deleteOrder(order.id)" label="Удалить"/>-->
         </div>
 
       </q-card-section>
@@ -114,7 +117,7 @@ import {mapActions} from "vuex";
 
 export default {
   name: 'order-card',
-  props:['order','fullInfo','has_units','is_own','is_apply'],
+  props:['order','fullInfo','has_units','is_own','is_apply','has_decine_units'],
   data () {
     return {
 
