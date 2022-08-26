@@ -48,6 +48,8 @@
           :is_own="false"
           :has_units="order.apply_units.some(x=>$auth.units.filter(y=>y.id===x))"
           :has_decine_units="order.decline_units.some(x=>$auth.units.filter(y=>y.id===x))"
+          :has_worker = "order.worker"
+
           v-for="order in filtered_orders"
           :key="order.id"/>
         <q-pagination
@@ -126,6 +128,7 @@ export default {
       order_status:{label:'Без фильтров',value:'all'},
       order_statuses:[
         {label:'Без фильтров',value:'all'},
+        {label:'Вас выбрали исполнителем',value:'worker'},
         {label:'С предложенной техникой',value:'apply'},
         {label:'С отказанной техникой',value:'decline'},
       ]
@@ -148,6 +151,9 @@ export default {
 
     filter_change(){
       console.log(this.order_status)
+      if (this.order_status.value === 'worker'){
+        this.filtered_orders = this.orders.filter(order=>order.worker ? order.worker.id === this.$auth.user.id : null)
+      }
       if (this.order_status.value === 'apply'){
         this.filtered_orders = this.orders.filter(order=>order.apply_units.some(x=>this.$auth.units.filter(y=>y.id===x)))
       }
@@ -163,6 +169,7 @@ export default {
       const response = await this.$api.get(`/api/v1/order/get_orders?type_slug=all&city=${this.$auth.loggedIn ? this.$auth.user.city.id : 0}`)
       this.total_pages = response.data.page_count
       this.orders = response.data.results
+      console.log(this.orders)
       this.filtered_orders = this.orders
     },
     async subscribeChange(){

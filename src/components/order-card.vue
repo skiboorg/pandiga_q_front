@@ -84,10 +84,24 @@
           <p class="q-mb-none" v-else>на {{order.rentHours}} сут.</p>
         </div>
         <div v-if="!is_own">
+
           <q-badge v-if="has_units" outline class="q-mb-sm" color="positive" label="Есть предложенная Вами техника" />
-          <p class="q-mb-sm" v-if="has_decine_units"><q-badge   color="primary" label="Заказчик отказал" /></p>
-          <q-btn v-if="!fullInfo" color="primary" outline unelevated no-caps :to="{name:'order_info',params: { order_slug:order.name_slug }}" label="Предложить технику"/>
-        </div>
+          <p class="q-mb-sm" v-if="has_decine_units"><q-badge class="text-h6"  color="primary" label="Заказчик отказал" /></p>
+          <div class="" v-if="has_worker">
+            <p class="q-mb-sm"><q-badge class="text-h6"  color="positive"
+                                                               :label="has_worker.id === $auth.user.id? 'Выполняется Вами' : 'Выполняется'" /></p>
+          </div>
+          <div class="" v-if="has_worker">
+            <q-btn v-if="has_worker.id === $auth.user.id" class="q-mr-sm" unelevated no-caps @click="$router.push({name:'profile_apply_info',params:{order_slug:order.name_slug}})" outline color="primary" label="Детали"/>
+
+          </div>
+
+          <div class="" v-if="!has_decine_units && !has_worker">
+            <q-btn v-if=" !fullInfo " color="primary" outline unelevated no-caps :to="{name:'order_info',params: { order_slug:order.name_slug }}" :label="has_units ? 'Подробнее' : 'Предложить технику'"/>
+          </div>
+
+
+       </div>
         <div v-else>
           <q-separator class="q-mb-sm"/>
           <div v-if="!order.is_finished">
@@ -117,7 +131,7 @@ import {mapActions} from "vuex";
 
 export default {
   name: 'order-card',
-  props:['order','fullInfo','has_units','is_own','is_apply','has_decine_units'],
+  props:['order','fullInfo','has_units','is_own','is_apply','has_decine_units','has_worker'],
   data () {
     return {
 
