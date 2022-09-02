@@ -44,12 +44,13 @@
         <!--      -->
            <div v-if="order.is_finished && !order.worker_feedback">
               <q-form>
-                <p class="mb-20">Оцените заказчика</p>
+                <p class="q-mb-sm text-bold text-h6">Оцените заказчика</p>
                 <q-rating
                   v-model="feedbackData.rate_value"
                   size="2em"
                   :max="5"
                   color="primary"
+                  class="q-mb-lg"
                 >
                   <template v-slot:tip-1>
                     <q-tooltip>Не советую</q-tooltip>
@@ -67,13 +68,15 @@
                     <q-tooltip>Отлично</q-tooltip>
                   </template>
                 </q-rating>
-                <p>Ваш отзыв</p>
+                <p class="q-mb-sm text-bold text-h6">Ваш отзыв</p>
                 <q-input
                   v-model="feedbackData.rate_text"
-                  filled
+                  outlined
+
+                  class="q-mb-md"
                   type="textarea"
                 />
-                <q-btn color="primary" @click="sendFeedback" label="Оставить отзыв"/>
+                <q-btn unelevated no-caps color="primary" @click="sendFeedback" label="Оставить отзыв"/>
               </q-form>
             </div>
 

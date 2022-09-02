@@ -42,6 +42,7 @@
                   class="q-mb-lg "
                   @submit="infoFormSubmit">
                   <q-select
+                    behavior="menu"
                     outlined
                     v-model="selectedCategory"
                     :options="categories"
@@ -52,6 +53,7 @@
                     :rules="[val => val || 'Выберите категорию']"
                     label="Выберите категорию *" />
                   <q-select
+                    behavior="menu"
                     outlined
                     v-model="unit.selectedType"
 
@@ -120,6 +122,7 @@
                   <div class="filter-group" v-for="(filter,index) in all_filters.filter">
 
                     <q-select
+                      behavior="menu"
                       v-if="filter.type==='select'"
                       outlined
                       v-model="filter.value"
@@ -160,6 +163,7 @@
                   <p class="q-mb-md col-2"  >Выберите город</p>
                   <!--                   @input="citySelected"-->
                   <q-select
+                    behavior="menu"
                     outlined
                     v-model="unit.city"
                     use-input

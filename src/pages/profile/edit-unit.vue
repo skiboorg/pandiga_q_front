@@ -64,6 +64,7 @@
           <h3 class="text-bold text-h5">Фильтры</h3>
           <div class="filter-group" v-for="(filter,index) in unit.filter">
             <q-select
+              behavior="menu"
               v-if="filter.type==='select'"
               outlined
               v-model="filter.value"
@@ -93,6 +94,7 @@
           <p> Текущее местоположение: <span class="text-bold">г. {{unit.city}}</span></p>
 
            <q-select
+             behavior="menu"
                     outlined
                     v-model="city"
                     use-input

@@ -40,6 +40,7 @@
         <div class=" filters-block q-pa-md bg-grey-2">
           <div class="filter-group " v-for="(filter,index) in all_filters.filter">
             <q-select
+              behavior="menu"
               v-if="filter.type==='select'"
               outlined
 
@@ -90,6 +91,7 @@
             <q-input dense outlined style="flex-basis: 20%"   v-model="rent_price_to" label="до" />
           </div>
            <q-select
+             behavior="menu"
               outlined
               dense
               v-model="city"
@@ -141,6 +143,7 @@
       <q-card-section>
          <div class="filter-group" v-for="(filter,index) in all_filters.filter">
             <q-select
+              behavior="menu"
               v-if="filter.type==='select'"
               filled
               v-model="filter.value"
@@ -190,6 +193,7 @@
             <q-input dense style="flex-basis: 20%"  filled v-model="rent_price_to" label="до" />
           </div>
            <q-select
+             behavior="menu"
               filled
               dense
               v-model="city"

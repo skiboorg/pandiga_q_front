@@ -157,6 +157,7 @@
               ]"/><!--    email      -->
           {{registerForm.city_id}}
           <q-select
+            behavior="menu"
             outlined
             v-model="registerForm.city"
             use-input

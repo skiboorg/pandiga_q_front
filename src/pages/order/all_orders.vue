@@ -18,10 +18,10 @@
     </div>
     <div class="row q-col-gutter-md q-mb-md">
       <div class="col-12 col-md-3">
-        <q-select outlined v-model="selected_type" label="Выберите тип техники" @popup-hide="type_change" :options="user_unit_types"/>
+        <q-select behavior="menu" outlined v-model="selected_type" label="Выберите тип техники" @popup-hide="type_change" :options="user_unit_types"/>
       </div>
       <div class="col-12 col-md-3">
-        <q-select outlined v-model="order_status" label="Выберите фильтр" @popup-hide="filter_change" :options="order_statuses"/>
+        <q-select behavior="menu" outlined v-model="order_status" label="Выберите фильтр" @popup-hide="filter_change" :options="order_statuses"/>
       </div>
       <div class="col-12 col-md-3 gt-sm"></div>
       <div class="col-12 col-md-3">
@@ -125,9 +125,10 @@ export default {
       cur_type_slug:'all',
       selected_type:{label:'Все заявки',value:'all',id:0},
       user_unit_types:[],
-      order_status:{label:'Без фильтров',value:'all'},
+      order_status:{label:'Все заявки',value:'all'},
       order_statuses:[
-        {label:'Без фильтров',value:'all'},
+        {label:'Все заявки',value:'all'},
+        {label:'Выполненые',value:'done'},
         {label:'Вас выбрали исполнителем',value:'worker'},
         {label:'С предложенной техникой',value:'apply'},
         {label:'С отказанной техникой',value:'decline'},
@@ -151,6 +152,10 @@ export default {
 
     filter_change(){
       console.log(this.order_status)
+
+      if (this.order_status.value === 'done'){
+        this.filtered_orders =this.orders.filter((order=>order.worker ? order.worker.id === this.$auth.user.id && order.is_finished : null))
+      }
       if (this.order_status.value === 'worker'){
         this.filtered_orders = this.orders.filter(order=>order.worker ? order.worker.id === this.$auth.user.id : null)
       }

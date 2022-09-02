@@ -13,6 +13,7 @@
               hide-selected
               fill-input
               outlined
+              behavior="menu"
               label="Что ищем?"
               class="bg-grey-1 rounded-borders "
               input-debounce="0"
@@ -43,6 +44,7 @@
               </template>
             </q-select>
             <q-select
+              behavior="menu"
               outlined
               v-model="city"
               use-input
