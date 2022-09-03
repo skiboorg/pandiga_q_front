@@ -1,6 +1,6 @@
 <template>
   <q-page class="container flex flex-center">
-    <q-card v-if="!recovery_panel" class="flex flex-center column q-pa-lg">
+    <q-card flat bordered v-if="!recovery_panel" class="flex flex-center column q-pa-lg">
       <h3 class="text-h5 text-bold q-mb-sm">Вход</h3>
       <p class="login-text">Чтобы получить доступ к нашим сервисам, войдите, используя данные своего аккаунта </p>
       <q-form
@@ -44,7 +44,7 @@
             о конфиденциальности</a></p>
       </div>
     </q-card>
-    <q-card v-else class="flex flex-center column q-pa-lg">
+    <q-card flat bordered v-else class="flex flex-center column q-pa-lg">
       <h3 class="text-h5 text-bold q-mb-sm">Восстановление пароля</h3>
       <p class="login-text">На указанный номер телефона поступит звонок, Ваш временный пароль будет озвучен голосом, Вы сможете сменить его в настройках профиля.</p>
       <q-form

@@ -3,6 +3,7 @@
     <q-stepper
       v-model="step"
       header-nav
+      flat bordered
       ref="stepper"
       color="primary"
       animated>

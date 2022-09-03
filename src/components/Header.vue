@@ -41,7 +41,7 @@
              <q-badge v-if="$auth.notifications_count>0" rounded color="dark" floating>{{$auth.notifications_count}}</q-badge>
           </q-btn>
           <q-btn color="primary" icon="lar la-user" flat round @mouseenter="is_menu_show=!is_menu_show">
-            <q-menu @mouseleave="is_menu_show=!is_menu_show" auto-close v-model="is_menu_show">
+            <q-menu  @mouseleave="is_menu_show=!is_menu_show" auto-close v-model="is_menu_show">
               <div class="row no-wrap q-pa-md">
                 <div class="column">
                   <q-list   class="rounded-borders text-primary">
@@ -120,12 +120,12 @@
 
   </q-header>
 
-     <q-drawer v-model="drawer" side="right" overlay  elevated :breakpoint="300"
+     <q-drawer v-model="drawer" side="right" overlay  bordered :breakpoint="300"
         >
        <div v-if="!$auth.loggedIn" class="flex column q-pa-sm ">
-         <q-btn  color="primary" to="/catalog" class="q-mb-md" icon="local_shipping" label="Каталог техники"/>
-          <q-btn  color="primary" to="/login" class="q-mb-md" outline label="Войти"/>
-          <q-btn  color="primary" to="/register" class="q-mb-xl" outline label="Зарегистрироваться"/>
+         <q-btn no-caps unelevated color="primary" to="/catalog" class="q-mb-md" icon="las la-truck" label="Каталог техники"/>
+          <q-btn no-caps unelevated color="primary" to="/login" class="q-mb-md" outline label="Войти"/>
+          <q-btn no-caps unelevated color="primary" to="/register" class="q-mb-xl" outline label="Зарегистрироваться"/>
        </div>
        <div v-else>
 

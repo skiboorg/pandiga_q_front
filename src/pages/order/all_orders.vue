@@ -157,7 +157,7 @@ export default {
         this.filtered_orders =this.orders.filter((order=>order.worker ? order.worker.id === this.$auth.user.id && order.is_finished : null))
       }
       if (this.order_status.value === 'worker'){
-        this.filtered_orders = this.orders.filter(order=>order.worker ? order.worker.id === this.$auth.user.id : null)
+        this.filtered_orders = this.orders.filter(order=>order.worker ? order.worker.id === this.$auth.user.id && !order.is_finished : null)
       }
       if (this.order_status.value === 'apply'){
         this.filtered_orders = this.orders.filter(order=>order.apply_units.some(x=>this.$auth.units.filter(y=>y.id===x)))

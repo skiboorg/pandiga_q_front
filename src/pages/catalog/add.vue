@@ -339,7 +339,7 @@
         </q-splitter>
       </div>
       <div class="col-4">
-        <q-card class="q-pa-md">
+        <q-card flat bordered class="q-pa-md">
           <h3 class="text-h6 text-bold q-mt-none q-mb-md">{{side_question}}</h3>
           <q-separator class="q-mb-md"/>
           <div v-html="info_text"></div>
