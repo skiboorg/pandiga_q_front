@@ -26,6 +26,7 @@
                 <q-avatar>
                   <img :src="chat.opponent.avatar">
                    <q-badge v-if="chat.opponent.is_online" floating color="positive" style="height: 10px;border-radius: 50%; width: 5px" icon="lens">
+
                    </q-badge>
                 </q-avatar>
               </q-item-section>
@@ -48,7 +49,8 @@
                 <q-item-label caption lines="1">{{chat.last_message}}</q-item-label>
               </q-item-section>
               <q-item-section side>
-                <q-icon name="chat_bubble" :color="chat.opponent.is_online? 'positive':'grey-1'" />
+
+                <q-icon size="10px" name="fiber_manual_record" :color="chat.opponent.is_online? 'positive':'grey-1'" />
               </q-item-section>
             </q-item>
           </div>
@@ -127,7 +129,8 @@
                 :sent="message.user.id !== $auth.user.id"
                 :text="[message.message]"
                 :stamp="message.createdAt | formatDate"
-                :bg-color="message.user.id === $auth.user.id ? 'grey-3' : 'grey-4'"
+                :bg-color="message.user.id === $auth.user.id ? 'grey-2' : 'red-2'"
+
               >
                 <q-card class="bg-primary text-white q-pa-sm" v-if="message.isRentMessage">
                   <p v-if="message.rentType">{{message.rentDate}} c {{message.rentTime}} хочу арендовать {{message.rentUnit.name}} на {{message.rentHours}} час.</p>
