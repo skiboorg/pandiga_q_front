@@ -39,19 +39,19 @@
         </q-card-section>
         <q-card-section class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
           <p class="q-mb-sm">Баланс: <q-badge class="q-mx-sm" outline color="primary" :label="`${$auth.user.balance} руб`"/> </p>
-          <div class="flex items-center q-mb-none">
-            <p class="q-mb-none">Партнерский баланс: <q-badge class="q-mx-sm" outline color="primary" :label="`${$auth.user.partner_balance} руб`"/> </p>
-            <q-btn size="sm" flat round color="dark" icon="info" >
-              <q-tooltip anchor="center right" self="center left" :offset="[10, -10]">
-                Информация о партнерке
-              </q-tooltip>
-            </q-btn>
-          </div>
+<!--          <div class="flex items-center q-mb-none">-->
+<!--            <p class="q-mb-none">Партнерский баланс: <q-badge class="q-mx-sm" outline color="primary" :label="`${$auth.user.partner_balance} руб`"/> </p>-->
+<!--            <q-btn size="sm" flat round color="dark" icon="info" >-->
+<!--              <q-tooltip anchor="center right" self="center left" :offset="[10, -10]">-->
+<!--                Можно потратить бонусы на продвижение<br> своей техники на сайте (поднять вверх списка,<br> выделить или закрепить)-->
+<!--              </q-tooltip>-->
+<!--            </q-btn>-->
+<!--          </div>-->
           <div class="flex items-center q-mb-lg">
             <p class="q-mb-none">Партнерский код: <q-badge class="q-mx-sm" outline color="primary" :label="`${$auth.user.partner_code}`"/> </p>
             <q-btn size="sm" flat round color="dark" icon="info" >
               <q-tooltip anchor="center right" self="center left" :offset="[10, 10]">
-                Информация о коде
+                Приглашенный Вами человек должен<br> ввести этот код в своем личном кабинете,<br> После этого он получит 1000 бонусных рублей,<br> а вы начнете получать 10% от его трат на нашем сервисе.
               </q-tooltip>
             </q-btn>
           </div>

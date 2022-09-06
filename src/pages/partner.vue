@@ -7,53 +7,13 @@
       </q-breadcrumbs>
     </div>
 
-      <h1 class="text-bold text-h4">Выгодная партнерская программа</h1>
+      <h1 class="text-bold text-h4">Партнерская программа</h1>
+   <p class="text-justify">Зарабатывайте вместе с PANDIGA — приглашайте владельцев техники и получайте процент от их платежей на свой партнерский счёт.<br><br>
+     Мы начислим 10% от каждой траты коллег на нашем сервисе, и вы сможете потратить бонусы на продвижение своей техники на сайте (поднять вверх списка, выделить или закрепить).<br><br>
+     Для участия в программе приглашенный человек должен ввести ваш партнерский код, который каждый пользователь получает при регистрации. (См. личный кабинет) После этого он получит 1000 бонусных рублей, а вы начнете получать проценты от покупок.<br>
+</p>
 
-   <div class="row ">
-     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 q-pa-lg-lg q-pa-md-lg">
-        <p class="text-body1 text-center text-grey-9">Мы постоянно следим, чтобы ваш трафик
-            конвертировался максимально
-            эффективно и приносил больший доход.</p>
-     </div>
-     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 q-pa-lg-lg q-pa-md-lg">
-       <p class="text-body1 text-center text-grey-9">Мы привыкли знать наших партнёров
-            «в лицо» — вы всегда будете знать,
-            к кому обратиться с вопросом.</p></div>
-    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 q-pa-lg-lg q-pa-md-lg">
-       <p class="text-body1 text-center text-grey-9">Прозрачная статистика
-            Все цифры по лидам и свой доход
-            вы будете видеть в личном кабинете.</p></div>
-   </div>
 
-      <h3 class="text-bold text-h4">Кто может стать нашим партнёром</h3>
-      <p class="text-body1 ">Партнёрами Pandiga могут стать частные и юридические лица:</p>
-
-   <q-list>
-      <q-item>
-         <q-item-section side top>
-           <q-icon name="check" color="primary" />
-        </q-item-section>
-        <q-item-section>
-          <q-item-label>веб-мастера</q-item-label>
-        </q-item-section>
-      </q-item>
-       <q-item>
-         <q-item-section side top>
-           <q-icon name="check" color="primary" />
-        </q-item-section>
-        <q-item-section>
-          <q-item-label>владельцы сайтов, форумов</q-item-label>
-        </q-item-section>
-      </q-item>
-       <q-item>
-         <q-item-section side top>
-           <q-icon name="check" color="primary" />
-        </q-item-section>
-        <q-item-section>
-          <q-item-label>частные лица, желающие заработать в интернете</q-item-label>
-        </q-item-section>
-      </q-item>
-    </q-list>
 
 
 

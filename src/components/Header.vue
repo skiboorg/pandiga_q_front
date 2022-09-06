@@ -19,7 +19,7 @@
         </div>
         <div v-else class="flex items-center justify-between gt-sm">
 <!--          <q-btn color="primary" to="/catalog" class="q-mr-sm" icon="local_shipping" label="Каталог техники"/>-->
-          <q-btn v-if="this.$auth.loggedIn && !this.$auth.user.is_customer" color="primary" :to="{name:'all_orders'}" class="q-mr-sm" no-caps outline label="Заявки на технику"/>
+          <q-btn v-if="this.$auth.loggedIn && !this.$auth.user.is_customer" color="primary" :to="{name:'all_orders'}" class="q-mr-sm" unelevated no-caps  label="Заявки на технику"/>
           <q-btn v-if="this.$auth.loggedIn && !this.$auth.user.is_customer" color="primary" :to="{name:'add_unit'}" class="q-mr-sm" no-caps outline label="Добавить технику"/>
           <q-btn v-if="this.$auth.loggedIn && this.$auth.user.is_customer" color="primary" no-caps icon="las la-plus" :to="{name:'new_order'}" class="q-mr-sm" outline label="Заявка на технику"/>
           <q-btn :to="{name:'profile_favorite'}" v-if="this.$auth.user.is_customer" color="primary" flat round icon="las la-heart">

@@ -120,27 +120,19 @@
       <div class="container">
         <div class="row flex q-py-xl  justify-between">
           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 q-mb-md text-center">
-            <h3 class="text-h4 text-bold q-mb-xl">Загрузите мобильное приложение</h3>
-
-
+            <h3 class="text-h4 text-bold q-mb-md">Вся техника в одном приложении</h3>
+            <p class="q-mb-xl text-bold text-h6 text-grey-7">Наведи камеру телефона на QR-код</p>
             <div class="q-gutter-md justify-center">
-
+              <a href="https://apps.apple.com/ru/app/pandigaapp/id1586582832">
                 <img   src="../assets/apple-ru.svg">
-                 <q-tooltip>
-          Приложение находиться на доработке и скоро будет опубликовано
-        </q-tooltip>
-
-
+              </a>
                 <a href="https://play.google.com/store/apps/details?id=ru.pandiga.app" target="_blank">
                    <img  src="../assets/google-ru.svg">
                 </a>
-
-
-
-
             </div>
           </div>
           <q-img class="col-4 col-md-4 gt-sm " style="width: 285px" contain :ratio="1" src="../assets/qr.jpeg"/>
+
         </div>
       </div>
     </section>
@@ -161,6 +153,18 @@
             <p class="text-h6" style="max-width: 335px; margin: 0 auto">Выберите<br>лучшего</p>
           </div>
         </div>
+      </div>
+    </section>
+    <section class="bg-grey-2 q-py-xl">
+      <div class="container">
+        <h3 class="text-h3 text-bold text-center q-mt-none">Что такое PANDIGA?</h3>
+        <p style="text-align: justify"><strong>PANDIGA</strong>  это сервис, с помощью которого Вы можете найти и арендовать практически все доступные в настоящее время виды техники: авто/мото/спецтехнику, водный, воздушный и электротранспорт, оборудование и инструменты.</p>
+        <p style="text-align: justify">PANDIGA это надежный &ldquo;мост&rdquo; между Заказчиком и владельцем техники. Мы тщательно проверяем заявки на размещение техники, которые к нам поступают по таким критериям как работоспособность, функциональность и, если возможно, история использования.</p>
+        <p style="text-align: justify">Главное для ПАНДИГА  репутация, которая основывается исключительно на доверии пользователей. Исходя из этого принципа мы строим работу нашей команды, поэтому для нас важнее отказать в размещении не подходящего варианта, чем потерять доверие.&nbsp;</p>
+        <p style="text-align: justify">Использование сервиса для Заказчика абсолютно бесплатно. Пользователь&nbsp;получает бесплатно полную информацию о состоянии техники еще до первого &ldquo;созвона&rdquo; с ее владельцем. Вы рассчитываетесь только с владельцем за аренду его техники/инструмента.</p>
+
+        <p style="text-align: justify">В свою очередь, владельцу техники выгодно размещать информацию о своем предложении на PANDIGA. За счет умного продвижения и специализации наш сервис имеет большой охват именно среди целевой аудитории, за счет чего техника обеспечивается постоянной загрузкой и не простаивает.</p>
+
       </div>
     </section>
   </q-page>
@@ -206,7 +210,7 @@ export default {
     },
     filterCity (val, update, abort) {
       update(async() => {
-        if (val && val.length >2 ) {
+        if (val && val.length >1 ) {
           const needle = val.toLowerCase()
           const result = await this.$api.get(`/api/v1/city/search?city=${val}`)
           this.cities = result.data
