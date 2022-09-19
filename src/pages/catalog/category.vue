@@ -263,7 +263,7 @@ export default {
       rent_time_from:'',
       rent_price_from:'',
       rent_price_to:'',
-      rent_type:'1',
+      rent_type:'2',
       city:{id:0},
       cities:[],
       rentMsg_send:false,
@@ -332,13 +332,13 @@ export default {
           let filterValue = currentFilter[0].values.filter(x=>x.id===parseInt(this.$route.query.value))
           currentFilter[0].value = filterValue[0]
           this.is_queryFilter_ok = true
-          await this.submitForm(1)
+          await this.submitForm(1,'all')
         }catch (e){
           console.log('filter error',e)
         }
       }
       if (this.city.id>0){
-        await this.submitForm(1)
+        await this.submitForm(1,'all')
       }else {
         const  response_units = await this.$api.get(`/api/v1/technique/units?type=${this.$route.params.category_slug}`)
         this.technique_units = response_units.data.results
@@ -359,7 +359,7 @@ export default {
         await this.submitForm(this.current_page)
       }
     },
-    async submitForm(page){
+    async submitForm(page,type='filter'){
       this.$q.loading.show()
       await this.$api({
         method: 'post',
@@ -368,6 +368,7 @@ export default {
         },
         url: `/api/v1/technique/filter/?page=${page}`,
         data: JSON.stringify({
+            filter_type:type,
             technique_type:this.technique_type.name_slug,
             rent_time_to:(this.rent_time_to ? this.rent_time_to : 1000),
             rent_time_from:(this.rent_time_from ? this.rent_time_from : 0),

@@ -10,7 +10,8 @@ const routes = [
       { path: '/about',name:'about', component: () => import('pages/about') },
       { path: '/partner',name:'partner', component: () => import('pages/partner') },
       { path: '/policy',name:'policy', component: () => import('pages/policy') },
-      { path: '/rules',name:'rules', component: () => import('pages/rules') }
+      { path: '/rules',name:'rules', component: () => import('pages/rules') },
+      { path: '/user/:u_id',name:'user', component: () => import('pages/user') }
     ]
   },
   {

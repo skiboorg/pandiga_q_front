@@ -16,15 +16,29 @@
        <q-card class="q-mb-md" flat bordered v-for="notify in $auth.notifications" :key="notify.id">
       <q-card-section >
         <div class="row q-col-gutter-md">
-          <div class="col-12 col-md-2 text-caption">
+          <div class="col-12 col-md-2 text-caption cursor-pointer" @click="$router.push(notify.url)" >
             {{notify.created_at | formatDate}}
           </div>
-          <div class="col-12 col-md-7">
+          <div class="col-12 col-md-7 cursor-pointer" @click="$router.push(notify.url)" >
             {{notify.text}}
           </div>
           <div class="col-12 col-md-3 text-right">
-            <q-btn color="primary" @click="$router.push(notify.url)" size="sm" class="q-mr-sm" no-caps unelevated  label="Открыть заявку"/>
-            <q-btn color="primary" @click="deleteNotify(notify.id)" size="sm" outline no-caps label="Удалить"/>
+
+            <q-btn color="primary"  size="sm" outline no-caps label="Удалить">
+              <q-popup-proxy>
+                <q-card>
+                  <q-card-section>
+                    <p class="text-caption">Вы уверены?</p>
+                    <div class="q-gutter-md">
+                      <q-btn @click="deleteNotify(notify.id)" color="negative" size="12px" class="q-px-lg" unelevated no-caps dense label="Да"/>
+                      <q-btn v-close-popup color="dark" no-caps dense size="12px" unelevated class="q-px-lg" label="Нет"/>
+                    </div>
+                  </q-card-section>
+                </q-card>
+              </q-popup-proxy>
+            </q-btn>
+
+
           </div>
         </div>
 

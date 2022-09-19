@@ -63,17 +63,17 @@
                     </q-item>
                     <q-item v-if="$auth.user.is_customer" clickable  v-ripple :active="link === 'inbox'" :to="{name:'profile_orders'}"  @click="link = 'inbox'" active-class="my-menu-link">
                       <q-item-section avatar><q-icon name="las la-list" /></q-item-section>
-                      <q-item-section>Заявки</q-item-section>
+                      <q-item-section>Мои заявки</q-item-section>
                     </q-item>
-                    <q-item v-else clickable dense v-ripple :active="link === 'inbox'" :to="{name:'profile_applies'}" @click="link = 'inbox'" active-class="my-menu-link">
-                      <q-item-section avatar><q-icon name="las la-list" /></q-item-section>
-                      <q-item-section>Мои предложения</q-item-section>
-                    </q-item>
+<!--                    <q-item v-else clickable dense v-ripple :active="link === 'inbox'" :to="{name:'profile_applies'}" @click="link = 'inbox'" active-class="my-menu-link">-->
+<!--                      <q-item-section avatar><q-icon name="las la-list" /></q-item-section>-->
+<!--                      <q-item-section>Мои предложения</q-item-section>-->
+<!--                    </q-item>-->
 <!--                    <q-item clickable dense v-ripple :active="link === 'inbox'" :to="{name:'profile_refferal'}"  @click="link = 'inbox'" active-class="my-menu-link">-->
 <!--                      <q-item-section avatar><q-icon name="people_alt" /></q-item-section>-->
 <!--                      <q-item-section>Партнеры</q-item-section>-->
 <!--                    </q-item>-->
-                    <q-item clickable  v-ripple :active="link === 'inbox'" :to="{name:'profile_balance'}" @click="link = 'inbox'" active-class="my-menu-link">
+                    <q-item v-if="!$auth.user.is_customer" clickable  v-ripple :active="link === 'inbox'" :to="{name:'profile_balance'}" @click="link = 'inbox'" active-class="my-menu-link">
                       <q-item-section avatar><q-icon name="las la-wallet" /></q-item-section>
                       <q-item-section>Баланс</q-item-section>
                     </q-item>
@@ -175,17 +175,17 @@
                     </q-item>
                     <q-item v-if="$auth.user.is_customer" clickable  v-ripple :active="link === 'inbox'" :to="{name:'profile_orders'}"  @click="link = 'inbox'" active-class="my-menu-link">
                       <q-item-section avatar><q-icon name="las la-list" /></q-item-section>
-                      <q-item-section>Заявки</q-item-section>
+                      <q-item-section>Мои заявки</q-item-section>
                     </q-item>
-                    <q-item v-else clickable dense v-ripple :active="link === 'inbox'" :to="{name:'profile_applies'}" @click="link = 'inbox'" active-class="my-menu-link">
-                      <q-item-section avatar><q-icon name="las la-list" /></q-item-section>
-                      <q-item-section>Мои предложения</q-item-section>
-                    </q-item>
+<!--                    <q-item v-else clickable dense v-ripple :active="link === 'inbox'" :to="{name:'profile_applies'}" @click="link = 'inbox'" active-class="my-menu-link">-->
+<!--                      <q-item-section avatar><q-icon name="las la-list" /></q-item-section>-->
+<!--                      <q-item-section>Мои предложения</q-item-section>-->
+<!--                    </q-item>-->
 <!--                    <q-item clickable dense v-ripple :active="link === 'inbox'" :to="{name:'profile_refferal'}"  @click="link = 'inbox'" active-class="my-menu-link">-->
 <!--                      <q-item-section avatar><q-icon name="people_alt" /></q-item-section>-->
 <!--                      <q-item-section>Партнеры</q-item-section>-->
 <!--                    </q-item>-->
-                    <q-item clickable  v-ripple :active="link === 'inbox'" :to="{name:'profile_balance'}" @click="link = 'inbox'" active-class="my-menu-link">
+                    <q-item v-if="!$auth.user.is_customer" clickable  v-ripple :active="link === 'inbox'" :to="{name:'profile_balance'}" @click="link = 'inbox'" active-class="my-menu-link">
                       <q-item-section avatar><q-icon name="las la-wallet" /></q-item-section>
                       <q-item-section>Баланс</q-item-section>
                     </q-item>

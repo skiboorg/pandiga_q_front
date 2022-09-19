@@ -52,7 +52,7 @@
             mask="+7(###)###-##-##"
             lazy-rules
             :rules="[ val => val && val.length > 15 || 'Нужно ввести корректный номер телефона']"
-            hint="На этот номер будет звонок с голосовым кодом подтверждения"
+            hint="Вам поступит звонок и робот-помощник назовет код"
           />
         </q-form>
         <q-banner v-if="phone_error" inline-actions class="text-white bg-red q-mt-lg">
@@ -96,7 +96,7 @@
             label="Код подтверждения"
             mask="###"
             lazy-rules
-            :rules="[ val => val && val.length > 2 || 'Код введен не полностью', val => val===sms_code || 'Введенный код не совпадает']"
+            :rules="[val => val===sms_code || 'Введенный код не совпадает']"
 
           />
         </q-form>
@@ -304,10 +304,8 @@ export default {
             message: 'Вы успешно зарегистрированы',
             color: 'positive',
             position:'top-right',
-            actions: [
-              { label: 'Войти в аккаунт', color: 'white', handler: () => {this.$router.push('/login')} }
-            ]
           })
+          this.$router.push('/login')
         }
       })
         .catch(error => {
@@ -374,7 +372,7 @@ export default {
     filterCity (val, update, abort) {
       // call abort() at any time if you can't retrieve data somehow
       update(async() => {
-        if (val && val.length >2 ) {
+        if (val && val.length >1 ) {
           const needle = val.toLowerCase()
           const result = await this.$api.get(`/api/v1/city/search?city=${val}`)
           this.cities = result.data

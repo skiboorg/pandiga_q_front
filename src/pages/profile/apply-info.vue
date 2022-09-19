@@ -5,25 +5,25 @@
       <q-breadcrumbs>
         <q-breadcrumbs-el label="Главная" icon="home" to="/" />
         <q-breadcrumbs-el label="Профиль" icon="person" :to="{name:'profile_index'}"  />
-        <q-breadcrumbs-el label="Мои предложения" :to="{name:'profile_applies'}" icon="list"   />
+        <q-breadcrumbs-el label="Заявки на технику" :to="{name:'all_orders'}" icon="list"   />
         <q-breadcrumbs-el :label="`Детали заявки № ${order.id}`" />
       </q-breadcrumbs>
     </div>
     <p class="text-h4 text-bold">Заявка №: {{order.id}} | {{order.name}}</p>
     <div class="row">
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <p class="">Дата размещения {{new Date(order.created_at) | formatDate}}</p>
-        <p class="q-mb-sm ">Заявка на  {{order.type.name}}</p>
-        <p class="">Тип заявки    {{order.rent_type ? 'Почасовая':'Посуточная'}}</p>
-        <p class=" text-bold">Просмотров: {{order.views }}</p>
-
-        <div class="flex items-center justify-start q-mb-lg text-subtitle2 text-bold">
-          <p class="q-mb-none q-mr-sm text-bold">Дата/Время</p>
-          <p class="q-mb-none q-mr-sm">c {{order.rentDate | formatOnlyDate}}</p>
-          <p class="q-mb-none q-mr-sm" v-if="order.rent_type">{{order.rentTime | formatTime}}</p>
-          <p class="q-mb-none" v-if="order.rent_type">на {{order.rentDays}} час.</p>
-          <p class="q-mb-none" v-else>на {{order.rentHours}} сут.</p>
+        <div class="bg-grey-2 q-pa-md q-mb-md">
+          <p class="text-bold">Дата размещения {{new Date(order.created_at) | formatDate}}</p>
+          <p class="q-mb-none ">Заявка на  {{order.type.name}}</p>
+          <p class="">Тип заявки    {{order.rent_type ? 'Почасовая':'Посуточная'}}</p>
+          <p class="q-mb-none q-mr-sm text-bold">Дата/Время заявки:  </p>
+          <p class="q-mb-none" >c {{order.rentDate | formatOnlyDate}}</p>
+          <p class=" q-mb-none" v-if="order.rent_type">{{order.rentTime | formatTime}}</p>
+          <p class="" v-if="order.rent_type">на {{order.rentDays}} час.</p>
+          <p class="" v-else>на {{order.rentHours}} сут.</p>
+          <p class=" text-bold">Просмотров: {{order.views }}</p>
         </div>
+        <div class="bg-grey-2 q-pa-md q-mb-md">
         <p class="q-mb-sm text-bold text-h6">Необходимые характеристики</p>
 
         <p class="q-mb-sm " v-for="(filter,key) in order.filter">
@@ -40,6 +40,7 @@
         </div>
         <div v-else>
           <p class="text-bold text-h6 text-positive" >Выполнена</p>
+        </div>
         </div>
         <!--      -->
            <div v-if="order.is_finished && !order.worker_feedback">
@@ -124,7 +125,7 @@ export default {
   methods:{
     async sendFeedback(){
         await this.$api.post('/api/v1/user/add_feedback/',{data:this.feedbackData,order:this.order.id})
-        this.$router.push({name:'profile_orders'})
+        this.$router.push({name:'profile_index'})
       },
     async page_init(){
       const response = await this.$api.get(`/api/v1/order/get_lk_order/${this.$route.params.order_slug}`)

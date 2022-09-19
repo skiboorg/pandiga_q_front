@@ -10,7 +10,7 @@
         @click="$router.push(`/catalog/${category_slug}/${unit.name_slug}`)"
         class="col-lg-3 col-md-3 col-sm-4 col-xs-4 cursor-pointer"
         :src="unit.images[0].image_thumb">
-        <q-badge  class="q-pa-sm unit-card__bagde" color="positive">Свободен</q-badge>
+<!--        <q-badge  class="q-pa-sm unit-card__bagde" color="positive">Свободен</q-badge>-->
       </q-img>
       <q-card-section class="row col-lg-9 col-md-9 col-sm-7 col-xs-8">
          <q-card-section class="no-padding" :class="[$auth.loggedIn && $auth.user.is_customer ? 'col-lg-8 col-md-8 col-sm-9 col-xs-12':'col-lg-9 col-md-9 col-sm-9 col-xs-12']">
@@ -19,6 +19,16 @@
         </router-link>
         <p class="text-caption ">Мин. время заказа: от {{unit.min_rent_time}} {{unit.rent_type? 'час' : 'день'}}</p>
         <RentMsg class="q-mb-sm" :unit_id="unit.id" :owner_id="unit.owner"/>
+           <div class="q-mb-md" >
+             <q-item-label class="flex"><p class="no-margin text-caption">Рейтинг :</p>
+               <q-rating
+                 v-model="unit.rating"
+                 size="xs"
+                 color="primary"
+                 readonly
+               /></q-item-label>
+             <p class="no-margin text-caption">Отзывов : {{unit.rate_times}}</p>
+           </div>
       </q-card-section>
       <q-card-section class="no-padding col-lg-3 col-md-3 col-sm-10 col-xs-10">
         <p class="text-bold q-mb-sm">{{unit.rent_price}} &#8381;/ {{unit.rent_type? 'час' : 'день'}}</p>

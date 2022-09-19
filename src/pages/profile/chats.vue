@@ -103,7 +103,7 @@
 
       </div>
 
-      <div v-if="current_chat_id>0" class="col-12 col-sm-9 relative-position " style="height: 85vh">
+      <div v-if="current_chat_id>0" class="col-12 col-sm-9 relative-position " style="height: 90vh">
         <q-card flat bordered class="relative-position">
           <q-toolbar  class="bg-primary text-white ">
             <q-toolbar-title >

@@ -21,6 +21,8 @@
 <!--          </q-card>-->
 <!--        </q-radio>-->
 <!--        </div>-->
+ <h3 class="text-bold text-h4">Ваш баланс</h3>
+        <p>{{$auth.user.balance}}</p>
  <h3 class="text-bold text-h4">Сумма платежа</h3>
         <q-input
       v-model.number="payment.amount"

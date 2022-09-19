@@ -33,6 +33,7 @@
               <p class="text-caption">Отзывов: {{$auth.user.rate_times}}</p>
             </div>
             <p>г. {{$auth.user.city.city}}</p>
+            <p>{{$auth.user.email}}</p>
             <p>{{$auth.user.phone}}</p>
           </div>
 
@@ -48,28 +49,32 @@
 <!--            </q-btn>-->
 <!--          </div>-->
           <div class="flex items-center q-mb-lg">
-            <p class="q-mb-none">Партнерский код: <q-badge class="q-mx-sm" outline color="primary" :label="`${$auth.user.partner_code}`"/> </p>
+            <p class="q-mb-none">Мой код партнера: <q-badge class="q-mx-sm" outline color="primary" :label="`${$auth.user.partner_code}`"/> </p>
             <q-btn size="sm" flat round color="dark" icon="info" >
               <q-tooltip anchor="center right" self="center left" :offset="[10, 10]">
                 Приглашенный Вами человек должен<br> ввести этот код в своем личном кабинете,<br> После этого он получит 1000 бонусных рублей,<br> а вы начнете получать 10% от его трат на нашем сервисе.
               </q-tooltip>
             </q-btn>
           </div>
+          <div class="flex items-center q-mb-lg" v-if="$auth.user.is_ref_code_entered">
+            <p class="q-mb-none">Использованный партнерский код: <q-badge class="q-mx-sm" outline color="primary" :label="`${$auth.user.used_partner_code}`"/> </p>
+
+          </div>
           <div class="q-mb-sm">
             <q-btn color="primary" class="full-width" outline no-caps :label="profile_caption"/>
             <q-popup-edit ref="profileEdit" v-model="profile_caption">
-              <q-input  class="q-mb-sm" color="dark"  v-model="userData.email" dense autofocus>
-                <template v-slot:prepend>
-                  <q-icon name="las la-at" color="dark" />
-                </template>
-              </q-input>
+<!--              <q-input  class="q-mb-sm" color="dark"  v-model="userData.email" dense autofocus>-->
+<!--                <template v-slot:prepend>-->
+<!--                  <q-icon name="las la-at" color="dark" />-->
+<!--                </template>-->
+<!--              </q-input>-->
               <div v-if="this.$auth.user.is_person">
-                <q-input  class="q-mb-sm" color="dark"  v-model="userData.first_name" dense >
+                <q-input  class="q-mb-sm" color="dark"  v-model="userData.first_name" dense label="Имя">
                   <template v-slot:prepend>
                     <q-icon name="las la-user" color="dark" />
                   </template>
                 </q-input>
-                <q-input  class="q-mb-sm" color="dark"  v-model="userData.last_name" dense >
+                <q-input  class="q-mb-sm" color="dark"  v-model="userData.last_name" dense label="Фамилия">
                   <template v-slot:prepend>
                     <q-icon name="las la-user" color="dark" />
                   </template>
@@ -87,19 +92,29 @@
 
               </div>
               <div v-else>
-                <q-input  class="q-mb-sm" color="dark"  v-model="userData.organization_name" dense >
+                <q-input  class="q-mb-sm" color="dark"  v-model="userData.organization_name" dense label="Название организации">
                   <template v-slot:prepend>
                     <q-icon name="person" color="dark" />
                   </template>
                 </q-input>
-                <q-input  class="q-mb-sm" color="dark"  v-model="userData.inn" dense >
+                <q-input  class="q-mb-sm" color="dark"  v-model="userData.inn" dense  label="ИНН">
                   <template v-slot:prepend>
                     <q-icon name="person" color="dark" />
                   </template>
                 </q-input>
-                <q-input  class="q-mb-sm" color="dark"  v-model="userData.ogrn" dense >
+                <q-input  class="q-mb-sm" color="dark"  v-model="userData.ogrn" dense label="ОГРН">
                   <template v-slot:prepend>
                     <q-icon name="person" color="dark" />
+                  </template>
+                </q-input>
+                <q-input label="Новый пароль" type="password" class="q-mb-sm" color="dark"  v-model="userData.password" dense >
+                  <template v-slot:prepend>
+                    <q-icon name="las la-key" color="dark" />
+                  </template>
+                </q-input>
+                <q-input label="Повторите пароль" type="password" class="q-mb-sm" color="dark"  v-model="userData.password1" dense >
+                  <template v-slot:prepend>
+                    <q-icon name="las la-key" color="dark" />
                   </template>
                 </q-input>
               </div>
@@ -108,7 +123,7 @@
               <q-btn size="sm" @click="updateUser" class="full-width" color="primary" label="Сохранить"/>
             </q-popup-edit>
           </div>
-          <div class="">
+          <div class="" v-if="!$auth.user.is_ref_code_entered">
             <q-btn class="q-px-md full-width"  color="primary" no-caps unelevated :label="partner_caption"/>
             <q-popup-edit  ref="partnerCode" v-model="partner_caption" :cover="true" :offset="[0, 0]">
               <q-input mask="########" class="q-mb-sm" color="dark" type="number" v-model.number="partnerCode" dense autofocus>
@@ -127,14 +142,15 @@
     <div v-if="!$auth.user.is_customer" class="q-mb-lg">
       <h3 class="text-h4 text-bold">Ваша техника</h3>
       <div class="grid grid-3 gap-md">
-        <q-card v-for="unit in $auth.units" :key="unit.id" class="my-card bg-grey-2" flat bordered >
+
+        <q-card  v-for="unit in $auth.units" :key="unit.id" class="my-card bg-grey-2 " flat bordered >
 
 
           <q-card-section>
-            <q-img :ratio="16/9" :src="unit.images[0].image"/>
+            <q-img class="cursor-pointer" @click="$router.push(`/catalog/${unit.type.name_slug}/${unit.name_slug}`)" :ratio="16/9" :src="unit.images[0].image"/>
             <!--        <div class="text-overline text-primary q-mb-sm">{{unit.type.name}}</div>-->
             <div class="text-h5 q-mt-sm q-mb-xs flex items-center justify-between">
-              <p class="q-mb-none text-primary">{{unit.name}}</p>
+              <p @click="$router.push(`/catalog/${unit.type.name_slug}/${unit.name_slug}`)" class="q-mb-none text-primary cursor-pointer">{{unit.name}}</p>
 
 
               <div v-if="unit.is_active" class="flex items-center ">
@@ -292,6 +308,7 @@ export default {
           position:'top-right',
           color: 'positive',
         })
+        await this.getUser(false)
       }else {
         this.$q.notify({
           message: 'Код не действительный',

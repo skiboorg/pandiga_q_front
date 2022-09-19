@@ -120,8 +120,8 @@
       <div class="container">
         <div class="row flex q-py-xl  justify-between">
           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 q-mb-md text-center">
-            <h3 class="text-h4 text-bold q-mb-md">Вся техника в одном приложении</h3>
-            <p class="q-mb-xl text-bold text-h6 text-grey-7">Наведи камеру телефона на QR-код</p>
+            <h3 class="text-h4 text-bold q-mb-xl ">Вся техника в одном приложении</h3>
+            <p class="q-mb-xl text-bold text-h6 text-grey-7 gt-sm">Наведи камеру телефона на QR-код</p>
             <div class="q-gutter-md justify-center">
               <a href="https://apps.apple.com/ru/app/pandigaapp/id1586582832">
                 <img   src="../assets/apple-ru.svg">
@@ -219,7 +219,7 @@ export default {
     },
     filterResult (val, update, abort) {
       update(async() => {
-        if (val && val.length >2 ) {
+        if (val && val.length >1 ) {
           const needle = val.toLowerCase()
           const result = await this.$api.get(`/api/v1/technique/search/${val}`)
           this.searchResult = result.data

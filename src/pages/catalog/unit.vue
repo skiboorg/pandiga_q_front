@@ -61,13 +61,23 @@
       <!--     unit left end-->
       <!--     unit right start-->
       <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 offset-lg-1 offset-md-1 offset-sm-1">
-        <q-badge class="q-px-lg q-py-sm" color="positive"  label="Cвободен"/>
+<!--        <q-badge class="q-px-lg q-py-sm" color="positive"  label="Cвободен"/>-->
         <div class="row items-center">
           <h1 class="col-10 text-h4 text-bold">{{unit.name}}, {{unit.year}}</h1>
 
              <FavoriteAdd v-if="$auth.loggedIn" :unit_id="unit.id" :is_in_favorites="$auth.user.favorites.includes(unit.id)"/>
 
 
+        </div>
+        <div class="q-mb-md" >
+          <q-item-label class="flex"><p class="no-margin text-caption">Рейтинг :</p>
+            <q-rating
+              v-model="unit.rating"
+              size="xs"
+              color="primary"
+              readonly
+            /></q-item-label>
+          <p class="no-margin text-caption">Отзывов : {{unit.rate_times}}</p>
         </div>
         <div class="flex items-center justify-between q-mb-lg">
           <p class="text-h6 text-primary text-bold q-mb-none">{{unit.rent_price}} &#8381;/ {{unit.rent_type? 'час' : 'день'}}</p>
@@ -78,7 +88,7 @@
            <RentMsg :unit_id="unit.id" :owner_id="unit.owner.id"/>
         </div>
         <div class="flex items-center justify-start q-mb-lg">
-          <p class="text-bold text-caption q-mr-md">Размещение: {{unit.city}}</p>
+          <p class="text-bold text-caption q-mr-md">Местонахождение: {{unit.city}}</p>
           <p  class="text-underline inline-block text-caption" @click="showMap=!showMap">{{showMap ? 'Скрыть карту' : 'Показать на карте'}}</p>
 <!--          :class=" {ymapContanerHidden : !is_city_selected}"  -->
 

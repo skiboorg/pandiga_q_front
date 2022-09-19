@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row q-py-lg">
         <div class="col-md-3 col-sm-4 q-mb-lg">
-          <img src="~assets/logo_f.png"/>
+          <img src="~assets/logo_w.svg"/>
 
         </div>
         <div class="col-md-2 col-sm-4 col-xs-12 q-mb-lg">
