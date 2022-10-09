@@ -8,6 +8,7 @@
       </q-breadcrumbs>
     </div>
     <h1 class="text-h4 text-bold">Добавить технику в каталог</h1>
+    {{settings}}
     <div class="row">
       <div class="col-8 full-height">
         <q-splitter
@@ -203,7 +204,7 @@
                   <q-btn color="primary" @click="$refs.placeForm.submit()" no-caps unelevated label="Продолжить"/>
 
                 </q-form>
-                {{unit.coords}}
+
                 <yandex-map
                   :coords="unit.coords"
                   :class=" {ymapContanerHidden : !is_city_selected}"
@@ -317,18 +318,27 @@
                       </q-list>
                     </template>
                   </q-uploader>
-                  <div v-if="$auth.user.balance >= unit.total_price" class="">
+                  <div class="" v-if="settings.is_free">
                     <q-btn   color="primary"
                              no-caps unelevated
                              :disable="!is_images_selected"
                              @click="$refs.descriptionForm.submit()"
-                             :label="`Разместить технику за ${unit.total_price} руб`"/>
+                             label="Разместить технику"/>
+                  </div>
+                  <div class="" v-else>
+                    <div v-if="$auth.user.balance >= unit.total_price" class="">
+                      <q-btn   color="primary"
+                               no-caps unelevated
+                               :disable="!is_images_selected"
+                               @click="$refs.descriptionForm.submit()"
+                               :label="`Разместить технику за ${unit.total_price} руб`"/>
+                    </div>
+                    <div v-else>
+                      <p>Стоимость размещения {{unit.total_price}} руб, на Вашем балансе : {{$auth.user.balance}} руб</p>
+                      <q-btn color="primary" no-caps unelevated label="Пополнить баланс"/>
+                    </div>
                   </div>
 
-                  <div v-else>
-                    <p>Стоимость размещения {{unit.total_price}} руб, на Вашем балансе : {{$auth.user.balance}} руб</p>
-                    <q-btn color="primary" label="Пополнить баланс"/>
-                  </div>
                 </q-form>
               </q-tab-panel>
 
@@ -371,6 +381,7 @@ export default {
       tab_place_active:false,
       tab_description_active:false,
       side_question:'',
+      settings:{},
       splitterModel: 30,
       cat_price: 0,
       city_coefficient: 0,
@@ -387,7 +398,7 @@ export default {
         description:'',
         city:'',
         coords:[55,55],
-        total_price: 0,
+        total_price:0
       },
       all_filters:{
         filter: []
@@ -396,6 +407,10 @@ export default {
       types:[],
 
     }
+  },
+ async  beforeMount() {
+      const resp = await this.$api.get('api/v1/user/settings')
+    this.settings = resp.data
   },
   methods:{
     infoFormSubmit(){
@@ -455,7 +470,12 @@ export default {
     },
     citySelected(){
       this.city_coefficient = parseFloat(this.cities.find(x => x.id === this.unit.city.id).coefficient)
-      this.total_price = parseFloat(this.city_coefficient * this.cat_price)
+      console.log(this.cities.find(x => x.id === this.unit.city.id).coefficient)
+      console.log(this.cat_price)
+      console.log(this.city_coefficient * this.cat_price)
+
+      this.unit.total_price = this.city_coefficient * this.cat_price
+
       ymaps.geocode(this.cities.find(x => x.id === this.unit.city.id).city, {
         results: 1
       }).then( (res) => {
@@ -488,6 +508,7 @@ export default {
 
   computed:{
     ...mapGetters('categories',['categories']),
+
     filters_outlined(){
       let result = false
       for(let i of this.all_filters.filter){

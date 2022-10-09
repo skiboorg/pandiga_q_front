@@ -61,18 +61,23 @@
                           <q-item-label caption>
                             Размещено заявок: {{order.owner.orders_count}}
                           </q-item-label>
+                          <p></p>
+                          <q-item-label >
+                            <div v-if="order.owner.rate_times > 0" @click="$router.push(`/user/${order.owner.id}`)">
+                              <q-item-label class="flex"><p class="no-margin text-caption">Рейтинг :</p>
+                                <q-rating
+                                  v-model="order.owner.rating"
+                                  size="xs"
+                                  color="primary"
+                                  readonly
+                                />
+                              </q-item-label>
+                              <q-item-label caption>Отзывов: {{order.owner.rate_times}}</q-item-label>
+                            </div>
+                          </q-item-label>
                         </q-item-section>
 
-                        <q-item-section v-if="order.owner.rate_times > 0" @click="$router.push(`/user/${order.owner.id}`)">
-                          <q-item-label class="flex"><p class="no-margin text-caption">Рейтинг :</p>
-                            <q-rating
-                              v-model="order.owner.rating"
-                              size="xs"
-                              color="primary"
-                              readonly
-                            /></q-item-label>
-                          <q-item-label caption>Отзывов: {{order.owner.rate_times}}</q-item-label>
-                        </q-item-section>
+
                       </q-item>
                     </q-card-section>
 
@@ -81,6 +86,7 @@
                   </q-card-section>
                   <q-card-section class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                     <p class="text-caption">Дата размещения {{new Date(order.created_at) | formatDate}}</p>
+                    <p class="text-caption q-mb-sm ">Город {{order.owner.city.city}}</p>
                     <p class="q-mb-sm text-caption">Заявка на  <q-badge  align="middle">{{order.type.name}}</q-badge></p>
                     <p class="text-caption">Тип заявки    <q-badge  align="middle">{{order.rent_type ? 'Почасовая':'Посуточная'}}</q-badge></p>
                     <div class="flex items-center justify-start q-mb-lg text-subtitle2 text-bold">
@@ -102,7 +108,7 @@
                                                     :label="has_worker.id === $auth.user.id? 'Вас выбрали' : 'Выполняется'" /></p>
                       </div>
                       <div class="" v-if="has_worker">
-                        <q-btn v-if="has_worker.id === $auth.user.id" class="q-mr-sm" unelevated no-caps @click="$router.push({name:'profile_apply_info',params:{order_slug:order.name_slug}})" outline color="primary" label="Детали"/>
+                        <q-btn v-if="has_worker.id === $auth.user.id" class="q-mr-sm" unelevated no-caps @click="$router.push({name:'profile_apply_info',params:{order_slug:order.name_slug}})" outline color="primary" label="Подробнее"/>
 
                       </div>
 

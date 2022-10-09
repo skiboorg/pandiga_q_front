@@ -85,24 +85,26 @@ const actions = {
           if (data.event==='chat' && this.$router.currentRoute.path!=='/profile/chats'){
              Notify.create({
               message: data.message,
-              color: 'primary',
+              color: 'dark',
                 icon: 'chat',
                progress: true,
                position:'top-right',
-               classes: 'glossy',
+                classes:'text-h6',
+               timeout:5000,
                actions: [
-                { label: 'Открыть', color: 'primary', handler: () => { this.$router.push('/profile/chats') } }
+                { label: 'Открыть', color: 'white', handler: () => { this.$router.push('/profile/chats') } }
               ]
             })
           }
           if(data.event==='order'){
             Notify.create({
               message: data.message,
-              color: 'primary',
+              color: 'dark',
                 icon: 'chat',
                progress: true,
                position:'top-right',
-               classes: 'glossy',
+              classes:'text-h6',
+              timeout:5000,
                actions: [
                 { label: 'Открыть', color: 'white', handler: () => { this.$router.push('/profile/notifications') } }
               ]

@@ -8,14 +8,14 @@
     </q-breadcrumbs>
     </div>
     <div class="q-mt-xl">
-      <h1 class="text-h4 text-bold">{{order.name}}</h1>
+      <h1 class="text-h5 text-bold">{{order.name}}</h1>
       <OrderCard :order="order" :fullInfo="true"/>
     </div>
 
 
 
     <h3  class="text-h5 text-bold">Какую технику предложить</h3>
-    <div class="grid grid-3 gap-md">
+    <div class="grid grid-3 gap-md q-pb-md">
       <q-card  v-if="unit.type.id === order.type.id && order.city.id === unit.city_id"
                v-for="unit in user_units"
                :key="unit.id"
@@ -49,6 +49,8 @@
 
     </q-card>
     </div>
+
+
 
   </q-page>
 </template>

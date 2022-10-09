@@ -7,11 +7,11 @@
     label="Взять в аренду"
     v-if="$auth.loggedIn && $auth.user.is_customer"
     icon="las la-calendar" >
-    <q-menu ref="messageMenu" fit>
+    <q-menu  ref="messageMenu" fit>
       <q-list>
         <q-item class="flex column">
            <div  class="q-gutter-sm row items-center q-mb-sm">
-                    <p class="col-3  q-mb-none ">Вид аренды</p>
+                    <p class="col-12 col-md-3  q-mb-none ">Вид аренды</p>
                     <q-btn-toggle unelevated no-caps v-model="rentData.type" toggle-color="primary"
                                   :options="[
                                       {label: 'Почасовая', value: true},
@@ -20,7 +20,7 @@
                   </div>
 
                   <div  class="q-gutter-sm row items-center q-mb-sm">
-                    <p class="col-3 q-mb-none ">Выберите дату</p>
+                    <p class="col-12 col-md-3 q-mb-none ">Выберите дату</p>
                     <q-input dense outlined v-model="rentData.date" class="no-padding" >
                       <template v-slot:append>
                         <q-icon name="event" class="cursor-pointer ">
@@ -37,7 +37,7 @@
                   </div>
                   <div v-if="rentData.type">
                     <div  class="q-gutter-sm row items-center">
-                      <p class="col-3 q-mb-sm ">Выберите время начала</p>
+                      <p class="col-12 col-md-3 q-mb-sm ">Выберите время начала</p>
                       <q-input class="q-mb-sm " outlined dense v-model="rentData.time" >
                         <template v-slot:append>
                           <q-icon name="access_time" class="cursor-pointer">
@@ -52,8 +52,8 @@
                         </template>
                       </q-input>
                     </div>
-                    <div  class="q-gutter-sm row items-center">
-                      <p class="col-3 q-mb-sm ">Количество часов</p>
+                    <div  class="q-gutter-none q-gutter-md-sm row items-center q-mb-md">
+                      <p class="col-12 col-md-3 q-mb-sm ">Количество часов</p>
                       <q-input
                         dense
                         v-model.number="rentData.hours"
@@ -64,7 +64,7 @@
                     </div>
                   </div>
                   <div v-else>
-                    <div  class="q-gutter-sm row items-center">
+                    <div  class="q-gutter-sm row items-center q-mb-md">
                       <p class="col-3 q-mb-sm ">Количество суток</p>
                       <q-input
                         dense
@@ -136,3 +136,9 @@ export default {
   }
 }
 </script>
+<style lang="sass" >
+.q-menu
+  left : 10px !important
+  right : 10px !important
+  max-width: 100% !important
+</style>

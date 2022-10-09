@@ -132,8 +132,8 @@
               <q-img :src="unit.owner.avatar"/>
             </q-card-section>
             <q-card-section class="col-8 offset-1">
-              <p v-if="unit.owner.is_person"  class="text-h6 no-margin">{{unit.owner.fullname}}</p>
-              <p v-else  class="text-h6 no-margin">{{unit.owner.organization_name}}</p>
+              <p style="word-break: break-all" v-if="unit.owner.is_person"  class="text-h6 no-margin">{{unit.owner.fullname}}</p>
+              <p style="word-break: break-all" v-else  class="text-h6 no-margin">{{unit.owner.organization_name}}</p>
               <div v-if="unit.owner.rate_times > 0" class="catalog-item__rating mb-10">
                 <div class="flex items-center ">
                   <p class="no-margin text-caption">Рейтинг :</p>
@@ -148,7 +148,9 @@
 
                 <span class="text-caption">Отзывов: {{unit.owner.rate_times}}</span>
               </div>
-              <p class="text-caption">г. {{unit.city}}</p>
+              <p class="text-caption q-mb-sm">г. {{unit.city}}</p>
+              <p v-if="$auth.loggedIn" class="text-caption ">телефон <a class="text-negative" :href="`tel:${unit.owner.phone}`">{{unit.owner.phone}}</a></p>
+              <p v-else class="text-caption cursor-pointer" @click="$router.push('/register')">телефон <span class="text-negative" >+7 ... (показать телефон)</span></p>
             </q-card-section>
           </q-card-section>
         </q-card>

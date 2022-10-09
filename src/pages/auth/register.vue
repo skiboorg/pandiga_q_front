@@ -129,6 +129,7 @@
             outlined
             v-model="registerForm.organization_name"
             label="Название организации *"
+            maxlength="30"
             lazy-rules
             :rules="[ val => val && val.length > 0 || 'Это обязательное поле']"/><!--  organization_name      -->
           <q-input
@@ -138,14 +139,23 @@
             label="Ваша фамилия *"
             lazy-rules
             :rules="[ val => val && val.length > 0 || 'Это обязательное поле']"/><!--  last_name        -->
+
           <q-input
             outlined
-            v-else
+            v-if="!registerForm.is_person"
             v-model="registerForm.inn"
             label="ИНН *"
-            mask="############"
+            mask="##########"
             lazy-rules
-            :rules="[ val => val && val.length > 11 || 'Это обязательное поле']"/><!--   inn       -->
+            :rules="[ val => val && val.length > 10 || 'Это обязательное поле']"/><!--   inn       -->
+          <q-input
+            outlined
+            v-if="!registerForm.is_person"
+            v-model="registerForm.ogrn"
+            label="ОГРН *"
+            mask="#############"
+            lazy-rules
+            :rules="[ val => val && val.length > 13 || 'Это обязательное поле']"/><!--   inn       -->
           <q-input
             outlined
 
@@ -268,6 +278,7 @@ export default {
         last_name:'',
         organization_name:null,
         inn:null,
+        ogrn:null,
         password1:'',
         password2:'',
         email:''

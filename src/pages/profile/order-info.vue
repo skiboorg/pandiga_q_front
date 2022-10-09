@@ -9,7 +9,7 @@
         <q-breadcrumbs-el :label="`Детали заявки № ${order.id}`" />
       </q-breadcrumbs>
     </div>
-    <p class="text-h4 text-bold">Заявка №: {{order.id}} | {{order.name}}</p>
+    <p class="text-h5 text-bold">Заявка №: {{order.id}} | {{order.name}}</p>
     <div class="row">
      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
@@ -48,8 +48,8 @@
         <div class="">
           <div v-if="!order.is_finished ">
             <div v-if="!order.worker" class="">
-              <h3 v-if="order.apply_units.length >0"  class="text-h4 text-bold">Предложения от исполнителей</h3>
-              <h3 v-else  class="text-h4 text-bold">Предложении от исполнителей пока не поступало</h3>
+              <h3 v-if="order.apply_units.length >0"  class="text-h5 text-bold">Предложения от исполнителей</h3>
+              <h3 v-else  class="text-h5 text-bold">Предложении от исполнителей пока не поступало</h3>
               <div class="grid grid-3 gap-md">
                 <q-card  v-for="unit in order.apply_units" :key="unit.id" class="my-card bg-grey-2" flat bordered>
                   <q-card-section class="q-pb-none">

@@ -3,12 +3,12 @@
   <q-card
     class="q-mb-md"
     flat :class="[unit.is_vip ? 'bg-deep-orange-2' : 'bg-grey-2']">
-    <q-card-section horizontal>
+    <q-card-section :horizontal="$q.screen.gt.sm">
       <q-img
         :ratio="16/9"
 
         @click="$router.push(`/catalog/${category_slug}/${unit.name_slug}`)"
-        class="col-lg-3 col-md-3 col-sm-4 col-xs-4 cursor-pointer"
+        class="col-12 col-lg-3 col-md-3 col-sm-4 col-xs-4 cursor-pointer"
         :src="unit.images[0].image_thumb">
 <!--        <q-badge  class="q-pa-sm unit-card__bagde" color="positive">Свободен</q-badge>-->
       </q-img>

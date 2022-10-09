@@ -31,7 +31,7 @@
               </div>
               <p>г. {{user.city.city}}</p>
               <p>{{user.email}}</p>
-              <p>{{user.phone}}</p>
+<!--              <p>{{user.phone}}</p>-->
             </div>
 <q-card-section></q-card-section>
           </q-card-section>

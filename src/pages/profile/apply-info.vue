@@ -14,6 +14,7 @@
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="bg-grey-2 q-pa-md q-mb-md">
           <p class="text-bold">Дата размещения {{new Date(order.created_at) | formatDate}}</p>
+          <p class="text-bold q-mb-sm ">Город {{order.owner.city.city}}</p>
           <p class="q-mb-none ">Заявка на  {{order.type.name}}</p>
           <p class="">Тип заявки    {{order.rent_type ? 'Почасовая':'Посуточная'}}</p>
           <p class="q-mb-none q-mr-sm text-bold">Дата/Время заявки:  </p>

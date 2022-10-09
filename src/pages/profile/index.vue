@@ -20,8 +20,8 @@
 
 
           <div>
-            <p v-if="$auth.user.is_person" class="text-h5 text-bold">{{$auth.user.first_name}} {{$auth.user.last_name}}</p>
-            <p v-if="!$auth.user.is_person" class="text-h5 text-bold">{{$auth.user.organization_name}}<br>ИНН: {{$auth.user.inn}}<br>ОГРН: {{$auth.user.ogrn}}</p>
+            <p v-if="$auth.user.is_person" class="text-h6 text-bold ">{{$auth.user.first_name}} {{$auth.user.last_name}}</p>
+            <p v-if="!$auth.user.is_person" class="text-h6 text-bold ">{{$auth.user.organization_name}}<br>ИНН: {{$auth.user.inn}}<br>ОГРН: {{$auth.user.ogrn}}</p>
             <div v-if="$auth.user.rate_times > 0">
               <div class="flex"><p class="no-margin text-caption">Рейтинг :</p>
                 <q-rating
@@ -32,7 +32,15 @@
                 /></div>
               <p class="text-caption">Отзывов: {{$auth.user.rate_times}}</p>
             </div>
-            <p>г. {{$auth.user.city.city}}</p>
+            <div class="flex items-center q-mb-sm">
+              <p class="no-margin">г. {{$auth.user.city.city}}</p>
+              <q-btn dense size="md" flat round color="red" icon="info" >
+                <q-tooltip anchor="center right" self="center left" :offset="[10, 10]">
+                  Для изменения города<br>обратитесь в службу поддержки
+                </q-tooltip>
+              </q-btn>
+            </div>
+
             <p>{{$auth.user.email}}</p>
             <p>{{$auth.user.phone}}</p>
           </div>
@@ -48,16 +56,16 @@
 <!--              </q-tooltip>-->
 <!--            </q-btn>-->
 <!--          </div>-->
-          <div class="flex items-center q-mb-lg">
+          <div class="flex items-center q-mb-md">
             <p class="q-mb-none">Мой код партнера: <q-badge class="q-mx-sm" outline color="primary" :label="`${$auth.user.partner_code}`"/> </p>
-            <q-btn size="sm" flat round color="dark" icon="info" >
+            <q-btn dense size="md" flat round color="red" icon="info" >
               <q-tooltip anchor="center right" self="center left" :offset="[10, 10]">
                 Приглашенный Вами человек должен<br> ввести этот код в своем личном кабинете,<br> После этого он получит 1000 бонусных рублей,<br> а вы начнете получать 10% от его трат на нашем сервисе.
               </q-tooltip>
             </q-btn>
           </div>
           <div class="flex items-center q-mb-lg" v-if="$auth.user.is_ref_code_entered">
-            <p class="q-mb-none">Использованный партнерский код: <q-badge class="q-mx-sm" outline color="primary" :label="`${$auth.user.used_partner_code}`"/> </p>
+            <p class="q-mb-none">Примененный код партнера: <q-badge class="q-mx-sm" outline color="primary" :label="`${$auth.user.used_partner_code}`"/> </p>
 
           </div>
           <div class="q-mb-sm">
@@ -92,17 +100,17 @@
 
               </div>
               <div v-else>
-                <q-input  class="q-mb-sm" color="dark"  v-model="userData.organization_name" dense label="Название организации">
+                <q-input  class="q-mb-sm" color="dark" maxlength="30" readonly v-model="userData.organization_name" dense label="Название организации">
                   <template v-slot:prepend>
                     <q-icon name="person" color="dark" />
                   </template>
                 </q-input>
-                <q-input  class="q-mb-sm" color="dark"  v-model="userData.inn" dense  label="ИНН">
+                <q-input  class="q-mb-sm" color="dark" mask="##########" readonly fill-mask="_" v-model="userData.inn" dense  label="ИНН">
                   <template v-slot:prepend>
                     <q-icon name="person" color="dark" />
                   </template>
                 </q-input>
-                <q-input  class="q-mb-sm" color="dark"  v-model="userData.ogrn" dense label="ОГРН">
+                <q-input  class="q-mb-sm" color="dark"  mask="#############" readonly fill-mask="_" v-model="userData.ogrn" dense label="ОГРН">
                   <template v-slot:prepend>
                     <q-icon name="person" color="dark" />
                   </template>
@@ -154,23 +162,23 @@
 
 
               <div v-if="unit.is_active" class="flex items-center ">
-                <q-badge class="q-mx-sm"  color="positive " label="Участвует в поиске"/>
+                <q-badge class="q-mx-sm"  color="positive " label="Активно"/>
                 <q-btn flat  @click="unitPromote(unit.id,false)" class="q-mr-sm" size="sm"  round color="positive" icon="arrow_upward" >
                   <q-tooltip anchor="center right" self="center left" :offset="[10, -10]">
-                    Поднять в поиске за {{unit.ad_price}} руб
+                    Поднять в поиске за {{settings.up_price > 0 ? settings.up_price : unit.ad_price}} руб
                   </q-tooltip>
                 </q-btn>
                 <q-btn flat @click="unitPromote(unit.id,true)" size="sm"  round color="positive" icon="vertical_align_top" >
                   <q-tooltip anchor="center right" self="center left" :offset="[10, -10]">
-                    Поднять и закрепить в поиске за {{unit.ad_price + vip_price}} руб
+                    Поднять и закрепить в поиске за {{settings.up_price > 0 ? settings.up_price + settings.vip_price : unit.ad_price + settings.vip_price}} руб
                   </q-tooltip>
                 </q-btn>
               </div>
               <div v-else class="flex items-center ">
-                <q-badge class="q-mx-sm" outline color="primary " label="Не участвует в поиске"/>
+                <q-badge class="q-mx-sm" outline color="primary " label="Не активно"/>
                 <q-btn @click="unitPay(unit.id)" size="sm"  round color="positive" icon="money" >
                   <q-tooltip anchor="center right" self="center left" :offset="[10, -10]">
-                    Оплатить размещение {{unit.ad_price + vip_price}} руб
+                    Оплатить размещение {{unit.ad_price}} руб
                   </q-tooltip>
                 </q-btn>
               </div>
@@ -190,7 +198,7 @@
     <div v-else>
       <h3 v-if="$auth.feedbacks.length>0" class="text-bold text-h4">Отзывы</h3>
       <h3 v-else class="text-bold text-h4">Отзывов пока нет</h3>
-      <q-card v-for="feedback in $auth.feedbacks" :key="feedback.id" class="q-mb-md">
+      <q-card flat bordered v-for="feedback in $auth.feedbacks" :key="feedback.id" class="q-mb-md">
         <q-item>
           <q-item-section avatar>
             <q-avatar>
@@ -228,10 +236,11 @@ export default {
 
   data () {
     return {
-      profile_caption:'Редактировать профиль',
+      profile_caption:'Сменить пароль',
       partner_caption:'Ввести код партнера',
       partnerCode:null,
       vip_price:100,
+      settings:{},
       avatar:null,
       userData: {
         email: this.$auth.user.email,
@@ -251,6 +260,10 @@ export default {
       }
 
     }
+  },
+  async  beforeMount() {
+    const resp = await this.$api.get('api/v1/user/settings')
+    this.settings = resp.data
   },
   mounted() {
     this.getUser()

@@ -13,10 +13,11 @@
 
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 q-pr-lg">
     <div v-if="$auth.notifications.length>0">
-       <q-card class="q-mb-md" flat bordered v-for="notify in $auth.notifications" :key="notify.id">
+       <q-card class="q-mb-md " :class="{'bg-red-1':notify.is_new}" flat bordered v-for="notify in $auth.notifications" :key="notify.id">
       <q-card-section >
+
         <div class="row q-col-gutter-md">
-          <div class="col-12 col-md-2 text-caption cursor-pointer" @click="$router.push(notify.url)" >
+          <div class="col-12 col-md-2 text-caption cursor-pointer" @click="openUrl(notify.url,notify.id)" >
             {{notify.created_at | formatDate}}
           </div>
           <div class="col-12 col-md-7 cursor-pointer" @click="$router.push(notify.url)" >
@@ -74,7 +75,7 @@ export default {
   },
   mounted() {
     //this.fetchUserNotifications(this.$auth.user.id)
-    this.setRead()
+    //this.setRead()
   },
   methods:{
     ...mapActions('auth',['fetchUserNotifications']),
@@ -82,8 +83,13 @@ export default {
       await this.$api.post('/api/v1/notification/delete/',{id:id})
       await this.fetchUserNotifications(this.$auth.user.id)
     },
-    async setRead(){
-       const set_read = await this.$api.post('/api/v1/notification/set_read/')
+
+    async openUrl(url,id){
+      await this.setRead(id)
+      await this.$router.push(url)
+    },
+    async setRead(id){
+       const set_read = await this.$api.post('/api/v1/notification/set_read/',{id})
        if (set_read.status === 200){
           await this.fetchUserNotifications(this.$auth.user.id)
        }
