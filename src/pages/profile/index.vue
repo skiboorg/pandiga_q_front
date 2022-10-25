@@ -155,14 +155,15 @@
 
 
           <q-card-section>
-            <q-img class="cursor-pointer" @click="$router.push(`/catalog/${unit.type.name_slug}/${unit.name_slug}`)" :ratio="16/9" :src="unit.images[0].image"/>
+            <q-img class="cursor-pointer q-mb-md" @click="$router.push(`/catalog/${unit.type.name_slug}/${unit.name_slug}`)" :ratio="16/9" :src="unit.images[0].image"/>
             <!--        <div class="text-overline text-primary q-mb-sm">{{unit.type.name}}</div>-->
-            <div class="text-h5 q-mt-sm q-mb-xs flex items-center justify-between">
-              <p @click="$router.push(`/catalog/${unit.type.name_slug}/${unit.name_slug}`)" class="q-mb-none text-primary cursor-pointer">{{unit.name}}</p>
+            <p @click="$router.push(`/catalog/${unit.type.name_slug}/${unit.name_slug}`)" class="text-h5 q-mb-none text-primary cursor-pointer ellipsis">{{unit.name}}</p>
+            <div class="  q-mb-xs flex items-center justify-between">
+
 
 
               <div v-if="unit.is_active" class="flex items-center ">
-                <q-badge class="q-mx-sm"  color="positive " label="Активно"/>
+                <q-badge class="q-mr-sm"  color="positive " label="Активно"/>
                 <q-btn flat  @click="unitPromote(unit.id,false)" class="q-mr-sm" size="sm"  round color="positive" icon="arrow_upward" >
                   <q-tooltip anchor="center right" self="center left" :offset="[10, -10]">
                     Поднять в поиске за {{settings.up_price > 0 ? settings.up_price : unit.ad_price}} руб
@@ -183,6 +184,7 @@
                 </q-btn>
               </div>
             </div>
+
             <div class="text-caption ">
               <p class="q-mb-none ">Тип: {{unit.type.name}}</p>
               <p class="q-mb-none">Стоимость: {{unit.rent_price}} руб./ <span v-if="unit.rent_type"> час</span> <span v-if="!unit.rent_type"> день</span> </p>

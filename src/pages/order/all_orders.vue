@@ -40,7 +40,7 @@
 <!--<pre>-->
 <!--  {{$auth.units}}-->
 <!--</pre>-->
-    <div class="row">
+    <div class="row q-mb-lg">
      <div class="col-12">
         <OrderCard
           :order="order"
@@ -59,9 +59,11 @@
           class="q-py-lg"
 
           v-model="current_page"
+
           v-on:refresh="changePage"
           :max="total_pages"
         />
+
       </div>
 <!--      <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 q-pl-md">-->
 <!--        <q-card class="order-categories">-->
@@ -143,6 +145,11 @@ export default {
     }
 
   },
+  watch:{
+    current_page(val){
+      this.changePage()
+    }
+  },
   methods:{
     ...mapActions('auth',['getUser']),
     async type_change(){
@@ -200,6 +207,7 @@ export default {
       this.scrollToElement(this.$refs.top)
     },
     changePage(){
+      console.log('sdas')
       if (this.current_page !== this.last_page){
         this.getOrders(this.cur_type_slug,this.cur_type_id,this.cur_type_name,this.current_page)
         this.last_page = this.current_page

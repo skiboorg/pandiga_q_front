@@ -136,7 +136,7 @@ export default {
   }
 }
 </script>
-<style lang="sass" >
+<style lang="sass" scoped>
 .q-menu
   left : 10px !important
   right : 10px !important

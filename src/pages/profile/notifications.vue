@@ -20,7 +20,7 @@
           <div class="col-12 col-md-2 text-caption cursor-pointer" @click="openUrl(notify.url,notify.id)" >
             {{notify.created_at | formatDate}}
           </div>
-          <div class="col-12 col-md-7 cursor-pointer" @click="$router.push(notify.url)" >
+          <div class="col-12 col-md-7 cursor-pointer" @click="openUrl(notify.url,notify.id)" >
             {{notify.text}}
           </div>
           <div class="col-12 col-md-3 text-right">
