@@ -17,7 +17,8 @@
         <router-link class="no-underline" :to="`/catalog/${category_slug}/${unit.name_slug}`">
           <p class="text-h6 cursor-pointer q-mb-sm text-primary">{{unit.name}}, {{unit.year}}</p>
         </router-link>
-        <p class="text-caption ">Мин. время заказа: от {{unit.min_rent_time}} {{unit.rent_type? 'час' : 'день'}}</p>
+        <p v-if="unit.rent_type!==null" class="text-caption ">Мин. время заказа: от {{unit.min_rent_time}} {{unit.rent_type? 'час' : 'день'}}</p>
+        <p v-else class="text-caption ">Минимально от {{unit.min_rent_time}} км</p>
         <RentMsg class="q-mb-sm" :unit_id="unit.id" :owner_id="unit.owner"/>
            <div class="q-mb-md" >
              <q-item-label class="flex"><p class="no-margin text-caption">Рейтинг :</p>
@@ -31,7 +32,8 @@
            </div>
       </q-card-section>
       <q-card-section class="no-padding col-lg-3 col-md-3 col-sm-10 col-xs-10">
-        <p class="text-bold q-mb-sm">{{unit.rent_price}} &#8381;/ {{unit.rent_type? 'час' : 'день'}}</p>
+        <p v-if="unit.rent_type!==null" class="text-bold q-mb-sm">{{unit.rent_price}} &#8381;/ {{unit.rent_type? 'час' : 'день'}}</p>
+        <p v-else class="text-bold q-mb-sm">{{unit.rent_price}} &#8381;/ км</p>
         <p class="text-caption q-mb-none">{{unit.city}}</p>
         <p class="text-caption q-mb-none">{{unit.created_at | formatDate}}</p>
       </q-card-section>

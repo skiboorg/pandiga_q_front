@@ -132,9 +132,16 @@
                 :bg-color="message.user.id === $auth.user.id ? 'grey-2' : 'red-2'"
 
               >
-                <q-card class="bg-primary text-white q-pa-sm" v-if="message.isRentMessage">
-                  <p v-if="message.rentType">{{message.rentDate}} c {{message.rentTime}} хочу арендовать {{message.rentUnit.name}} на {{message.rentHours}} час.</p>
-                  <p v-else>С {{message.rentDate}} на {{message.rentDays}} сут. хочу арендовать {{message.rentUnit.name}} </p>
+                <q-card flat bordered class="bg-primary text-white q-pa-sm" v-if="message.isRentMessage">
+                  <div v-if="message.rentType !== null">
+                    <p v-if="message.rentType">{{message.rentDate}} c {{message.rentTime}} хочу арендовать <span class="text-bold">{{message.rentUnit.name}}</span> на {{message.rentHours}} час.</p>
+                    <p v-else>С {{message.rentDate}} на {{message.rentDays}} сут. хочу арендовать <span class="text-bold">{{message.rentUnit.name}}</span> </p>
+                  </div>
+                  <div v-else>
+
+                    <p>{{message.rentDate}} хочу арендовать <span class="text-bold">{{message.rentUnit.name}}</span> на {{message.rentKm}}км</p>
+                  </div>
+
                 </q-card>
 
               </q-chat-message>

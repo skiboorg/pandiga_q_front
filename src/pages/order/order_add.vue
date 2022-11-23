@@ -66,6 +66,7 @@
                                   :options="[
                                       {label: 'Почасовая', value: true},
                                       {label: 'Посуточная', value: false},
+                                      {label: 'По километрам', value: null},
                                   ]" />
                   </div>
 
@@ -85,45 +86,65 @@
                       </template>
                     </q-input>
                   </div>
-                  <div v-if="order.rent_type">
-                    <div  class="q-gutter-sm row items-center">
-                      <p class="col-lg-2 col-md-3 col-sm-3 col-xs-12 q-mb-sm ">Выберите время начала</p>
-                      <q-input :dense="!$q.screen.gt.sm" class="q-mb-sm " outlined v-model="rentData.time" >
-                        <template v-slot:append>
-                          <q-icon name="access_time" class="cursor-pointer">
-                            <q-popup-proxy transition-show="scale" transition-hide="scale">
-                              <q-time v-model="rentData.time" format24h>
-                                <div class="row items-center justify-end">
-                                  <q-btn no-caps v-close-popup label="Выбрать" color="primary" flat />
-                                </div>
-                              </q-time>
-                            </q-popup-proxy>
-                          </q-icon>
-                        </template>
-                      </q-input>
+                  <div v-if="order.rent_type !== null">
+                    <div v-if="order.rent_type">
+                      <div  class="q-gutter-sm row items-center">
+                        <p class="col-lg-2 col-md-3 col-sm-3 col-xs-12 q-mb-sm ">Выберите время начала</p>
+                        <q-input :dense="!$q.screen.gt.sm" class="q-mb-sm " outlined v-model="rentData.time" >
+                          <template v-slot:append>
+                            <q-icon name="access_time" class="cursor-pointer">
+                              <q-popup-proxy transition-show="scale" transition-hide="scale">
+                                <q-time v-model="rentData.time" format24h>
+                                  <div class="row items-center justify-end">
+                                    <q-btn no-caps v-close-popup label="Выбрать" color="primary" flat />
+                                  </div>
+                                </q-time>
+                              </q-popup-proxy>
+                            </q-icon>
+                          </template>
+                        </q-input>
+                      </div>
+                      <div  class="q-gutter-sm row items-center">
+                        <p class="col-lg-2 col-md-3 col-sm-3 col-xs-4 q-mb-sm ">Количество часов</p>
+                        <q-input
+                          :dense="!$q.screen.gt.sm"
+                          v-model.number="rentData.hours"
+                          type="number"
+                          outlined
+                          style="max-width: 100px"
+                        />
+                      </div>
                     </div>
-                    <div  class="q-gutter-sm row items-center">
-                      <p class="col-lg-2 col-md-3 col-sm-3 col-xs-4 q-mb-sm ">Количество часов</p>
-                      <q-input
+                    <div v-else>
+                      <div  class="q-gutter-sm row items-center">
+                        <p class="col-lg-2 col-md-3 col-sm-3 col-xs-4 q-mb-sm ">Количество суток</p>
+                        <q-input
+
+                          v-model.number="rentData.days"
+                          type="number"
+                          outlined
+                          style="display: none"
+                        /> <q-input
+                        v-model.number="rentData.days"
                         :dense="!$q.screen.gt.sm"
-                        v-model.number="rentData.hours"
                         type="number"
                         outlined
                         style="max-width: 100px"
                       />
+                      </div>
                     </div>
                   </div>
                   <div v-else>
                     <div  class="q-gutter-sm row items-center">
-                      <p class="col-lg-2 col-md-3 col-sm-3 col-xs-4 q-mb-sm ">Количество суток</p>
+                      <p class="col-lg-2 col-md-3 col-sm-3 col-xs-4 q-mb-sm ">Количество км</p>
                       <q-input
 
-                        v-model.number="rentData.days"
+                        v-model.number="rentData.km"
                         type="number"
                         outlined
                         style="display: none"
                       /> <q-input
-                      v-model.number="rentData.days"
+                      v-model.number="rentData.km"
                       :dense="!$q.screen.gt.sm"
                       type="number"
                       outlined
@@ -131,6 +152,8 @@
                     />
                     </div>
                   </div>
+
+
                 </q-form>
                 <q-btn color="primary" no-caps @click="$refs.infoForm.submit()" label="Продолжить"/>
               </q-tab-panel>
@@ -280,6 +303,7 @@ export default {
         date: date.formatDate(Date.now(), 'YYYY-MM-DD'),
         hours: 1,
         days: 1,
+        km: 1,
         time:date.formatDate(Date.now(), 'HH:mm'),
       },
       order:{

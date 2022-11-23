@@ -44,17 +44,28 @@
                           :options="[
               {label: 'часам', value: '1'},
               {label: 'дням', value: '0'},
+              {label: 'км', value: null},
           ]" />
           </div>
-          <div  class="flex items-center justify-between q-mb-sm">
+          <div v-if="rent_type!==null"  class="flex items-center justify-between q-mb-sm">
             <p class="q-mr-sm q-mb-none text-bold" style="flex-basis: 50%">Время аренды {{rent_type==='1' ? '(часы)' : '(дни)'}}</p>
 
             <q-input  outlined dense style="flex-basis: 20%" class="bg-white" v-model="rent_time_from" label="от" />
             <q-input outlined dense style="flex-basis: 20%" class="bg-white"  v-model="rent_time_to" label="до" />
 
           </div>
-          <div  class="flex items-center justify-between q-mb-lg">
+          <div v-if="rent_type!==null"  class="flex items-center justify-between q-mb-lg">
             <p class="q-mr-sm q-mb-none text-bold" style="flex-basis: 50%">Стоимость {{rent_type==='1' ? '(часы)' : '(дни)'}}</p>
+            <q-input dense outlined style="flex-basis: 20%" type="number" class="bg-white"  v-model.number="rent_price_from" label="от" />
+            <q-input dense outlined style="flex-basis: 20%"  class="bg-white" v-model="rent_price_to" label="до" />
+          </div>
+          <div v-if="rent_type===null"  class="flex items-center justify-between q-mb-sm">
+            <p class="q-mr-sm q-mb-none text-bold" style="flex-basis: 50%">Расстояние (км)</p>
+            <q-input dense outlined style="flex-basis: 20%" type="number" class="bg-white"  v-model.number="rent_time_from" label="от" />
+            <q-input dense outlined style="flex-basis: 20%"  class="bg-white" v-model="rent_time_to" label="до" />
+          </div>
+          <div v-if="rent_type===null"  class="flex items-center justify-between q-mb-lg">
+            <p class="q-mr-sm q-mb-none text-bold" style="flex-basis: 50%">Стоимость (км)</p>
             <q-input dense outlined style="flex-basis: 20%" type="number" class="bg-white"  v-model.number="rent_price_from" label="от" />
             <q-input dense outlined style="flex-basis: 20%"  class="bg-white" v-model="rent_price_to" label="до" />
           </div>

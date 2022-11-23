@@ -79,9 +79,13 @@
             /></q-item-label>
           <p class="no-margin text-caption">Отзывов : {{unit.rate_times}}</p>
         </div>
-        <div class="flex items-center justify-between q-mb-lg">
+        <div v-if="unit.rent_type!==null"  class="flex items-center justify-between q-mb-lg">
           <p class="text-h6 text-primary text-bold q-mb-none">{{unit.rent_price}} &#8381;/ {{unit.rent_type? 'час' : 'день'}}</p>
           <p class="q-mb-none">Мин. время заказа: от {{unit.min_rent_time}} {{unit.rent_type? 'ч' : 'д'}}</p>
+        </div>
+        <div v-else  class="flex items-center justify-between q-mb-lg">
+          <p class="text-h6 text-primary text-bold q-mb-none">{{unit.rent_price}} &#8381;/ км</p>
+          <p class="q-mb-none">Мин. заказ: от {{unit.min_rent_time}} км</p>
         </div>
         <div class="q-mb-lg q-gutter-md">
           <PrivateMsg  :is_icon="false" :owner_id="unit.owner.id" :unit_id="unit.id"/>

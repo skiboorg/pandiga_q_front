@@ -16,12 +16,22 @@
        <div class="bg-grey-2 q-pa-md q-mb-md">
          <p class="text-bold">Дата размещения {{new Date(order.created_at) | formatDate}}</p>
          <p class="q-mb-none ">Заявка на  {{order.type.name}}</p>
-         <p class="">Тип заявки    {{order.rent_type ? 'Почасовая':'Посуточная'}}</p>
-         <p class="q-mb-none q-mr-sm text-bold">Дата/Время заявки:  </p>
-         <p class="q-mb-none" >c {{order.rentDate | formatOnlyDate}}</p>
-         <p class=" q-mb-none" v-if="order.rent_type">{{order.rentTime | formatTime}}</p>
-         <p class="" v-if="order.rent_type">на {{order.rentDays}} час.</p>
-         <p class="" v-else>на {{order.rentHours}} сут.</p>
+         <div v-if="order.rent_type !== null">
+           <p class="">Тип заявки    {{order.rent_type ? 'Почасовая':'Посуточная'}}</p>
+           <p class="q-mb-none q-mr-sm text-bold">Дата/Время заявки:  </p>
+           <p class="q-mb-none" >c {{order.rentDate | formatOnlyDate}}</p>
+           <p class=" q-mb-none" v-if="order.rent_type">{{order.rentTime | formatTime}}</p>
+           <p class="" v-if="order.rent_type">на {{order.rentDays}} час.</p>
+           <p class="" v-else>на {{order.rentHours}} сут.</p>
+         </div>
+         <div v-else>
+           <p class="">Тип заявки по километрам</p>
+           <p class="q-mb-none q-mr-sm text-bold">Дата заявки:  </p>
+           <p class="q-mb-none" >{{order.rentDate | formatOnlyDate}}</p>
+           <p>на {{order.rentKm}} км</p>
+         </div>
+
+
          <p class=" text-bold">Просмотров: {{order.views }}</p>
        </div>
        <div class="bg-grey-2 q-pa-md q-mb-md">

@@ -88,13 +88,24 @@
                     <p class="text-caption">Дата размещения {{new Date(order.created_at) | formatDate}}</p>
                     <p class="text-caption q-mb-sm ">Город {{order.owner.city.city}}</p>
                     <p class="q-mb-sm text-caption">Заявка на  <q-badge  align="middle">{{order.type.name}}</q-badge></p>
-                    <p class="text-caption">Тип заявки    <q-badge  align="middle">{{order.rent_type ? 'Почасовая':'Посуточная'}}</q-badge></p>
-                    <div class="flex items-center justify-start q-mb-lg text-subtitle2 text-bold">
+
+                    <p v-if="order.rent_type !== null" class="text-caption">Тип заявки    <q-badge  align="middle">{{order.rent_type ? 'Почасовая':'Посуточная'}}</q-badge></p>
+                    <p v-else class="text-caption">Тип заявки    <q-badge  align="middle">По километрам</q-badge></p>
+
+                    <div v-if="order.rent_type !== null" class="flex items-center justify-start q-mb-lg text-subtitle2 text-bold">
                       <p class="q-mb-none q-mr-sm">c {{order.rentDate | formatOnlyDate}}</p>
                       <p class="q-mb-none q-mr-sm" v-if="order.rent_type">{{order.rentTime | formatTime}}</p>
                       <p class="q-mb-none" v-if="order.rent_type">на {{order.rentDays}} час.</p>
                       <p class="q-mb-none" v-else>на {{order.rentHours}} сут.</p>
                     </div>
+
+                    <div v-else class="flex items-center justify-start q-mb-lg text-subtitle2 text-bold">
+                      <p class="q-mb-none q-mr-sm">{{order.rentDate | formatOnlyDate}}</p>
+
+                      <p class="q-mb-none" >на {{order.rentKm}} км</p>
+
+                    </div>
+
                     <div v-if="!is_own">
 
                       <q-badge v-if="has_units" outline class="q-mb-sm" color="positive" label="Есть предложенная Вами техника" />

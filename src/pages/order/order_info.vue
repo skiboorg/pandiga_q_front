@@ -32,7 +32,8 @@
 <!--        <div class="text-overline text-primary q-mb-sm">{{unit.type.name}}</div>-->
         <div class="text-h5 q-mt-sm q-mb-xs text-primary">{{unit.name}}</div>
         <div class="text-caption text-grey">
-          <p class="q-mb-none">{{unit.rent_price}} руб./ <span v-if="unit.rent_type"> час</span> <span v-if="!unit.rent_type"> день</span> </p>
+          <p v-if="unit.rent_type !== null" class="q-mb-none">{{unit.rent_price}} руб./ <span v-if="unit.rent_type"> час</span> <span v-if="!unit.rent_type"> день</span> </p>
+          <p v-else class="q-mb-none">{{unit.rent_price}} руб/км </p>
         </div>
       </q-card-section>
 

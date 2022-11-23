@@ -187,7 +187,8 @@
 
             <div class="text-caption ">
               <p class="q-mb-none ">Тип: {{unit.type.name}}</p>
-              <p class="q-mb-none">Стоимость: {{unit.rent_price}} руб./ <span v-if="unit.rent_type"> час</span> <span v-if="!unit.rent_type"> день</span> </p>
+              <p v-if="unit.rent_type !== null" class="q-mb-none">Стоимость: {{unit.rent_price}} руб./ <span v-if="unit.rent_type"> час</span> <span v-if="!unit.rent_type"> день</span> </p>
+              <p v-else class="q-mb-none">Стоимость: {{unit.rent_price}} руб./ км </p>
             </div>
           </q-card-section>
           <q-card-actions class="q-gutter-md">

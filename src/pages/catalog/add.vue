@@ -8,7 +8,7 @@
       </q-breadcrumbs>
     </div>
     <h1 class="text-h4 text-bold">Добавить технику в каталог</h1>
-    {{settings}}
+
     <div class="row">
       <div class="col-8 full-height">
         <q-splitter
@@ -89,11 +89,31 @@
                                   :options="[
                                       {label: 'Почасовая', value: true},
                                       {label: 'Посуточная', value: false},
+                                      {label: 'По километражу', value: null},
                                   ]" />
                   </div>
 
-                  <div  class="q-gutter-sm row items-center q-mb-sm">
-                    <p class="col-3 q-mb-none ">Минимальное время аренды ({{unit.rent_type ? 'часов' : 'суток'}})</p>
+                  <div v-if="unit.rent_type !== null" class="q-gutter-sm row items-center q-mb-sm">
+                    <p  class="col-3 q-mb-none ">Минимальное время аренды ({{unit.rent_type ? 'часов' : 'суток'}})</p>
+                    <q-input
+
+                      v-model.number="unit.min_rent_time"
+                      type="number"
+                      dense
+                      outlined
+                      style="max-width: 100px"/>
+                  </div>
+                  <div v-if="unit.rent_type !== null" class="q-gutter-sm row items-center q-mb-sm">
+                    <p class="col-3 q-mb-none ">Стоимость аренды в ({{unit.rent_type ? 'часов' : 'суток'}})</p>
+                    <q-input
+                      v-model.number="unit.rent_price"
+                      type="number"
+                      dense
+                      outlined
+                      style="max-width: 100px"/>
+                  </div>
+                  <div v-if="unit.rent_type === null" class="q-gutter-sm row items-center q-mb-sm">
+                    <p  class="col-3 q-mb-none ">Минимальное кол-во километров</p>
                     <q-input
                       v-model.number="unit.min_rent_time"
                       type="number"
@@ -101,8 +121,9 @@
                       outlined
                       style="max-width: 100px"/>
                   </div>
-                  <div  class="q-gutter-sm row items-center q-mb-sm">
-                    <p class="col-3 q-mb-none ">Стоимость аренды в ({{unit.rent_type ? 'часов' : 'суток'}})</p>
+                  <div v-if="unit.rent_type === null" class="q-gutter-sm row items-center q-mb-sm">
+
+                    <p class="col-3 q-mb-none ">Стоимость километра</p>
                     <q-input
                       v-model.number="unit.rent_price"
                       type="number"
@@ -113,7 +134,7 @@
 
 
                 </q-form>
-                <q-btn color="primary" no-caps unelevated @click="$refs.infoForm.submit()" label="Продолжить"/>
+                <q-btn color="primary" :disable="!unit.min_rent_time && !unit.rent_price" no-caps unelevated @click="$refs.infoForm.submit()" label="Продолжить"/>
               </q-tab-panel>
               <q-tab-panel name="filters" class="q-py-none">
                 <q-form
@@ -393,8 +414,8 @@ export default {
         name:'',
         year:'',
         rent_type:true,
-        min_rent_time:1,
-        rent_price:100,
+        min_rent_time:null,
+        rent_price:null,
         description:'',
         city:'',
         coords:[55,55],
