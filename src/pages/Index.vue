@@ -70,7 +70,8 @@
                 </q-item>
               </template>
             </q-select><!--   city_id       -->
-            <q-btn class="col-3 offset-1 search-button full-width" :disable="!searchQuery" @click="$refs.searchForm.submit()"
+
+            <q-btn class="col-3 offset-1 search-button full-width" :disable="!(searchQuery && city.id!==0)" @click="$refs.searchForm.submit()"
                    no-caps
                    size="lg" label="Найти" color="primary"/>
           </q-form>
@@ -186,7 +187,7 @@ export default {
   },
   data () {
     return {
-      city:[],
+      city:{id:0},
       searchQuery:null,
       cities:[],
       searchResult:[],

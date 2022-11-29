@@ -40,6 +40,7 @@
         <div class=" filters-block q-pa-md bg-grey-2">
           <div  class="flex items-center justify-start q-mb-sm">
             <p class="q-mr-sm q-mb-none  text-bold">Аренда по</p>
+
             <q-btn-toggle unelevated no-caps v-model="rent_type" toggle-color="primary"
                           :options="[
               {label: 'часам', value: '1'},
@@ -129,9 +130,9 @@
             </div>
 
           </div>
-
+          <p class="text-caption text-negative" v-if="rent_type===undefined">Выберите тип аренды</p>
           <div class="flex justify-between">
-            <q-btn unelevated no-caps @click="submitForm(1)"  color="primary"  label="Поиск"/>
+            <q-btn unelevated no-caps @click="submitForm(1)" :disable="rent_type===undefined"  color="primary"  label="Поиск"/>
             <q-btn unelevated no-caps outline @click="get_filters" label="Сбросить фильтры"/>
           </div>
         </div>
@@ -156,33 +157,46 @@
       <q-card-section>
         <div  class="flex items-center justify-start q-mb-sm">
           <p class="q-mr-sm q-mb-none  text-bold">Аренда по</p>
-          <q-btn-toggle v-model="rent_type" toggle-color="primary"
+
+          <q-btn-toggle unelevated no-caps v-model="rent_type" toggle-color="primary"
                         :options="[
               {label: 'часам', value: '1'},
               {label: 'дням', value: '0'},
+              {label: 'км', value: null},
           ]" />
         </div>
-        <div  class="flex items-center justify-between q-mb-sm">
+        <div v-if="rent_type!==null"  class="flex items-center justify-between q-mb-sm">
           <p class="q-mr-sm q-mb-none text-bold" style="flex-basis: 50%">Время аренды {{rent_type==='1' ? '(часы)' : '(дни)'}}</p>
 
-          <q-input dense style="flex-basis: 20%" filled v-model="rent_time_from" label="от" />
-          <q-input dense style="flex-basis: 20%"  filled v-model="rent_time_to" label="до" />
+          <q-input  outlined dense style="flex-basis: 20%" class="bg-white" v-model="rent_time_from" label="от" />
+          <q-input outlined dense style="flex-basis: 20%" class="bg-white"  v-model="rent_time_to" label="до" />
 
         </div>
-        <div  class="flex items-center justify-between q-mb-lg">
+        <div v-if="rent_type!==null"  class="flex items-center justify-between q-mb-lg">
           <p class="q-mr-sm q-mb-none text-bold" style="flex-basis: 50%">Стоимость {{rent_type==='1' ? '(часы)' : '(дни)'}}</p>
-          <q-input dense style="flex-basis: 20%" type="number" filled v-model.number="rent_price_from" label="от" />
-          <q-input dense style="flex-basis: 20%"  filled v-model="rent_price_to" label="до" />
+          <q-input dense outlined style="flex-basis: 20%" type="number" class="bg-white"  v-model.number="rent_price_from" label="от" />
+          <q-input dense outlined style="flex-basis: 20%"  class="bg-white" v-model="rent_price_to" label="до" />
+        </div>
+        <div v-if="rent_type===null"  class="flex items-center justify-between q-mb-sm">
+          <p class="q-mr-sm q-mb-none text-bold" style="flex-basis: 50%">Расстояние (км)</p>
+          <q-input dense outlined style="flex-basis: 20%" type="number" class="bg-white"  v-model.number="rent_time_from" label="от" />
+          <q-input dense outlined style="flex-basis: 20%"  class="bg-white" v-model="rent_time_to" label="до" />
+        </div>
+        <div v-if="rent_type===null"  class="flex items-center justify-between q-mb-lg">
+          <p class="q-mr-sm q-mb-none text-bold" style="flex-basis: 50%">Стоимость (км)</p>
+          <q-input dense outlined style="flex-basis: 20%" type="number" class="bg-white"  v-model.number="rent_price_from" label="от" />
+          <q-input dense outlined style="flex-basis: 20%"  class="bg-white" v-model="rent_price_to" label="до" />
         </div>
         <q-select
           behavior="menu"
-          filled
+          outlined
           dense
+
           v-model="city"
           use-input
           hide-selected
           fill-input
-          class="bg-grey-1 rounded-borders q-mb-md"
+          class="bg-white rounded-borders q-mb-md"
           input-debounce="0"
           label="Город (начните вводить)"
           :options="cities"
@@ -201,42 +215,43 @@
             </q-item>
           </template>
         </q-select>
-         <div class="filter-group" v-for="(filter,index) in all_filters.filter">
-            <q-select
-              behavior="menu"
-              v-if="filter.type==='select'"
-              filled
-              v-model="filter.value"
+        <div class="filter-group " v-for="(filter,index) in all_filters.filter">
+          <q-select
+            behavior="menu"
+            v-if="filter.type==='select'"
+            outlined
 
-              dense
-              fill-input
-              input-debounce="0"
-              class="q-mb-sm"
-              :options="filter.values"
-              :option-label="(item) =>  item.label"
-              :option-value="(item) => item === null ? null : item.value"
-              :label="filter.placeholder"
-            >
-              <template v-slot:no-option>
-                <q-item>
-                  <q-item-section class="text-grey">
-                    No results
-                  </q-item-section>
-                </q-item>
-              </template>
-            </q-select>
-            <div v-if="filter.type==='radio'" class="flex items-center justify-start q-mb-sm">
-              <p v-if="filter.title" class="q-mr-sm q-mb-none  text-bold">{{filter.title}}</p>
-              <q-btn-toggle  unelevated   v-model="filter.value" toggle-color="primary"
-                                :options="filter.values" />
-            </div>
+            v-model="filter.value"
 
+            dense
+            fill-input
+            input-debounce="0"
+            class="q-mb-sm bg-white"
+            :options="filter.values"
+            :option-label="(item) =>  item.label"
+            :option-value="(item) => item === null ? null : item.value"
+            :label="filter.placeholder"
+          >
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey">
+                  No results
+                </q-item-section>
+              </q-item>
+            </template>
+          </q-select>
+          <div v-if="filter.type==='radio'" class="flex items-center justify-start q-mb-sm">
+            <p v-if="filter.title" class="q-mr-sm q-mb-none  text-bold">{{filter.title}}</p>
+            <q-btn-toggle  unelevated no-caps   v-model="filter.value" toggle-color="primary"
+                           :options="filter.values" />
           </div>
 
-          <div class="flex justify-between">
-            <q-btn @click="submitForm(1)"  color="primary"  label="Поиск"/>
-            <q-btn @click="get_filters" label="Сбросить фильтры"/>
-          </div>
+        </div>
+        <p class="text-caption text-negative" v-if="rent_type===undefined">Выберите тип аренды</p>
+        <div class="flex justify-between">
+          <q-btn unelevated no-caps @click="submitForm(1)" :disable="rent_type===undefined"  color="primary"  label="Поиск"/>
+          <q-btn unelevated no-caps outline @click="get_filters" label="Сбросить фильтры"/>
+        </div>
 
       </q-card-section>
     </q-card>
@@ -277,7 +292,7 @@ export default {
       rent_time_from:'',
       rent_price_from:'',
       rent_price_to:'',
-      rent_type:'2',
+      rent_type:undefined,
       city:{id:0},
       cities:[],
       rentMsg_send:false,
