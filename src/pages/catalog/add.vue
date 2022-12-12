@@ -350,13 +350,14 @@
                     <div v-if="$auth.user.balance >= unit.total_price" class="">
                       <q-btn   color="primary"
                                no-caps unelevated
+                               :loading="is_loading"
                                :disable="!is_images_selected"
                                @click="$refs.descriptionForm.submit()"
                                :label="`Разместить технику за ${unit.total_price} руб`"/>
                     </div>
                     <div v-else>
                       <p>Стоимость размещения {{unit.total_price}} руб, на Вашем балансе : {{$auth.user.balance}} руб</p>
-                      <q-btn color="primary" no-caps unelevated label="Пополнить баланс"/>
+                      <q-btn color="primary" to="/profile/balance" no-caps unelevated label="Пополнить баланс"/>
                     </div>
                   </div>
 
@@ -386,7 +387,7 @@
 // import Header from "components/Header";
 // import Footer from "components/Footer";
 
-import {mapGetters} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: 'catalog',
@@ -400,6 +401,7 @@ export default {
       tab: 'info',
       tab_filters_active:false,
       tab_place_active:false,
+      is_loading:false,
       tab_description_active:false,
       side_question:'',
       settings:{},
@@ -434,6 +436,7 @@ export default {
     this.settings = resp.data
   },
   methods:{
+    ...mapActions('auth',['getUser']),
     infoFormSubmit(){
       console.log('infoForm submit')
       this.tab_filters_active = true
@@ -455,6 +458,7 @@ export default {
 
     },
     async addUnit(){
+      this.is_loading=!this.is_loading
       let formData = new FormData()
       formData.set('unit', JSON.stringify(this.unit));
       formData.set('filters', JSON.stringify(this.all_filters.filter));
@@ -479,6 +483,8 @@ export default {
         color: 'positive',
         position:'top-right',
       })
+      await this.getUser(false)
+      this.is_loading=!this.is_loading
       await this.$router.push('/profile/')
     },
     categorySelected(){
