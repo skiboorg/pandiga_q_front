@@ -41,9 +41,9 @@
           <span class="text-bold q-mr-sm">{{filter.placeholder}}:</span> <span >{{order.filter_value.find(x=>x.filter === filter.id).label}}</span>
         </p>
         <p class="q-mb-sm text-bold text-h6">Описание заявки</p>
-        <div v-html="order.comment"></div>
+        <div v-html="order.comment" class="q-mb-md"></div>
         <div v-if="order.worker" class="order__middle">
-          <p>Телефон исполнителя: {{order.worker.phone}}</p>
+          <p class="text-bold">Телефон исполнителя: {{order.worker.phone}}</p>
         </div>
        </div>
         <div v-if="!order.is_finished">

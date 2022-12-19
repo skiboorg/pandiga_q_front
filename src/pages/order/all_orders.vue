@@ -141,8 +141,12 @@ export default {
     await this.page_init()
     this.user_unit_types.push({label:'Все заявки',value:'all',id:0, name:''})
     for (let x of this.$auth.units){
-      this.user_unit_types.push({label:x.type.name,value:x.type.name_slug,id:x.type.id,name:x.type.name_lower})
+      let temp = this.user_unit_types.filter(y=>y.id===x.type.id)
+      if (temp.length===0){
+        this.user_unit_types.push({label:x.type.name,value:x.type.name_slug,id:x.type.id,name:x.type.name_lower})
+      }
     }
+
 
   },
   watch:{
