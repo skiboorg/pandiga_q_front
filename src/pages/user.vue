@@ -30,7 +30,7 @@
                 <p class="text-caption">Отзывов: {{user.rate_times}}</p>
               </div>
               <p>г. {{user.city.city}}</p>
-              <p>{{user.email}}</p>
+<!--              <p>{{user.email}}</p>-->
 <!--              <p>{{user.phone}}</p>-->
             </div>
 <q-card-section></q-card-section>

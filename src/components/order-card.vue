@@ -45,7 +45,9 @@
 
 
 
-                      <div :class="[!fullInfo ? 'ellipsis-3-lines' : '']" v-html="order.comment"></div>
+                      <div :class="[!fullInfo ? 'ellipsis-3-lines' : '']" >
+                        <p style="line-break: anywhere;" v-html="order.comment"></p>
+                      </div>
                     </q-card-section>
 
                     <q-card-section class="no-padding">

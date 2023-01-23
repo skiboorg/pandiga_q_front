@@ -23,8 +23,8 @@
         </div>
         <div class="col-md-4 col-sm-3  col-xs-12 ">
           <ul class="catalog-list text-grey-1">
-            <li><a class="text-white" href="mailto:help@pandiga.ru">По вопросам работы сервиса</a></li>
-            <li><a class="text-white" href="mailto:office@pandiga.ru">По вопросам сотрудничества</a></li>
+            <li><a class="text-white" href="mailto:help@pandiga.ru">help@pandiga.ru (По вопросам работы сервиса)</a></li>
+            <li><a class="text-white" href="mailto:office@pandiga.ru">office@pandiga.ru (По вопросам сотрудничества)</a></li>
           </ul>
 
         </div>
